@@ -1,9 +1,11 @@
-<html lang="ko"><head>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a1a2e">
 <title>📊 배송 관리자</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -236,8 +238,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 </head>
 <body>
 
-<!-- ══ 로그인 화면 ══ -->
-<div class="login-wrap hide" id="login-wrap">
+<div class="login-wrap" id="login-wrap">
   <div class="login-logo">📊</div>
   <div class="login-title">배송 관리자</div>
   <div class="login-sub">DELIVERY MANAGER</div>
@@ -249,14 +250,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
   </div>
 </div>
 
-<!-- ══ 메인 앱 ══ -->
-<div id="app" style="display: flex; flex-direction: column; height: -webkit-fill-available;">
-  <div class="header admin-mode" id="main-header">
+<div id="app" style="display:none;flex-direction:column;height:100vh;height:-webkit-fill-available">
+  <div class="header" id="main-header">
     <div class="header-row">
       <div>
-        <div class="header-label" id="h-label">📊 ADMIN</div>
+        <div class="header-label" id="h-label">DELIVERY MANAGER</div>
         <div class="header-title" id="h-title">배송 관리자</div>
-        <div class="header-date" id="h-date">2026년 3월 23일 월요일</div>
+        <div class="header-date" id="h-date"></div>
       </div>
       <div class="header-actions">
         <button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
@@ -265,19 +265,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
     </div>
   </div>
   <div class="summary-bar cols3" id="summary-bar">
-    <div class="sum-item"><div class="sum-val" id="s1">0명</div><div class="sum-lbl" id="s1l">등록 배달원</div></div>
-    <div class="sum-item g"><div class="sum-val" id="s2">0원</div><div class="sum-lbl" id="s2l">이번 달 총액</div></div>
-    <div class="sum-item t"><div class="sum-val" id="s3">0건</div><div class="sum-lbl" id="s3l">오늘 총 배송</div></div>
+    <div class="sum-item"><div class="sum-val" id="s1">-</div><div class="sum-lbl" id="s1l">-</div></div>
+    <div class="sum-item g"><div class="sum-val" id="s2">-</div><div class="sum-lbl" id="s2l">-</div></div>
+    <div class="sum-item t"><div class="sum-val" id="s3">-</div><div class="sum-lbl" id="s3l">-</div></div>
   </div>
-  <div class="tabs" id="tabs-wrap">
-      <button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
-      <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
-      <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 월별정산</button>
-      <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button></div>
-  <div class="content" id="content"><div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div></div>
+  <div class="tabs" id="tabs-wrap"></div>
+  <div class="content" id="content"></div>
 </div>
 
-<!-- 배달원 추가/수정 시트 -->
 <div class="bsoverlay" id="worker-sheet" onclick="if(event.target===this)closeWorkerSheet()">
   <div class="bsheet">
     <div class="bs-handle"></div>
@@ -297,24 +292,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
   </div>
 </div>
 
-<!-- 백업 시트 -->
 <div class="bsoverlay" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
   <div class="bsheet">
     <div class="bs-handle"></div>
     <div class="bs-title">💾 데이터 백업 / 관리</div>
-    <div class="bs-sub" id="backup-sub">배달원 0명 · 기록 0일 (서버 저장)</div>
+    <div class="bs-sub" id="backup-sub">-</div>
     <div class="bk-grid">
       <button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업</span></button>
       <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">JSON 복원</span></button>
     </div>
     <button class="bk-row bk-copy" onclick="copyCode()">📋 전체 코드 복사</button>
-    <button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()" style="display: block;">📊 CSV 내보내기 (월별 정산표)</button>
-    <button class="bk-row bk-reset" id="reset-btn" onclick="askReset()" style="display: block;">🗑 전체 초기화</button>
+    <button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
+    <button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
     <button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
   </div>
 </div>
 
-<!-- 확인 다이얼로그 -->
 <div class="overlay" id="confirm-overlay">
   <div class="dialog">
     <h3 id="dlg-title">삭제하시겠어요?</h3>
@@ -327,7 +320,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 </div>
 
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-<div class="toast" id="toast">📋 전체 코드 복사 완료!</div>
+<div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -1203,22 +1196,45 @@ function askReset(){
     }catch(e){ showToast('❌ '+e.message); }
   });
 }
-function copyCode(){
-  const openEls=document.querySelectorAll('.bsoverlay.show');
-  openEls.forEach(el=>el.classList.remove('show'));
-  const code=document.documentElement.outerHTML;
-  openEls.forEach(el=>el.classList.add('show'));
-  navigator.clipboard.writeText(code).then(()=>{
+async function copyCode(){
+  try {
+    const response = await fetch(window.location.href);
+    if (!response.ok) throw new Error('Network error');
+    const code = await response.text();
+
+    await navigator.clipboard.writeText(code);
     document.getElementById('backup-sheet').classList.remove('show');
-    showToast('📋 전체 코드 복사 완료!');
-  }).catch(()=>{
-    const ta=document.createElement('textarea'); ta.value=code; ta.style.cssText='position:fixed;opacity:0';
-    document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); showToast('📋 전체 코드 복사 완료!'); }
-    catch(e){ showToast('❌ 복사 실패'); }
+    showToast('📋 원본 코드 복사 완료!');
+
+  } catch (e) {
+    const clone = document.documentElement.cloneNode(true);
+
+    const loginWrap = clone.querySelector('#login-wrap');
+    if(loginWrap) loginWrap.classList.remove('hide');
+
+    const appWrap = clone.querySelector('#app');
+    if(appWrap) appWrap.style.display = 'none';
+
+    clone.querySelectorAll('.bsoverlay, .overlay, .toast').forEach(el => el.classList.remove('show'));
+
+    const code = "<!DOCTYPE html>\n" + clone.outerHTML;
+
+    const ta = document.createElement('textarea');
+    ta.value = code;
+    ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta);
+    ta.select();
+
+    try {
+      document.execCommand('copy');
+      showToast('📋 복구된 코드 복사 완료!');
+    } catch(err) {
+      showToast('❌ 복사 실패');
+    }
+
     document.body.removeChild(ta);
     document.getElementById('backup-sheet').classList.remove('show');
-  });
+  }
 }
 function showToast(msg){
   const t=document.getElementById('toast');
@@ -1242,6 +1258,5 @@ if(savedUser){
   setTimeout(()=>document.getElementById('l-id').focus(),300);
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
