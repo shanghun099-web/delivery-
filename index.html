@@ -325,17 +325,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ══════════════════════════════════════════
-//  ★★★ 계정 설정 ★★★
-//  배달원 추가 시 여기에도 추가해주세요
-//  workerId는 Supabase workers 테이블의 id
-// ══════════════════════════════════════════
-const ACCOUNTS = [
-  { id:'admin', pw:'admin1234', role:'admin', name:'관리자' },
-  // 배달원 추가 예시:
-  // { id:'worker1', pw:'1234', role:'worker', name:'홍길동', workerId:1 },
-];
-
-// ══════════════════════════════════════════
 //  Supabase 연결
 // ══════════════════════════════════════════
 const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
@@ -382,19 +371,54 @@ function calcPay(w, qA, qB){
 }
 
 // ══════════════════════════════════════════
-//  로그인 / 로그아웃
+//  ★ 자동 연동 로그인 로직 ★
 // ══════════════════════════════════════════
-function doLogin(){
+async function doLogin(){
   const id = document.getElementById('l-id').value.trim();
-  const pw = document.getElementById('l-pw').value;
+  const pw = document.getElementById('l-pw').value.trim();
   const errEl = document.getElementById('l-err');
-  if(!id||!pw){ errEl.textContent='아이디와 비밀번호를 입력해주세요'; return; }
-  const acc = ACCOUNTS.find(a=>a.id===id&&a.pw===pw);
-  if(!acc){ errEl.textContent='❌ 아이디 또는 비밀번호가 틀렸어요'; return; }
-  currentUser = acc;
-  sessionStorage.setItem('mgr-user', JSON.stringify(acc));
+  
+  if(!id || !pw){ errEl.textContent='아이디와 비밀번호를 입력해주세요'; return; }
+
+  // 1. 관리자 고정 로그인 (관리자는 DB에 저장 안 함)
+  if(id === 'admin' && pw === 'admin1234') {
+    currentUser = { id: 'admin', pw: 'admin1234', role: 'admin', name: '관리자' };
+    finalizeLogin();
+    return;
+  }
+
+  errEl.textContent = '확인 중...⏳';
+
+  // 2. 배달원 DB 실시간 조회
+  try {
+    const { data, error } = await db.from('workers')
+      .select('id, name')
+      .eq('login_id', id)
+      .eq('login_pw', pw)
+      .maybeSingle(); // 1명이 일치하면 가져옴
+
+    if (error) throw error;
+    
+    if (!data) {
+      errEl.textContent = '❌ 아이디 또는 비밀번호가 틀렸어요';
+      return;
+    }
+
+    // 로그인 성공 시 정보 세팅
+    currentUser = { id: id, role: 'worker', name: data.name, workerId: data.id };
+    finalizeLogin();
+    
+  } catch (e) {
+    errEl.textContent = '❌ 서버 통신 오류가 발생했습니다.';
+  }
+}
+
+function finalizeLogin(){
+  sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
   document.getElementById('login-wrap').classList.add('hide');
   document.getElementById('app').style.display = 'flex';
+  document.getElementById('l-err').textContent='';
+  document.getElementById('l-pw').value=''; // 비밀번호 칸 비우기
   setupUI();
   loadAll();
 }
@@ -450,9 +474,10 @@ function setupUI(){
 async function loadAll(){
   isLoading=true; render();
   try {
+    // 이제 login_pw도 관리자를 위해 불러옴
     const {data:w,error:we}=await db.from('workers').select('*').order('id');
     if(we) throw we;
-    workers=(w||[]).map(x=>({id:x.id,name:x.name,priceA:x.price_a,priceB:x.price_b,loginId:x.login_id||''}));
+    workers=(w||[]).map(x=>({id:x.id,name:x.name,priceA:x.price_a,priceB:x.price_b,loginId:x.login_id||'',loginPw:x.login_pw||''}));
 
     const {data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
     if(re) throw re;
@@ -506,7 +531,6 @@ function updateSummary(){
     document.getElementById('s2l').textContent='이번 달 배송량';
     document.getElementById('s3').textContent=tQty.toLocaleString()+'건';
     document.getElementById('s3l').textContent='오늘 배송량';
-    // 단가는 요약에 표시 안 함
   }
 }
 
@@ -607,7 +631,6 @@ function renderAdminDaily(){
 
 function renderAdminWorkerMode(){
   if(!workers.length) return `<div class="empty">배달원이 없어요</div>`;
-  const selW = workers[0];
   const recentDates=[];
   for(let i=0;i<14;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
@@ -819,7 +842,7 @@ function renderWorkerDetail(){
 }
 
 // ══════════════════════════════════════════
-//  관리자: 배달원 관리
+//  관리자: 배달원 관리 ★ (DB 연동 핵심 변경)
 // ══════════════════════════════════════════
 function renderAdminWorkers(){
   const addBtn=`<button class="btn-primary" onclick="openWorkerSheet(null)" style="margin-bottom:16px">+ 배달원 추가</button>`;
@@ -843,7 +866,7 @@ function openWorkerSheet(id){
   const w=id?workers.find(x=>x.id===id):null;
   document.getElementById('ws-name').value=w?.name||'';
   document.getElementById('ws-id').value=w?.loginId||'';
-  document.getElementById('ws-pw').value='';
+  document.getElementById('ws-pw').value=w?.loginPw||''; // DB에서 가져온 비밀번호 채워주기
   document.getElementById('ws-pa').value=w?.priceA||'';
   document.getElementById('ws-pb').value=w?.priceB||'';
   document.getElementById('worker-sheet').classList.add('show');
@@ -859,23 +882,21 @@ async function saveWorker(){
   const pb=Number(document.getElementById('ws-pb').value)||0;
   if(!name){ showToast('⚠️ 이름을 입력해주세요'); return; }
   try {
+    // DB에 보낼 데이터 꾸러미
+    const payload = { name, price_a: pa, price_b: pb };
+    if(loginId) payload.login_id = loginId;
+    if(pw) payload.login_pw = pw; // 이 부분을 통해 DB에 비밀번호가 저장됩니다
+
     if(editWorkerId){
-      const upd={name,price_a:pa,price_b:pb};
-      if(loginId) upd.login_id=loginId;
-      const {error}=await db.from('workers').update(upd).eq('id',editWorkerId);
+      const {error}=await db.from('workers').update(payload).eq('id',editWorkerId);
       if(error) throw error;
-      workers=workers.map(w=>w.id===editWorkerId?{...w,name,priceA:pa,priceB:pb,loginId:loginId||w.loginId}:w);
-      // ACCOUNTS에 반영 안내
-      if(loginId&&pw) showToast(`✅ 수정 완료 — 코드의 ACCOUNTS에 {id:'${loginId}',pw:'${pw}',role:'worker',name:'${name}',workerId:${editWorkerId}} 추가하세요!`);
-      else showToast('✅ 수정 완료');
+      workers=workers.map(w=>w.id===editWorkerId?{...w,name,priceA:pa,priceB:pb,loginId:loginId||w.loginId, loginPw:pw||w.loginPw}:w);
+      showToast('✅ 배달원 수정 완료! (바로 로그인 가능)');
     } else {
-      const ins={name,price_a:pa,price_b:pb};
-      if(loginId) ins.login_id=loginId;
-      const {data,error}=await db.from('workers').insert(ins).select().single();
+      const {data,error}=await db.from('workers').insert(payload).select().single();
       if(error) throw error;
-      workers.push({id:data.id,name,priceA:pa,priceB:pb,loginId:loginId||''});
-      if(loginId&&pw) showToast(`✅ 추가 완료 — 코드의 ACCOUNTS에 {id:'${loginId}',pw:'${pw}',role:'worker',name:'${name}',workerId:${data.id}} 추가하세요!`);
-      else showToast('✅ 배달원 추가 완료');
+      workers.push({id:data.id,name,priceA:pa,priceB:pb,loginId:loginId||'',loginPw:pw||''});
+      showToast('✅ 배달원 추가 완료! (바로 로그인 가능)');
     }
     closeWorkerSheet(); updateSummary(); render();
   } catch(e){ showToast('❌ 저장 실패: '+e.message); }
@@ -1124,7 +1145,7 @@ function openBackup(){
   document.getElementById('backup-sheet').classList.add('show');
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'mgr-v3',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:'mgr-v4',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download=`배송관리_백업_${today()}.json`; a.click();
   URL.revokeObjectURL(url);
@@ -1141,8 +1162,8 @@ async function importData(e){
       const existIds=new Set(workers.map(x=>x.id));
       for(const w of (data.workers||[])){
         if(!existIds.has(w.id)){
-          const {data:d,error}=await db.from('workers').insert({name:w.name,price_a:w.priceA,price_b:w.priceB}).select().single();
-          if(!error) workers.push({id:d.id,name:w.name,priceA:w.priceA,priceB:w.priceB,loginId:''});
+          const {data:d,error}=await db.from('workers').insert({name:w.name,price_a:w.priceA,price_b:w.priceB,login_id:w.loginId,login_pw:w.loginPw}).select().single();
+          if(!error) workers.push({id:d.id,name:w.name,priceA:w.priceA,priceB:w.priceB,loginId:w.loginId,loginPw:w.loginPw});
         }
       }
       const existDates=new Set(dailyRecords.map(x=>x.date));
