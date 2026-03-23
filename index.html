@@ -325,7 +325,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ══════════════════════════════════════════
-//  Supabase 연결
+//  Supabase 연결 (인수인계 시 아래 두 줄을 꼭 비워서 주세요)
 // ══════════════════════════════════════════
 const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
@@ -344,6 +344,26 @@ let isLoading = false;
 let confirmAction = null;
 let editWorkerId = null;
 
+// 한국 시간 기준 로컬 날짜 계산 함수 (버그 픽스)
+function getLocalISO(dateObj = new Date()) {
+  const y = dateObj.getFullYear();
+  const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const d = String(dateObj.getDate()).padStart(2, '0');
+  return `${y}-${m}-${d}`;
+}
+function today(){ return getLocalISO(); }
+function won(n){ return Number(n).toLocaleString()+'원'; }
+function wonShort(n){ return n>=10000?Math.round(n/1000)/10+'만원':won(n); }
+function fmtDate(d){ const x=new Date(d+'T00:00:00'); return `${x.getMonth()+1}월 ${x.getDate()}일`; }
+function fmtDay(d){ return DAYS[new Date(d+'T00:00:00').getDay()]+'요일'; }
+function av(name){ return name?name[0]:'?'; }
+function calcPay(w, qA, qB){
+  const a=Number(qA)||0, b=Number(qB)||0;
+  const gross=a*(w.priceA||0)+b*(w.priceB||0);
+  const net=Math.round(gross*(1-TAX));
+  return {a,b,qty:a+b,gross,net};
+}
+
 // 관리자 전용
 let adminInputDate = today();
 let adminInputData = {};
@@ -357,19 +377,6 @@ let myInputDate = today();
 let myQtyA = '', myQtyB = '';
 let myStatPeriod = 'month', myStatYear = new Date().getFullYear(), myStatMonth = new Date().getMonth();
 
-function today(){ return new Date().toISOString().slice(0,10); }
-function won(n){ return Number(n).toLocaleString()+'원'; }
-function wonShort(n){ return n>=10000?Math.round(n/1000)/10+'만원':won(n); }
-function fmtDate(d){ const x=new Date(d+'T00:00:00'); return `${x.getMonth()+1}월 ${x.getDate()}일`; }
-function fmtDay(d){ return DAYS[new Date(d+'T00:00:00').getDay()]+'요일'; }
-function av(name){ return name?name[0]:'?'; }
-function calcPay(w, qA, qB){
-  const a=Number(qA)||0, b=Number(qB)||0;
-  const gross=a*(w.priceA||0)+b*(w.priceB||0);
-  const net=Math.round(gross*(1-TAX));
-  return {a,b,qty:a+b,gross,net};
-}
-
 // ══════════════════════════════════════════
 //  ★ 자동 연동 로그인 로직 ★
 // ══════════════════════════════════════════
@@ -380,7 +387,7 @@ async function doLogin(){
   
   if(!id || !pw){ errEl.textContent='아이디와 비밀번호를 입력해주세요'; return; }
 
-  // 1. 관리자 고정 로그인 (관리자는 DB에 저장 안 함)
+  // 1. 관리자 고정 로그인
   if(id === 'admin' && pw === 'admin1234') {
     currentUser = { id: 'admin', pw: 'admin1234', role: 'admin', name: '관리자' };
     finalizeLogin();
@@ -395,7 +402,7 @@ async function doLogin(){
       .select('id, name')
       .eq('login_id', id)
       .eq('login_pw', pw)
-      .maybeSingle(); // 1명이 일치하면 가져옴
+      .maybeSingle();
 
     if (error) throw error;
     
@@ -404,7 +411,7 @@ async function doLogin(){
       return;
     }
 
-    // 로그인 성공 시 정보 세팅
+    // 로그인 성공
     currentUser = { id: id, role: 'worker', name: data.name, workerId: data.id };
     finalizeLogin();
     
@@ -418,7 +425,7 @@ function finalizeLogin(){
   document.getElementById('login-wrap').classList.add('hide');
   document.getElementById('app').style.display = 'flex';
   document.getElementById('l-err').textContent='';
-  document.getElementById('l-pw').value=''; // 비밀번호 칸 비우기
+  document.getElementById('l-pw').value='';
   setupUI();
   loadAll();
 }
@@ -445,7 +452,6 @@ function setupUI(){
   document.getElementById('h-title').textContent = isAdmin ? '배송 관리자' : currentUser.name+'님';
   document.getElementById('h-date').textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
 
-  // 탭 구성
   const tabsWrap = document.getElementById('tabs-wrap');
   if(isAdmin){
     tab = 'daily';
@@ -454,7 +460,6 @@ function setupUI(){
       <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
       <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 월별정산</button>
       <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>`;
-    // 백업시트 전체 기능 표시
     document.getElementById('csv-btn').style.display='block';
     document.getElementById('reset-btn').style.display='block';
   } else {
@@ -474,7 +479,6 @@ function setupUI(){
 async function loadAll(){
   isLoading=true; render();
   try {
-    // 이제 login_pw도 관리자를 위해 불러옴
     const {data:w,error:we}=await db.from('workers').select('*').order('id');
     if(we) throw we;
     workers=(w||[]).map(x=>({id:x.id,name:x.name,priceA:x.price_a,priceB:x.price_b,loginId:x.login_id||'',loginPw:x.login_pw||''}));
@@ -634,7 +638,7 @@ function renderAdminWorkerMode(){
   const recentDates=[];
   for(let i=0;i<14;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
-    recentDates.push(d.toISOString().slice(0,10));
+    recentDates.push(getLocalISO(d)); // 버그 수정 반영
   }
   return `<div class="sec-title">배달원 선택 후 날짜별 수량 수정</div>
   ${workers.map(w=>{
@@ -683,11 +687,13 @@ function bindAdminDailyEvents(){
   });
 }
 
+// ★ 버그 픽스: 로컬 시간 기준으로 날짜 증감 계산
 function changeAdminDate(dir){
-  const d=new Date(adminInputDate+'T00:00:00');
-  d.setDate(d.getDate()+dir);
-  adminInputDate=d.toISOString().slice(0,10);
-  adminInputData={}; render();
+  const d = new Date(adminInputDate + 'T00:00:00');
+  d.setDate(d.getDate() + dir);
+  adminInputDate = getLocalISO(d);
+  adminInputData = {}; 
+  render();
 }
 
 async function saveAdminDaily(){
@@ -842,7 +848,7 @@ function renderWorkerDetail(){
 }
 
 // ══════════════════════════════════════════
-//  관리자: 배달원 관리 ★ (DB 연동 핵심 변경)
+//  관리자: 배달원 관리
 // ══════════════════════════════════════════
 function renderAdminWorkers(){
   const addBtn=`<button class="btn-primary" onclick="openWorkerSheet(null)" style="margin-bottom:16px">+ 배달원 추가</button>`;
@@ -866,7 +872,7 @@ function openWorkerSheet(id){
   const w=id?workers.find(x=>x.id===id):null;
   document.getElementById('ws-name').value=w?.name||'';
   document.getElementById('ws-id').value=w?.loginId||'';
-  document.getElementById('ws-pw').value=w?.loginPw||''; // DB에서 가져온 비밀번호 채워주기
+  document.getElementById('ws-pw').value=w?.loginPw||''; 
   document.getElementById('ws-pa').value=w?.priceA||'';
   document.getElementById('ws-pb').value=w?.priceB||'';
   document.getElementById('worker-sheet').classList.add('show');
@@ -882,10 +888,9 @@ async function saveWorker(){
   const pb=Number(document.getElementById('ws-pb').value)||0;
   if(!name){ showToast('⚠️ 이름을 입력해주세요'); return; }
   try {
-    // DB에 보낼 데이터 꾸러미
     const payload = { name, price_a: pa, price_b: pb };
     if(loginId) payload.login_id = loginId;
-    if(pw) payload.login_pw = pw; // 이 부분을 통해 DB에 비밀번호가 저장됩니다
+    if(pw) payload.login_pw = pw; 
 
     if(editWorkerId){
       const {error}=await db.from('workers').update(payload).eq('id',editWorkerId);
@@ -1006,10 +1011,11 @@ function refreshMyCalc(w,qa,qb,p){
   } else if(box) box.remove();
 }
 
+// ★ 버그 픽스: 로컬 시간 기준으로 날짜 증감 계산
 function changeMyDate(dir){
-  const d=new Date(myInputDate+'T00:00:00');
-  d.setDate(d.getDate()+dir);
-  myInputDate=d.toISOString().slice(0,10);
+  const d = new Date(myInputDate + 'T00:00:00');
+  d.setDate(d.getDate() + dir);
+  myInputDate = getLocalISO(d);
   render();
 }
 
