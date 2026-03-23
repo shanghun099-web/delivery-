@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="theme-color" content="#111111">
+<meta name="theme-color" content="#1a1a2e">
 <title>📊 배송 관리자</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
@@ -19,21 +19,20 @@
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
 
-/* ── 하라 켄야 스타일 로그인 (미니멀리즘/여백의 미) ── */
-.login-wrap { position:fixed; inset:0; background:#111111; z-index:999; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:32px; font-family:'Noto Sans KR',sans-serif; }
-.login-wrap.hide { display:none; }
-.login-logo { font-size:14px; color:#ffffff; margin-bottom:12px; font-weight:300; letter-spacing:10px; opacity:0.8; }
-.login-title { font-size:22px; font-weight:300; color:#ffffff; margin-bottom:8px; letter-spacing:4px; }
-.login-sub { font-size:10px; color:#666666; margin-bottom:56px; letter-spacing:6px; font-weight:300; text-transform:uppercase; }
-.login-card { width:100%; max-width:300px; background:transparent; padding:0; border:none; box-shadow:none; }
-.lf { margin-bottom:20px; }
-.lf label { display:none; } /* 본질에 집중하기 위해 라벨 숨김 처리 */
-.lf input { width:100%; background:#1a1a1a; border:1px solid #2a2a2a; border-radius:4px; padding:18px 20px; font-size:15px; color:#eeeeee; outline:none; transition:all 0.3s ease; font-weight:300; letter-spacing:1px; }
-.lf input::placeholder { color:#555555; font-weight:300; }
-.lf input:focus { background:#222222; border-color:#555555; }
-.btn-login { width:100%; padding:18px; border:none; border-radius:4px; font-size:14px; font-weight:500; letter-spacing:4px; cursor:pointer; background:#eeeeee; color:#111111; margin-top:16px; transition:opacity 0.3s ease; }
-.btn-login:active { opacity:0.7; }
-.login-err { font-size:12px; color:#ff6b6b; text-align:center; margin-top:24px; font-weight:300; min-height:18px; letter-spacing:1px; }
+/* ── 로그인 ── */
+.login-wrap{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
+.login-wrap.hide{display:none}
+.login-logo{font-size:52px;margin-bottom:10px}
+.login-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:4px}
+.login-sub{font-size:11px;color:var(--sub);margin-bottom:32px;letter-spacing:2px}
+.login-card{width:100%;max-width:340px;background:var(--card);border-radius:20px;padding:26px;border:1px solid var(--border)}
+.lf{margin-bottom:14px}
+.lf label{display:block;font-size:10px;color:var(--sub);font-weight:700;letter-spacing:0.5px;margin-bottom:6px}
+.lf input{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;font-size:16px;color:var(--text);outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
+.lf input:focus{border-color:var(--accent)}
+.btn-login{width:100%;padding:15px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,var(--accent),#8b83ff);color:#fff;box-shadow:0 4px 20px rgba(108,99,255,0.4);margin-top:8px;transition:transform 0.1s}
+.btn-login:active{transform:scale(0.97)}
+.login-err{font-size:12px;color:var(--red);text-align:center;margin-top:12px;font-weight:700;min-height:18px}
 
 /* ── 공통 헤더 ── */
 .header{padding:46px 18px 14px;flex-shrink:0;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
@@ -240,19 +239,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 <body>
 
 <div class="login-wrap" id="login-wrap">
-  <div class="login-logo">DELIVERY</div>
+  <div class="login-logo">📊</div>
   <div class="login-title">배송 관리자</div>
-  <div class="login-sub">Manager System</div>
+  <div class="login-sub">DELIVERY MANAGER</div>
   <div class="login-card">
-    <div class="lf">
-      <label>아이디</label>
-      <input type="text" id="l-id" placeholder="아이디 입력" autocomplete="username">
-    </div>
-    <div class="lf">
-      <label>비밀번호</label>
-      <input type="password" id="l-pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <button class="btn-login" onclick="doLogin()">로그인</button>
+    <div class="lf"><label>아이디</label><input type="text" id="l-id" placeholder="아이디 입력" autocomplete="username"></div>
+    <div class="lf"><label>비밀번호</label><input type="password" id="l-pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="btn-login" onclick="doLogin()">🔐 로그인</button>
     <div class="login-err" id="l-err"></div>
   </div>
 </div>
@@ -334,8 +327,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 // ══════════════════════════════════════════
 //  Supabase 연결 (인수인계 시 아래 두 줄을 꼭 비워서 주세요)
 // ══════════════════════════════════════════
-const SUPA_URL = '';
-const SUPA_KEY = '';
+const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
 const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // ══════════════════════════════════════════
@@ -351,7 +344,7 @@ let isLoading = false;
 let confirmAction = null;
 let editWorkerId = null;
 
-// 한국 시간 기준 로컬 날짜 계산 함수
+// 한국 시간 기준 로컬 날짜 계산 함수 (버그 픽스)
 function getLocalISO(dateObj = new Date()) {
   const y = dateObj.getFullYear();
   const m = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -414,7 +407,7 @@ async function doLogin(){
     if (error) throw error;
     
     if (!data) {
-      errEl.textContent = '❌ 일치하는 정보가 없습니다';
+      errEl.textContent = '❌ 아이디 또는 비밀번호가 틀렸어요';
       return;
     }
 
@@ -645,7 +638,7 @@ function renderAdminWorkerMode(){
   const recentDates=[];
   for(let i=0;i<14;i++){
     const d=new Date(); d.setDate(d.getDate()-i);
-    recentDates.push(getLocalISO(d));
+    recentDates.push(getLocalISO(d)); // 버그 수정 반영
   }
   return `<div class="sec-title">배달원 선택 후 날짜별 수량 수정</div>
   ${workers.map(w=>{
@@ -694,6 +687,7 @@ function bindAdminDailyEvents(){
   });
 }
 
+// ★ 버그 픽스: 로컬 시간 기준으로 날짜 증감 계산
 function changeAdminDate(dir){
   const d = new Date(adminInputDate + 'T00:00:00');
   d.setDate(d.getDate() + dir);
@@ -1001,6 +995,7 @@ function refreshMyCalc(w,qa,qb,p){
       if(rows[0]) rows[0].textContent=p.qty.toLocaleString()+'건';
       box.querySelector('[style*="teal2"]').textContent=`실수령 (3.3% 공제): ${won(p.net)}`;
     } else {
+      // Re-render just the calc area - minimal
       const btn=document.querySelector('.btn-primary.teal');
       if(btn){
         const div=document.createElement('div');
@@ -1016,6 +1011,7 @@ function refreshMyCalc(w,qa,qb,p){
   } else if(box) box.remove();
 }
 
+// ★ 버그 픽스: 로컬 시간 기준으로 날짜 증감 계산
 function changeMyDate(dir){
   const d = new Date(myInputDate + 'T00:00:00');
   d.setDate(d.getDate() + dir);
@@ -1155,7 +1151,7 @@ function openBackup(){
   document.getElementById('backup-sheet').classList.add('show');
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'mgr-v4-hara',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:'mgr-v4',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download=`배송관리_백업_${today()}.json`; a.click();
   URL.revokeObjectURL(url);
