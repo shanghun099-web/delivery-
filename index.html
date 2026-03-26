@@ -15,6 +15,7 @@
   --green:#00d4aa;--green2:#00f5c4;
   --orange:#ffb74d;--orange2:#ff9800;
   --red:#ff4757;--teal:#00bcd4;--teal2:#5eead4;
+  --pink:#ff6b81;--pink2:#ff879a;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
@@ -96,9 +97,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .worker-avatar.worker-av{background:linear-gradient(135deg,var(--teal),var(--teal2))}
 .worker-info{flex:1;min-width:0}
 .worker-name{font-size:15px;font-weight:900}
-.worker-prices{font-size:11px;color:var(--sub);margin-top:3px}
-.worker-btns{display:flex;gap:6px;flex-shrink:0}
-.wbtn{padding:7px 10px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.worker-prices{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4}
+.worker-btns{display:flex;gap:6px;flex-shrink:0;flex-direction:column}
+.wbtn{padding:7px 10px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;width:34px;height:30px;display:flex;align-items:center;justify-content:center}
 .wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
 
@@ -119,20 +120,21 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .daily-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#8b83ff);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
 .daily-name{font-size:14px;font-weight:700;flex:1}
 .daily-total-badge{font-size:12px;font-weight:900;color:var(--green2);background:rgba(0,212,170,0.1);padding:3px 9px;border-radius:20px}
-.daily-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.daily-field label{display:block;font-size:10px;color:var(--sub);font-weight:700;margin-bottom:4px}
-.daily-field input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 8px;font-size:22px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
+.daily-inputs{display:grid;grid-template-columns:repeat(3, 1fr);gap:6px}
+.daily-field label{display:block;font-size:9px;color:var(--sub);font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.daily-field input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 4px;font-size:20px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .daily-field input:focus{border-color:var(--accent);background:var(--card2)}
-.daily-field-sub{font-size:10px;color:var(--sub);text-align:center;margin-top:4px;min-height:14px}
+.daily-field-sub{font-size:9px;color:var(--sub);text-align:center;margin-top:4px;min-height:14px;white-space:nowrap}
 .my-input-header{background:linear-gradient(135deg,rgba(0,188,212,0.12),rgba(0,188,212,0.04));border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:16px;margin-bottom:14px}
 .my-input-name{font-size:18px;font-weight:900;color:var(--teal2);margin-bottom:4px}
 .my-input-sub{font-size:11px;color:var(--sub)}
-.my-qty-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.my-qty-box{background:var(--card2);border-radius:14px;padding:16px;border:1.5px solid var(--border)}
-.my-qty-label{font-size:11px;font-weight:700;margin-bottom:10px}
+.my-qty-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:14px}
+.my-qty-box{background:var(--card2);border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center}
+.my-qty-label{font-size:10px;font-weight:700;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .my-qty-label.a{color:var(--orange2)}
 .my-qty-label.b{color:var(--accent2)}
-.my-qty-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 8px;font-size:32px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
+.my-qty-label.c{color:var(--pink2)}
+.my-qty-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 4px;font-size:26px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .my-qty-input:focus{border-color:var(--teal)}
 .my-calc-box{background:linear-gradient(135deg,#0a1f1a,#061410);border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:14px;margin-bottom:14px}
 .my-calc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
@@ -146,7 +148,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .rec-day-total{font-size:13px;font-weight:900;color:var(--green2)}
 .rec-worker-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-radius:9px;margin-bottom:4px}
 .rec-worker-name{font-size:12px;font-weight:700;flex:1}
-.rec-worker-qty{font-size:11px;color:var(--sub);margin-right:6px}
+.rec-worker-qty{font-size:10px;color:var(--sub);margin-right:6px;text-align:right}
 .rec-worker-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .rec-btns{display:flex;gap:6px;margin-top:10px}
 .rec-btn{flex:1;padding:8px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
@@ -215,17 +217,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
 .radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
 .radio-card .rc-desc { font-size: 11px; color: var(--sub); line-height: 1.3; }
-
 .radio-card input:checked + .rc-content { border-color: var(--teal); background: rgba(0, 188, 212, 0.08); }
 .radio-card input:checked + .rc-content .rc-icon { filter: none; opacity: 1; }
 .radio-card input:checked + .rc-content .rc-title { color: var(--teal2); }
-
 .radio-card.danger input:checked + .rc-content { border-color: var(--red); background: rgba(255, 71, 87, 0.08); }
 .radio-card.danger input:checked + .rc-content .rc-title { color: var(--red); }
 
-
-/* ── 모달/오버레이 (Z-index 및 계층 구조 완벽 수정) ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center} /* 🚨 겹침 방지를 위해 z-index 대폭 상향 */
+/* ── 모달/오버레이 ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center}
 .overlay.show{display:flex}
 .dialog{background:var(--card);border-radius:18px;padding:24px;width:290px;text-align:center;border:1px solid var(--border)}
 .dialog h3{font-size:16px;margin-bottom:8px}
@@ -234,7 +233,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .dialog-btns button{flex:1;padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit; transition:opacity 0.2s}
 .dialog-btns button:active{opacity:0.7}
 .dbtn-cancel{background:var(--card2);color:var(--sub)}
-/* .dbtn-confirm 배경색은 이제 JS에서 동적으로 변경됨 */
 
 .bsoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:flex-end;justify-content:center}
 .bsoverlay.show{display:flex}
@@ -252,7 +250,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .bk-copy{background:rgba(108,99,255,0.1);color:var(--accent3);border:1.5px solid rgba(108,99,255,0.3)}
 .bk-reset{background:rgba(255,71,87,0.1);color:var(--red);border:1.5px solid rgba(255,71,87,0.3)}
 .bk-close{background:transparent;color:var(--sub);border:1.5px solid var(--border)}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap} /* z-index 상향 */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap} 
 .toast.show{opacity:1}
 .loading{display:flex;align-items:center;justify-content:center;height:200px;flex-direction:column;gap:12px}
 .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -291,7 +289,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
       <div class="header-actions">
         <button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
         <div class="hbtn" onclick="openBackup()">💾</div>
-        <div class="hbtn" id="btn-settings" onclick="openSettings()" style="display:none">⚙️</div>
+        <div class="hbtn" id="btn-settings" onclick="openSettings()">⚙️</div>
       </div>
       
     </div>
@@ -318,9 +316,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
       <div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1"></div>
       <div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="text" id="ws-pw" placeholder="1234"></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
-      <div class="field" style="margin-bottom:0"><label>🅰 물품A 단가 (원)</label><input type="number" id="ws-pa" inputmode="numeric" placeholder="1400"></div>
-      <div class="field" style="margin-bottom:0"><label>🅱 물품B 단가 (원)</label><input type="number" id="ws-pb" inputmode="numeric" placeholder="1200"></div>
+    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;margin-bottom:16px">
+      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pa">🅰 물품A 단가</label><input type="number" id="ws-pa" inputmode="numeric" placeholder="1400"></div>
+      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pb">🅱 물품B 단가</label><input type="number" id="ws-pb" inputmode="numeric" placeholder="1200"></div>
+      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pc" style="color:var(--pink2)">🅲 물품C 단가</label><input type="number" id="ws-pc" inputmode="numeric" placeholder="1000"></div>
     </div>
     <button class="btn-primary" onclick="saveWorker()">💾 저장</button>
     <button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
@@ -330,11 +329,23 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 <div class="bsoverlay" id="settings-sheet" onclick="if(event.target===this)this.classList.remove('show')">
   <div class="bsheet">
     <div class="bs-handle"></div>
-    <div class="bs-title">⚙️ 관리자 계정 설정</div>
-    <div class="bs-sub">새로운 관리자 아이디와 비밀번호를 설정하세요.</div>
-    <div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id"></div>
-    <div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw"></div>
-    <button class="btn-primary" onclick="saveAdminSettings()">💾 변경 저장</button>
+    <div class="bs-title">⚙️ 앱 설정</div>
+    <div class="bs-sub">개인 설정 및 기기 설정을 변경합니다.</div>
+    
+    <div id="admin-settings-area" style="display:none; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border)">
+      <div class="sec-title">👑 관리자 계정 변경</div>
+      <div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id"></div>
+      <div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw"></div>
+    </div>
+
+    <div class="sec-title">📝 화면에 표시할 물품 이름</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+      <div class="field"><label style="color:var(--orange2)">🅰 A 이름</label><input type="text" id="set-name-a" placeholder="물품 A"></div>
+      <div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b" placeholder="물품 B"></div>
+      <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c" placeholder="물품 C"></div>
+    </div>
+
+    <button class="btn-primary" onclick="saveSettings()">💾 변경 저장</button>
     <button class="btn-secondary" onclick="document.getElementById('settings-sheet').classList.remove('show')">닫기</button>
   </div>
 </div>
@@ -367,22 +378,17 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 
     <div class="field">
       <label>📤 원본 (가져올 데이터)</label>
-      <select id="sync-source" class="ws-select" style="padding-left:14px; font-weight:700">
-        </select>
+      <select id="sync-source" class="ws-select" style="padding-left:14px; font-weight:700"></select>
     </div>
-
     <div class="field" style="text-align:center; color:var(--sub); margin: -4px 0 8px;">▼</div>
-
     <div class="field">
       <label>📥 대상 (기록을 받을 배달원)</label>
-      <select id="sync-target" class="ws-select" style="padding-left:14px; font-weight:700">
-        </select>
+      <select id="sync-target" class="ws-select" style="padding-left:14px; font-weight:700"></select>
     </div>
 
     <div class="field">
       <label>⚙️ 복사 방식 선택</label>
       <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
-        
         <label class="radio-card">
           <input type="radio" name="sync-mode" value="merge" checked>
           <div class="rc-content">
@@ -393,7 +399,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
             </div>
           </div>
         </label>
-
         <label class="radio-card danger">
           <input type="radio" name="sync-mode" value="overwrite">
           <div class="rc-content">
@@ -404,7 +409,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
             </div>
           </div>
         </label>
-
       </div>
     </div>
 
@@ -446,11 +450,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ══════════════════════════════════════════
-//  ★★★ 계정 설정 ★★★
-// ══════════════════════════════════════════
-const ACCOUNTS = [];
-
-// ══════════════════════════════════════════
 //  Supabase 연결
 // ══════════════════════════════════════════
 const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
@@ -458,17 +457,20 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // ══════════════════════════════════════════
-//  공통 상태
+//  공통 상태 및 유틸리티
 // ══════════════════════════════════════════
 const TAX = 0.033;
 const DAYS = ['일','월','화','수','목','금','토'];
 let currentUser = null;
-let workers = [];      // { id, name, region, loginId, priceA, priceB, codes: [] }
+let workers = [];      // { id, name, region, loginId, priceA, priceB, priceC, codes: [] }
 let dailyRecords = []; // 일별 수량
 let tab = '';
 let isLoading = false;
 let confirmAction = null;
 let editWorkerId = null;
+
+// 글로벌 설정 (물품 이름)
+let itemNames = JSON.parse(localStorage.getItem('mgr-item-names')) || { a: '물품 A', b: '물품 B', c: '물품 C' };
 
 // 관리자 전용
 let adminInputDate = today();
@@ -476,37 +478,42 @@ let adminInputData = {};
 let adminInputMode = 'date';
 let statPeriod = 'month', statYear = new Date().getFullYear(), statMonth = new Date().getMonth();
 let detailWorkerId = null;
-let adminSelectedCodeWorkerId = ''; // 출입코드 관리용
+let adminSelectedCodeWorkerId = '';
 
 // 배달원 전용
 let myTab = 'input';
 let myInputDate = today();
-let myQtyA = '', myQtyB = '';
+let myQtyA = '', myQtyB = '', myQtyC = '';
 let myStatPeriod = 'month', myStatYear = new Date().getFullYear(), myStatMonth = new Date().getMonth();
-
-// 출입코드 공통
 let codeSearchQuery = '';
-let codeEditMode = ''; 
-let codeEditTargetGroupId = null;
-let codeEditTargetItemId = null;
+let codeEditMode = '', codeEditTargetGroupId = null, codeEditTargetItemId = null;
 
-
+// 완전 무결한 로컬 날짜 반환 함수 (시간대 오류 방지)
 function today() {
   const d = new Date();
-  const tz = d.getTime() + (d.getTimezoneOffset() * 60000) + (9 * 3600000); 
-  return new Date(tz).toISOString().slice(0, 10);
+  const yy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yy}-${mm}-${dd}`;
 }
 
 function won(n){ return Number(n).toLocaleString()+'원'; }
 function wonShort(n){ return n>=10000?Math.round(n/1000)/10+'만원':won(n); }
-function fmtDate(d){ const x=new Date(d+'T00:00:00'); return `${x.getMonth()+1}월 ${x.getDate()}일`; }
-function fmtDay(d){ return DAYS[new Date(d+'T00:00:00').getDay()]+'요일'; }
+function fmtDate(dateStr){ 
+  const [y,m,d] = dateStr.split('-'); 
+  return `${Number(m)}월 ${Number(d)}일`; 
+}
+function fmtDay(dateStr){ 
+  const [y,m,d] = dateStr.split('-');
+  const dateObj = new Date(y, m-1, d);
+  return DAYS[dateObj.getDay()]+'요일'; 
+}
 function av(name){ return name?name[0]:'?'; }
-function calcPay(w, qA, qB){
-  const a=Number(qA)||0, b=Number(qB)||0;
-  const gross=a*(w.priceA||0)+b*(w.priceB||0);
-  const net=Math.round(gross*(1-TAX));
-  return {a,b,qty:a+b,gross,net};
+function calcPay(w, qA, qB, qC){
+  const a=Number(qA)||0, b=Number(qB)||0, c=Number(qC)||0;
+  const gross = (a*(w.priceA||0)) + (b*(w.priceB||0)) + (c*(w.priceC||0));
+  const net = Math.round(gross*(1-TAX));
+  return {a, b, c, qty: a+b+c, gross, net};
 }
 
 // ══════════════════════════════════════════
@@ -533,7 +540,6 @@ async function checkWorkerLogin(id, pw, errEl) {
     try {
         const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
         if (error || !data) throw new Error('ID_NOT_FOUND');
-        
         currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
         finishLogin();
     } catch(e) {
@@ -567,8 +573,6 @@ function setupUI(){
   const header = document.getElementById('main-header');
   header.className = 'header ' + (isAdmin?'admin-mode':'worker-mode');
   
-  document.getElementById('btn-settings').style.display = isAdmin ? 'flex' : 'none';
-  document.getElementById('logout-btn').className = 'logout-btn';
   document.getElementById('h-label').textContent = isAdmin ? '📊 ADMIN' : '🚗 DELIVERY';
   document.getElementById('h-title').textContent = isAdmin ? '배송 관리자' : currentUser.name+'님';
   document.getElementById('h-date').textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
@@ -606,10 +610,9 @@ async function loadAll(){
     if(we) throw we;
     
     workers=(w||[]).map(x=>({
-        id:x.id, name:x.name, priceA:x.price_a, priceB:x.price_b, 
-        loginId:x.login_id||'', 
-        region: x.region || '', 
-        codes: x.access_codes || []
+        id:x.id, name:x.name, 
+        priceA:x.price_a||0, priceB:x.price_b||0, priceC:x.price_c||0, 
+        loginId:x.login_id||'', region: x.region||'', codes: x.access_codes||[]
     }));
 
     const {data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
@@ -618,7 +621,7 @@ async function loadAll(){
     (r||[]).forEach(row=>{
       const d=row.work_date;
       if(!map[d]) map[d]={date:d,data:{}};
-      map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0)};
+      map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0)};
     });
     dailyRecords=Object.values(map).sort((a,b)=>b.date.localeCompare(a.date));
   } catch(e){ 
@@ -641,22 +644,22 @@ function updateSummary(){
     let mTotal=0;
     mRecs.forEach(r=>Object.keys(r.data||{}).forEach(wid=>{
       const w=workers.find(x=>x.id===Number(wid));
-      if(w) mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB).gross;
+      if(w) mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB,r.data[wid].qtyC).gross;
     }));
     document.getElementById('s2').textContent=wonShort(mTotal);
     document.getElementById('s2l').textContent='이번 달 총액';
     const tRec=dailyRecords.find(r=>r.date===today());
     let tQty=0;
-    if(tRec) Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0);});
+    if(tRec) Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0);});
     document.getElementById('s3').textContent=tQty.toLocaleString()+'건';
     document.getElementById('s3l').textContent='오늘 총 배송';
   } else {
     const w=workers.find(x=>x.id===currentUser.workerId);
     const mRecs=dailyRecords.filter(r=>r.date.startsWith(m)&&r.data?.[currentUser.workerId]);
-    const mQty=mRecs.reduce((s,r)=>s+(Number(r.data[currentUser.workerId]?.qtyA)||0)+(Number(r.data[currentUser.workerId]?.qtyB)||0),0);
+    const mQty=mRecs.reduce((s,r)=>s+(Number(r.data[currentUser.workerId]?.qtyA)||0)+(Number(r.data[currentUser.workerId]?.qtyB)||0)+(Number(r.data[currentUser.workerId]?.qtyC)||0),0);
     const tRec=dailyRecords.find(r=>r.date===today());
     const tD=tRec?.data?.[currentUser.workerId];
-    const tQty=tD?(Number(tD.qtyA)||0)+(Number(tD.qtyB)||0):0;
+    const tQty=tD?(Number(tD.qtyA)||0)+(Number(tD.qtyB)||0)+(Number(tD.qtyC)||0):0;
     document.getElementById('s1').textContent=mRecs.length+'일';
     document.getElementById('s1l').textContent='이번 달 배송일';
     document.getElementById('s2').textContent=mQty.toLocaleString()+'건';
@@ -709,25 +712,47 @@ function render(){
 }
 
 // ══════════════════════════════════════════
-//  관리자 설정 
+//  공통 설정 (기기/물품이름)
 // ══════════════════════════════════════════
 function openSettings() {
-  const acc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || {id:'admin', pw:'admin1234'};
-  document.getElementById('set-admin-id').value = acc.id;
-  document.getElementById('set-admin-pw').value = acc.pw;
+  const isAdmin = currentUser.role === 'admin';
+  document.getElementById('admin-settings-area').style.display = isAdmin ? 'block' : 'none';
+  
+  if(isAdmin) {
+    const acc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || {id:'admin', pw:'admin1234'};
+    document.getElementById('set-admin-id').value = acc.id;
+    document.getElementById('set-admin-pw').value = acc.pw;
+  }
+  
+  document.getElementById('set-name-a').value = itemNames.a;
+  document.getElementById('set-name-b').value = itemNames.b;
+  document.getElementById('set-name-c').value = itemNames.c;
+  
   document.getElementById('settings-sheet').classList.add('show');
 }
-function saveAdminSettings() {
-  const id = document.getElementById('set-admin-id').value.trim();
-  const pw = document.getElementById('set-admin-pw').value.trim();
-  if(!id || !pw) { showToast('아이디와 비밀번호를 입력해주세요'); return; }
-  localStorage.setItem('mgr-admin-acc', JSON.stringify({id, pw, role:'admin', name:'관리자'}));
-  showToast('✅ 관리자 계정이 변경되었습니다.');
-  document.getElementById('settings-sheet').classList.remove('show');
-  if(currentUser.role === 'admin') {
-     currentUser.id = id; currentUser.pw = pw;
-     sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
+
+function saveSettings() {
+  const isAdmin = currentUser.role === 'admin';
+  
+  if(isAdmin) {
+    const id = document.getElementById('set-admin-id').value.trim();
+    const pw = document.getElementById('set-admin-pw').value.trim();
+    if(!id || !pw) { showToast('아이디와 비밀번호를 입력해주세요'); return; }
+    localStorage.setItem('mgr-admin-acc', JSON.stringify({id, pw, role:'admin', name:'관리자'}));
+    currentUser.id = id; currentUser.pw = pw;
+    sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
   }
+
+  const nameA = document.getElementById('set-name-a').value.trim() || '물품 A';
+  const nameB = document.getElementById('set-name-b').value.trim() || '물품 B';
+  const nameC = document.getElementById('set-name-c').value.trim() || '물품 C';
+  
+  itemNames = { a: nameA, b: nameB, c: nameC };
+  localStorage.setItem('mgr-item-names', JSON.stringify(itemNames));
+  
+  showToast('✅ 설정이 저장되었습니다.');
+  document.getElementById('settings-sheet').classList.remove('show');
+  render();
 }
 
 // ══════════════════════════════════════════
@@ -741,7 +766,7 @@ function renderAdminWorkers(){
     <div class="worker-avatar admin-av">${av(w.name)}</div>
     <div class="worker-info">
       <div class="worker-name">${w.name} ${w.region? `<span style="font-size:10px;font-weight:normal;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
-      <div class="worker-prices">🔑 ${w.loginId||'미설정'} <br> 🅰 ${(w.priceA||0).toLocaleString()}원 · 🅱 ${(w.priceB||0).toLocaleString()}원</div>
+      <div class="worker-prices">🔑 ${w.loginId||'미설정'} <br> 🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div>
     </div>
     <div class="worker-btns">
       <button class="wbtn wbtn-edit" onclick="openWorkerSheet(${w.id})">✏️</button>
@@ -753,6 +778,10 @@ function renderAdminWorkers(){
 function openWorkerSheet(id){
   editWorkerId=id;
   document.getElementById('ws-title').textContent=id?'👤 배달원 수정':'👤 배달원 추가';
+  document.getElementById('lbl-ws-pa').textContent = `🅰 ${itemNames.a} 단가`;
+  document.getElementById('lbl-ws-pb').textContent = `🅱 ${itemNames.b} 단가`;
+  document.getElementById('lbl-ws-pc').textContent = `🅲 ${itemNames.c} 단가`;
+
   const w=id?workers.find(x=>x.id===id):null;
   document.getElementById('ws-name').value=w?.name||'';
   document.getElementById('ws-region').value=w?.region||'';
@@ -760,6 +789,7 @@ function openWorkerSheet(id){
   document.getElementById('ws-pw').value='';
   document.getElementById('ws-pa').value=w?.priceA||'';
   document.getElementById('ws-pb').value=w?.priceB||'';
+  document.getElementById('ws-pc').value=w?.priceC||'';
   document.getElementById('worker-sheet').classList.add('show');
   setTimeout(()=>document.getElementById('ws-name').focus(),300);
 }
@@ -772,21 +802,23 @@ async function saveWorker(){
   const pw=document.getElementById('ws-pw').value.trim();
   const pa=Number(document.getElementById('ws-pa').value)||0;
   const pb=Number(document.getElementById('ws-pb').value)||0;
+  const pc=Number(document.getElementById('ws-pc').value)||0;
+
   if(!name){ showToast('⚠️ 이름을 입력해주세요'); return; }
   try {
     if(editWorkerId){
-      const upd={name, region, price_a:pa, price_b:pb};
+      const upd={name, region, price_a:pa, price_b:pb, price_c:pc};
       if(loginId) upd.login_id=loginId;
       const {error}=await db.from('workers').update(upd).eq('id',editWorkerId);
       if(error) throw error;
-      workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,loginId:loginId||w.loginId}:w);
+      workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||w.loginId}:w);
       showToast('✅ 수정 완료');
     } else {
-      const ins={name, region, price_a:pa, price_b:pb};
+      const ins={name, region, price_a:pa, price_b:pb, price_c:pc};
       if(loginId) ins.login_id=loginId;
       const {data,error}=await db.from('workers').insert(ins).select().single();
       if(error) throw error;
-      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,loginId:loginId||'', codes:[]});
+      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||'', codes:[]});
       showToast('✅ 배달원 추가 완료');
     }
     closeWorkerSheet(); updateSummary(); render();
@@ -819,7 +851,6 @@ function renderCodeNoteCore(workerTarget) {
     
     let codes = workerTarget.codes || [];
     
-    // 검색 필터링 적용
     if(codeSearchQuery) {
         const q = codeSearchQuery.toLowerCase();
         let filtered = [];
@@ -887,7 +918,6 @@ function bindCodeSearchEvent() {
         input.addEventListener('input', (e) => {
             codeSearchQuery = e.target.value.trim();
             render();
-            // 포커스 유지
             setTimeout(() => {
                 const newInp = document.getElementById('code-search-input');
                 if(newInp) { newInp.focus(); newInp.setSelectionRange(codeSearchQuery.length, codeSearchQuery.length); }
@@ -922,7 +952,7 @@ function renderMyCodes(){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 복사 / 통합 로직 (신규 기능)
+//  출입코드 복사 / 통합 로직
 // ══════════════════════════════════════════
 function openCodeSyncSheet() {
     const src = document.getElementById('sync-source');
@@ -955,13 +985,11 @@ async function executeCodeSync() {
     let sourceCodes = [];
     
     if(srcId === 'ALL') {
-       // 모든 배달원 코드를 병합
        workers.forEach(w => {
            if(w.id != tgtId) { 
                w.codes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
            }
        });
-       // 대상이 배달원인 경우 관리자 마스터 노트도 통합에 포함시킴
        if(tgtId !== 'admin') {
            const adminCodes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
            adminCodes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
@@ -973,7 +1001,6 @@ async function executeCodeSync() {
        if(w) sourceCodes = JSON.parse(JSON.stringify(w.codes));
     }
 
-    // 🚨 여기서 가져올 코드가 없으면 알림 띄우고 중단
     if(sourceCodes.length === 0) {
         showToast('⚠️ 복사할(가져올) 원본 코드가 아무것도 없습니다!'); 
         return;
@@ -983,13 +1010,11 @@ async function executeCodeSync() {
         `${targetW.name}의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
         `${targetW.name} 노트에 코드를 추가(병합)합니다.\n진행할까요?`;
         
-    // 🚨 겹침 방지를 위해 팝업 띄우기 전에 하단 시트 닫기
     document.getElementById('code-sync-sheet').classList.remove('show');
 
     openConfirm('🔄 코드 복사/통합', confirmMsg, '실행하기', async () => {
         let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(targetW.codes));
 
-        // 지능형 병합 (이름이 같은 그룹은 합치고, 주소/코드가 완전히 같으면 중복 방지)
         sourceCodes.forEach(sg => {
            let tg = newCodes.find(g => g.name === sg.name);
            if (!tg) {
@@ -1005,9 +1030,8 @@ async function executeCodeSync() {
         });
 
         await syncCodesToDB(tgtId, newCodes);
-    }, mode === 'overwrite'); // 덮어쓰기(위험)일 때만 빨간 버튼 표시
+    }, mode === 'overwrite');
 }
-
 
 // ══════════════════════════════════════════
 //  출입코드 DB 조작 로직 (개별 수정용)
@@ -1019,18 +1043,15 @@ function getActiveCodeWorkerId() {
 
 async function syncCodesToDB(workerId, newCodes) {
     showToast('저장 중...');
-    
     if (workerId === 'admin') {
         localStorage.setItem('mgr-admin-codes', JSON.stringify(newCodes));
         showToast('✅ 관리자 노트에 저장 완료');
         render();
         return;
     }
-
     try {
         const {error} = await db.from('workers').update({access_codes: newCodes}).eq('id', workerId);
         if(error) throw error;
-        // 로컬 데이터 갱신
         const w = workers.find(x => x.id == workerId);
         if(w) w.codes = newCodes;
         showToast('✅ 처리 완료');
@@ -1092,12 +1113,11 @@ function saveCodeEntry() {
     const wid = getActiveCodeWorkerId();
     const w = getCodeWorker(wid);
     if(!w) return;
-    let newCodes = JSON.parse(JSON.stringify(w.codes)); // Deep copy
+    let newCodes = JSON.parse(JSON.stringify(w.codes)); 
 
     if(codeEditMode.includes('group')) {
         const name = document.getElementById('ce-gname').value.trim();
         if(!name) { showToast('그룹명을 입력하세요'); return; }
-        
         if(codeEditMode === 'add-group') {
             newCodes.push({ id: 'g_'+Date.now(), name: name, items: [] });
         } else {
@@ -1109,10 +1129,8 @@ function saveCodeEntry() {
         const addr = document.getElementById('ce-iaddr').value.trim();
         const code = document.getElementById('ce-icode').value.trim();
         if(!addr || !code) { showToast('주소와 코드를 모두 입력하세요'); return; }
-        
         const g = newCodes.find(x => x.id == codeEditTargetGroupId);
         if(!g) return;
-        
         if(codeEditMode === 'add-item') {
             g.items.push({ id: 'i_'+Date.now(), addr: addr, code: code });
         } else {
@@ -1120,7 +1138,6 @@ function saveCodeEntry() {
             if(i) { i.addr = addr; i.code = code; }
         }
     }
-    
     document.getElementById('code-edit-sheet').classList.remove('show');
     syncCodesToDB(wid, newCodes);
 }
@@ -1150,14 +1167,14 @@ function askDeleteCodeItem(groupId, itemId) {
 }
 
 // ══════════════════════════════════════════
-//  관리자: 일별 입력 등 (기존 로직 유지)
+//  관리자: 일별 입력 
 // ══════════════════════════════════════════
 function renderAdminDaily(){
   if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
   const rec=dailyRecords.find(r=>r.date===adminInputDate);
   const isEdit=!!rec;
   const recData=rec?.data||{};
-  const dow=DAYS[new Date(adminInputDate+'T00:00:00').getDay()];
+  const dow=fmtDay(adminInputDate);
   const subTabs=`<div class="input-subtabs">
     <button class="input-subtab ${adminInputMode==='date'?'active':''}" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
     <button class="input-subtab ${adminInputMode==='worker'?'active':''}" onclick="adminInputMode='worker';render()">👤 배달원별</button>
@@ -1167,7 +1184,7 @@ function renderAdminDaily(){
     <div class="date-nav">
       <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
       <div style="text-align:center">
-        <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow}요일)</div>
+        <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow})</div>
         <div class="date-nav-sub">${isEdit?'✏️ 수정 중':'새 기록'}</div>
       </div>
       <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
@@ -1176,7 +1193,8 @@ function renderAdminDaily(){
       const prev=recData[w.id]||{};
       const qa=adminInputData[w.id]?.qtyA??prev.qtyA??'';
       const qb=adminInputData[w.id]?.qtyB??prev.qtyB??'';
-      const p=calcPay(w,qa,qb);
+      const qc=adminInputData[w.id]?.qtyC??prev.qtyC??'';
+      const p=calcPay(w,qa,qb,qc);
       return `<div class="daily-worker-row ${p.qty>0?'has-data':''}" id="dwr-${w.id}">
         <div class="daily-row-top">
           <div class="daily-avatar">${av(w.name)}</div>
@@ -1185,14 +1203,19 @@ function renderAdminDaily(){
         </div>
         <div class="daily-inputs">
           <div class="daily-field">
-            <label>🅰 물품A (${(w.priceA||0).toLocaleString()}원)</label>
+            <label style="color:var(--orange2)">🅰 ${itemNames.a} (${(w.priceA||0).toLocaleString()}원)</label>
             <input type="number" id="qa-${w.id}" value="${qa}" placeholder="0" inputmode="numeric" min="0">
             <div class="daily-field-sub" id="sub-a-${w.id}">${qa?won(Number(qa)*(w.priceA||0)):''}</div>
           </div>
           <div class="daily-field">
-            <label>🅱 물품B (${(w.priceB||0).toLocaleString()}원)</label>
+            <label style="color:var(--accent2)">🅱 ${itemNames.b} (${(w.priceB||0).toLocaleString()}원)</label>
             <input type="number" id="qb-${w.id}" value="${qb}" placeholder="0" inputmode="numeric" min="0">
             <div class="daily-field-sub" id="sub-b-${w.id}">${qb?won(Number(qb)*(w.priceB||0)):''}</div>
+          </div>
+          <div class="daily-field">
+            <label style="color:var(--pink2)">🅲 ${itemNames.c} (${(w.priceC||0).toLocaleString()}원)</label>
+            <input type="number" id="qc-${w.id}" value="${qc}" placeholder="0" inputmode="numeric" min="0">
+            <div class="daily-field-sub" id="sub-c-${w.id}">${qc?won(Number(qc)*(w.priceC||0)):''}</div>
           </div>
         </div>
       </div>`;
@@ -1208,8 +1231,8 @@ function renderAdminWorkerMode(){
   return `<div class="sec-title">배달원 선택 후 날짜별 수량 수정</div>
   ${workers.map(w=>{
     const mRec=dailyRecords.filter(r=>r.date.startsWith(today().slice(0,7))&&r.data?.[w.id]);
-    const mQty=mRec.reduce((s,r)=>s+(Number(r.data[w.id]?.qtyA)||0)+(Number(r.data[w.id]?.qtyB)||0),0);
-    const mGross=mRec.reduce((s,r)=>s+calcPay(w,r.data[w.id]?.qtyA,r.data[w.id]?.qtyB).gross,0);
+    const mQty=mRec.reduce((s,r)=>s+(Number(r.data[w.id]?.qtyA)||0)+(Number(r.data[w.id]?.qtyB)||0)+(Number(r.data[w.id]?.qtyC)||0),0);
+    const mGross=mRec.reduce((s,r)=>s+calcPay(w,r.data[w.id]?.qtyA,r.data[w.id]?.qtyB,r.data[w.id]?.qtyC).gross,0);
     return `<div class="worker-card" style="cursor:pointer" onclick="adminInputMode='date';adminInputDate='${today()}';adminInputData={};render()">
       <div class="daily-avatar">${av(w.name)}</div>
       <div style="flex:1">
@@ -1223,20 +1246,26 @@ function renderAdminWorkerMode(){
 
 function bindAdminDailyEvents(){
   workers.forEach(w=>{
-    ['qa','qb'].forEach(prefix=>{
+    ['qa','qb','qc'].forEach(prefix=>{
       const el=document.getElementById(`${prefix}-${w.id}`);
       if(!el) return;
       el.addEventListener('input',()=>{
-        if(!adminInputData[w.id]) adminInputData[w.id]={qtyA:'',qtyB:''};
+        if(!adminInputData[w.id]) adminInputData[w.id]={qtyA:'',qtyB:'',qtyC:''};
         if(prefix==='qa') adminInputData[w.id].qtyA=el.value;
-        else adminInputData[w.id].qtyB=el.value;
+        else if(prefix==='qb') adminInputData[w.id].qtyB=el.value;
+        else adminInputData[w.id].qtyC=el.value;
         const qA=document.getElementById(`qa-${w.id}`)?.value||'';
         const qB=document.getElementById(`qb-${w.id}`)?.value||'';
-        const p=calcPay(w,qA,qB);
+        const qC=document.getElementById(`qc-${w.id}`)?.value||'';
+        const p=calcPay(w,qA,qB,qC);
+        
         const subA=document.getElementById(`sub-a-${w.id}`);
         const subB=document.getElementById(`sub-b-${w.id}`);
+        const subC=document.getElementById(`sub-c-${w.id}`);
         if(subA) subA.textContent=qA?won(Number(qA)*(w.priceA||0)):'';
         if(subB) subB.textContent=qB?won(Number(qB)*(w.priceB||0)):'';
+        if(subC) subC.textContent=qC?won(Number(qC)*(w.priceC||0)):'';
+        
         const row=document.getElementById(`dwr-${w.id}`);
         if(row) row.classList.toggle('has-data',p.qty>0);
         const badge=document.querySelector(`#dwr-${w.id} .daily-total-badge`);
@@ -1253,9 +1282,12 @@ function bindAdminDailyEvents(){
 }
 
 function changeAdminDate(dir){
-  const d=new Date(adminInputDate+'T00:00:00');
-  d.setDate(d.getDate()+dir);
-  adminInputDate=d.toISOString().slice(0,10);
+  const [y, m, d] = adminInputDate.split('-').map(Number);
+  const dateObj = new Date(y, m - 1, d + dir);
+  const yy = dateObj.getFullYear();
+  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const dd = String(dateObj.getDate()).padStart(2, '0');
+  adminInputDate = `${yy}-${mm}-${dd}`;
   adminInputData={}; render();
 }
 
@@ -1264,7 +1296,8 @@ async function saveAdminDaily(){
   workers.forEach(w=>{
     const qa=document.getElementById(`qa-${w.id}`)?.value||'';
     const qb=document.getElementById(`qb-${w.id}`)?.value||'';
-    if(qa||qb) data[w.id]={qtyA:qa,qtyB:qb};
+    const qc=document.getElementById(`qc-${w.id}`)?.value||'';
+    if(qa||qb||qc) data[w.id]={qtyA:qa,qtyB:qb,qtyC:qc};
   });
   if(!Object.keys(data).length){ showToast('⚠️ 수량을 입력해주세요'); return; }
   showToast('💾 저장 중...');
@@ -1285,12 +1318,12 @@ function renderAdminRecords(){
     let totalGross=0, rows='';
     Object.entries(r.data||{}).forEach(([wid,d])=>{
       const w=workers.find(x=>x.id===Number(wid)); if(!w) return;
-      const p=calcPay(w,d.qtyA,d.qtyB);
+      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
       totalGross+=p.gross;
       if(p.qty>0) rows+=`<div class="rec-worker-row">
         <div class="daily-avatar" style="width:28px;height:28px;border-radius:7px;font-size:12px">${av(w.name)}</div>
         <div class="rec-worker-name">${w.name}</div>
-        <div class="rec-worker-qty">🅰${p.a} 🅱${p.b}</div>
+        <div class="rec-worker-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div>
         <div class="rec-worker-pay">${won(p.gross)}</div>
       </div>`;
     });
@@ -1337,15 +1370,15 @@ function renderAdminStats(){
   } else { filtered=dailyRecords; title='전체 정산'; }
   if(!filtered.length) return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
   const totals={};
-  workers.forEach(w=>{ totals[w.id]={w,qty:0,qtyA:0,qtyB:0,gross:0,net:0,days:0}; });
+  workers.forEach(w=>{ totals[w.id]={w,qty:0,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0}; });
   let gGross=0,gNet=0,gQty=0;
   filtered.forEach(r=>{
     Object.entries(r.data||{}).forEach(([wid,d])=>{
       const w=workers.find(x=>x.id===Number(wid));
       if(!w||!totals[w.id]) return;
-      const p=calcPay(w,d.qtyA,d.qtyB);
+      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
       if(p.qty>0){
-        totals[w.id].qty+=p.qty; totals[w.id].qtyA+=p.a; totals[w.id].qtyB+=p.b;
+        totals[w.id].qty+=p.qty; totals[w.id].qtyA+=p.a; totals[w.id].qtyB+=p.b; totals[w.id].qtyC+=p.c;
         totals[w.id].gross+=p.gross; totals[w.id].net+=p.net; totals[w.id].days++;
         gGross+=p.gross; gNet+=p.net; gQty+=p.qty;
       }
@@ -1367,7 +1400,7 @@ function renderAdminStats(){
     ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
       <div class="wsc-rank">${i+1}</div>
       <div class="wsc-avatar">${av(t.w.name)}</div>
-      <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div class="wsc-detail">🅰${t.qtyA.toLocaleString()} · 🅱${t.qtyB.toLocaleString()} · ${t.days}일</div></div>
+      <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div class="wsc-detail">🅰${t.qtyA.toLocaleString()} · 🅱${t.qtyB.toLocaleString()} · 🅲${t.qtyC.toLocaleString()}</div></div>
       <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
     </div>`).join('')}
     <div style="height:20px"></div>`;
@@ -1378,25 +1411,25 @@ function renderWorkerDetail(){
   const ym=statPeriod==='month'?`${statYear}-${String(statMonth+1).padStart(2,'0')}`:null;
   const filtered=ym?dailyRecords.filter(r=>r.date.startsWith(ym)):dailyRecords;
   const days=filtered.filter(r=>r.data?.[w.id]);
-  let tG=0,tN=0,tA=0,tB=0;
-  days.forEach(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB); tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b; });
+  let tG=0,tN=0,tA=0,tB=0,tC=0;
+  days.forEach(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC); tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c; });
   return `<button class="back-btn" onclick="detailWorkerId=null;render()">◀ 목록으로</button>
     <div class="detail-header">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
         <div class="wsc-avatar" style="width:46px;height:46px;font-size:20px">${av(w.name)}</div>
-        <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰 ${(w.priceA||0).toLocaleString()}원 · 🅱 ${(w.priceB||0).toLocaleString()}원</div></div>
+        <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
         <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 지급액</div><div style="font-size:17px;font-weight:900;color:var(--accent3)">${won(tG)}</div></div>
         <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">실수령</div><div style="font-size:17px;font-weight:900;color:var(--green2)">${won(tN)}</div></div>
-        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB).toLocaleString()}건</div></div>
+        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB+tC).toLocaleString()}건</div></div>
         <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">세금공제(3.3%)</div><div style="font-size:16px;font-weight:900;color:var(--red)">-${won(tG-tN)}</div></div>
       </div>
     </div>
     <div class="sec-title">일별 상세 (${days.length}일)</div>
-    ${days.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB);
+    ${days.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
       return `<div class="detail-day-row">
-        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a}건 🅱${p.b}건</div></div>
+        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div></div>
         <div style="text-align:right"><div class="ddr-pay">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
       </div>`;
     }).join('')}
@@ -1414,8 +1447,9 @@ function renderMyInput(){
   const prev=rec?.data?.[w.id]||{};
   const qa=myQtyA!==''?myQtyA:(prev.qtyA||'');
   const qb=myQtyB!==''?myQtyB:(prev.qtyB||'');
-  const p=calcPay(w,qa,qb);
-  const dow=DAYS[new Date(myInputDate+'T00:00:00').getDay()];
+  const qc=myQtyC!==''?myQtyC:(prev.qtyC||'');
+  const p=calcPay(w,qa,qb,qc);
+  const dow=fmtDay(myInputDate);
 
   return `
     <div class="my-input-header">
@@ -1423,21 +1457,25 @@ function renderMyInput(){
       <div class="my-input-sub">오늘의 배송 수량을 입력해주세요</div>
     </div>
     <div class="date-nav" style="margin-bottom:14px">
-      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';changeMyDate(-1)">◀</button>
+      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(-1)">◀</button>
       <div style="text-align:center">
-        <div class="date-nav-label">${fmtDate(myInputDate)} (${dow}요일)</div>
+        <div class="date-nav-label">${fmtDate(myInputDate)} (${dow})</div>
         <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
       </div>
-      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';changeMyDate(1)">▶</button>
+      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(1)">▶</button>
     </div>
     <div class="my-qty-grid">
       <div class="my-qty-box">
-        <div class="my-qty-label a">🅰 물품 A</div>
+        <div class="my-qty-label a">🅰 ${itemNames.a}</div>
         <input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0">
       </div>
       <div class="my-qty-box">
-        <div class="my-qty-label b">🅱 물품 B</div>
+        <div class="my-qty-label b">🅱 ${itemNames.b}</div>
         <input class="my-qty-input" type="number" id="my-qb" value="${qb}" placeholder="0" inputmode="numeric" min="0">
+      </div>
+      <div class="my-qty-box">
+        <div class="my-qty-label c">🅲 ${itemNames.c}</div>
+        <input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0">
       </div>
     </div>
     ${p.qty>0?`<div class="my-calc-box">
@@ -1453,18 +1491,16 @@ function renderMyInput(){
 
 function bindMyInputEvents(){
   const w=workers.find(x=>x.id===currentUser.workerId); if(!w) return;
-  document.getElementById('my-qa')?.addEventListener('input',e=>{
-    myQtyA=e.target.value;
-    const qb=document.getElementById('my-qb')?.value||'';
-    const p=calcPay(w,myQtyA,qb);
-    refreshMyCalc(p);
-  });
-  document.getElementById('my-qb')?.addEventListener('input',e=>{
-    myQtyB=e.target.value;
-    const qa=document.getElementById('my-qa')?.value||'';
-    const p=calcPay(w,qa,myQtyB);
-    refreshMyCalc(p);
-  });
+  const updateCalc = () => {
+      myQtyA=document.getElementById('my-qa')?.value||'';
+      myQtyB=document.getElementById('my-qb')?.value||'';
+      myQtyC=document.getElementById('my-qc')?.value||'';
+      const p=calcPay(w,myQtyA,myQtyB,myQtyC);
+      refreshMyCalc(p);
+  };
+  document.getElementById('my-qa')?.addEventListener('input', updateCalc);
+  document.getElementById('my-qb')?.addEventListener('input', updateCalc);
+  document.getElementById('my-qc')?.addEventListener('input', updateCalc);
 }
 
 function refreshMyCalc(p){
@@ -1492,9 +1528,12 @@ function refreshMyCalc(p){
 }
 
 function changeMyDate(dir){
-  const d=new Date(myInputDate+'T00:00:00');
-  d.setDate(d.getDate()+dir);
-  myInputDate=d.toISOString().slice(0,10);
+  const [y, m, d] = myInputDate.split('-').map(Number);
+  const dateObj = new Date(y, m - 1, d + dir);
+  const yy = dateObj.getFullYear();
+  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const dd = String(dateObj.getDate()).padStart(2, '0');
+  myInputDate = `${yy}-${mm}-${dd}`;
   render();
 }
 
@@ -1502,17 +1541,23 @@ async function saveMyRecord(){
   const w=workers.find(x=>x.id===currentUser.workerId); if(!w) return;
   const qa=document.getElementById('my-qa')?.value||myQtyA||'';
   const qb=document.getElementById('my-qb')?.value||myQtyB||'';
-  if(!qa&&!qb){ showToast('⚠️ 수량을 입력해주세요'); return; }
+  const qc=document.getElementById('my-qc')?.value||myQtyC||'';
+  if(!qa&&!qb&&!qc){ showToast('⚠️ 수량을 입력해주세요'); return; }
   showToast('💾 저장 중...');
   try {
-    const {error}=await db.from('daily_records').upsert({work_date:myInputDate,worker_id:w.id,qty_a:Number(qa)||0,qty_b:Number(qb)||0},{onConflict:'work_date,worker_id'});
+    const {error}=await db.from('daily_records').upsert({
+        work_date:myInputDate, worker_id:w.id,
+        qty_a:Number(qa)||0, qty_b:Number(qb)||0, qty_c:Number(qc)||0
+    },{onConflict:'work_date,worker_id'});
     if(error) throw error;
+    
     const idx=dailyRecords.findIndex(r=>r.date===myInputDate);
-    const entry={qtyA:qa,qtyB:qb};
+    const entry={qtyA:qa,qtyB:qb,qtyC:qc};
     if(idx>=0){ dailyRecords[idx].data[w.id]=entry; }
     else { dailyRecords.unshift({date:myInputDate,data:{[w.id]:entry}}); }
     dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-    myQtyA=''; myQtyB='';
+    
+    myQtyA=''; myQtyB=''; myQtyC='';
     updateSummary();
     showToast('✅ 저장 완료!');
     switchMyTab('records');
@@ -1525,13 +1570,13 @@ function renderMyRecords(){
   const myRecs=dailyRecords.filter(r=>r.data?.[w.id]);
   if(!myRecs.length) return `<div class="empty">📋 아직 기록이 없어요</div>`;
   return myRecs.map(r=>{
-    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB);
+    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
     return `<div class="my-rec-card">
       <div class="my-rec-head">
         <div class="my-rec-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div>
         <div class="my-rec-pay">${won(p.gross)}</div>
       </div>
-      <div class="my-rec-detail">🅰 ${p.a}건 · 🅱 ${p.b}건 · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
+      <div class="my-rec-detail">🅰 ${p.a} · 🅱 ${p.b} · 🅲 ${p.c} · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
     </div>`;
   }).join('')+'<div style="height:20px"></div>';
 }
@@ -1558,18 +1603,19 @@ function renderMyStats(){
     title='전체';
   }
   if(!filtered.length) return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
-  let tQty=0,tQtyA=0,tQtyB=0,tGross=0,tNet=0;
+  let tQty=0,tQtyA=0,tQtyB=0,tQtyC=0,tGross=0,tNet=0;
   filtered.forEach(r=>{
-    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB);
-    tQty+=p.qty; tQtyA+=p.a; tQtyB+=p.b; tGross+=p.gross; tNet+=p.net;
+    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+    tQty+=p.qty; tQtyA+=p.a; tQtyB+=p.b; tQtyC+=p.c; tGross+=p.gross; tNet+=p.net;
   });
   const avgQty=filtered.length?Math.round(tQty/filtered.length):0;
   return pBar+navHtml+`
     <div class="stat-summary worker-stat">
       <div class="stat-title worker">📊 ${title} 내 통계</div>
       <div class="stat-row"><span class="stat-row-lbl">📅 배송일수</span><span class="stat-row-val">${filtered.length}일</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">🅰 물품A</span><span class="stat-row-val">${tQtyA.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">🅱 물품B</span><span class="stat-row-val">${tQtyB.toLocaleString()}건</span></div>
+      <div class="stat-row"><span class="stat-row-lbl">🅰 ${itemNames.a}</span><span class="stat-row-val">${tQtyA.toLocaleString()}건</span></div>
+      <div class="stat-row"><span class="stat-row-lbl">🅱 ${itemNames.b}</span><span class="stat-row-val">${tQtyB.toLocaleString()}건</span></div>
+      <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tQtyC.toLocaleString()}건</span></div>
       <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQty.toLocaleString()}건</span></div>
       <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${avgQty.toLocaleString()}건</span></div>
       <hr class="stat-sep">
@@ -1579,9 +1625,9 @@ function renderMyStats(){
       <div style="font-size:10px;color:var(--red);margin-top:3px">세금 공제액: -${won(tGross-tNet)}</div>
     </div>
     <div class="sec-title">일별 내역 (${filtered.length}일)</div>
-    ${filtered.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB);
+    ${filtered.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
       return `<div class="detail-day-row">
-        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a}건 · 🅱${p.b}건</div></div>
+        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} · 🅱${p.b} · 🅲${p.c}</div></div>
         <div style="text-align:right"><div class="ddr-pay" style="color:var(--teal2)">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
       </div>`;
     }).join('')}
@@ -1595,22 +1641,25 @@ async function saveDailyToDB(date, data){
   const {error:de}=await db.from('daily_records').delete().eq('work_date',date);
   if(de) throw de;
   const rows=Object.entries(data)
-    .filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0)
-    .map(([wid,d])=>({work_date:date,worker_id:Number(wid),qty_a:Number(d.qtyA)||0,qty_b:Number(d.qtyB)||0}));
+    .filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0)
+    .map(([wid,d])=>({
+        work_date:date, worker_id:Number(wid),
+        qty_a:Number(d.qtyA)||0, qty_b:Number(d.qtyB)||0, qty_c:Number(d.qtyC)||0
+    }));
   if(rows.length>0){
     const {error:ie}=await db.from('daily_records').insert(rows);
     if(ie) throw ie;
   }
 }
 
-// 🚨 팝업/모달 개선: 확인 버튼의 색상을 동적으로 바꾸도록 수정
+// 🚨 팝업/모달 로직
 function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
   
   const okBtn = document.getElementById('dlg-ok');
   okBtn.textContent=btnLabel;
-  okBtn.style.background = isDanger ? 'var(--red)' : 'var(--teal)'; // 덮어쓰기면 빨간색, 추가/병합이면 녹록색
+  okBtn.style.background = isDanger ? 'var(--red)' : 'var(--teal)';
   
   confirmAction=action;
   document.getElementById('confirm-overlay').classList.add('show');
@@ -1623,7 +1672,7 @@ function openBackup(){
   document.getElementById('backup-sheet').classList.add('show');
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'mgr-v4',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
+  const blob=new Blob([JSON.stringify({version:'mgr-v5',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download=`배송관리_백업_${today()}.json`; a.click();
   URL.revokeObjectURL(url);
@@ -1641,10 +1690,10 @@ async function importData(e){
       for(const w of (data.workers||[])){
         if(!existIds.has(w.id)){
           const {data:d,error}=await db.from('workers').insert({
-              name:w.name, price_a:w.priceA, price_b:w.priceB, 
+              name:w.name, price_a:w.priceA, price_b:w.priceB, price_c:w.priceC||0,
               region:w.region||'', access_codes:w.codes||[]
           }).select().single();
-          if(!error) workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,loginId:'',codes:w.codes||[]});
+          if(!error) workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,loginId:'',codes:w.codes||[]});
         }
       }
       const existDates=new Set(dailyRecords.map(x=>x.date));
@@ -1668,16 +1717,16 @@ function exportCSV(){
     if(!months[ym]) months[ym]={};
     Object.entries(r.data||{}).forEach(([wid,d])=>{
       const w=workers.find(x=>x.id===Number(wid)); if(!w) return;
-      const p=calcPay(w,d.qtyA,d.qtyB);
-      if(!months[ym][w.id]) months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,gross:0,net:0,days:0};
-      months[ym][w.id].qtyA+=p.a; months[ym][w.id].qtyB+=p.b;
+      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
+      if(!months[ym][w.id]) months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0};
+      months[ym][w.id].qtyA+=p.a; months[ym][w.id].qtyB+=p.b; months[ym][w.id].qtyC+=p.c;
       months[ym][w.id].gross+=p.gross; months[ym][w.id].net+=p.net; months[ym][w.id].days++;
     });
   });
-  const rows=['월,이름,물품A건수,물품B건수,총건수,총금액,실수령,세금공제,배송일수'];
+  const rows=[`월,이름,${itemNames.a},${itemNames.b},${itemNames.c},총건수,총금액,실수령,세금공제,배송일수`];
   Object.keys(months).sort().forEach(ym=>{
     Object.values(months[ym]).forEach(t=>{
-      rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyA+t.qtyB},${t.gross},${t.net},${t.gross-t.net},${t.days}`);
+      rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyC},${t.qtyA+t.qtyB+t.qtyC},${t.gross},${t.net},${t.gross-t.net},${t.days}`);
     });
   });
   const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
