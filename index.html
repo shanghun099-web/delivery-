@@ -136,6 +136,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .my-qty-input:focus{border-color:var(--teal)}
 .my-calc-box{background:linear-gradient(135deg,#0a1f1a,#061410);border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:14px;margin-bottom:14px}
 .my-calc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+.my-calc-lbl{color:var(--sub)}
+.my-calc-val{font-weight:700}
+.my-calc-sep{border:none;border-top:1px solid rgba(0,188,212,0.15);margin:8px 0}
 .my-calc-total{font-size:22px;font-weight:900;color:var(--teal2)}
 .rec-day-card{background:var(--card2);border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid var(--border)}
 .rec-day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -206,7 +209,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .cn-item-code { font-size: 16px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; }
 .cn-empty { padding: 20px; text-align: center; color: var(--sub); font-size: 12px; }
 
-/* ── 👑 복사 방식 카드 라디오 버튼 (신규 UI) ── */
+/* ── 복사 방식 카드 라디오 버튼 ── */
 .radio-card input { display: none; }
 .radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
 .radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
@@ -221,17 +224,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .radio-card.danger input:checked + .rc-content .rc-title { color: var(--red); }
 
 
-/* ── 모달/오버레이 ── */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:100;align-items:center;justify-content:center}
+/* ── 모달/오버레이 (Z-index 및 계층 구조 완벽 수정) ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center} /* 🚨 겹침 방지를 위해 z-index 대폭 상향 */
 .overlay.show{display:flex}
 .dialog{background:var(--card);border-radius:18px;padding:24px;width:290px;text-align:center;border:1px solid var(--border)}
 .dialog h3{font-size:16px;margin-bottom:8px}
 .dialog p{font-size:13px;color:var(--sub);margin-bottom:20px;line-height:1.5}
 .dialog-btns{display:flex;gap:10px}
-.dialog-btns button{flex:1;padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.dialog-btns button{flex:1;padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit; transition:opacity 0.2s}
+.dialog-btns button:active{opacity:0.7}
 .dbtn-cancel{background:var(--card2);color:var(--sub)}
-.dbtn-confirm{background:var(--red);color:#fff}
-.bsoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:flex-end;justify-content:center}
+/* .dbtn-confirm 배경색은 이제 JS에서 동적으로 변경됨 */
+
+.bsoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:flex-end;justify-content:center}
 .bsoverlay.show{display:flex}
 .bsheet{background:var(--card);border-radius:22px 22px 0 0;padding:22px 18px 36px;width:100%;max-width:500px;border-top:1px solid var(--border); max-height: 90vh; overflow-y: auto;}
 .bs-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
@@ -247,7 +252,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .bk-copy{background:rgba(108,99,255,0.1);color:var(--accent3);border:1.5px solid rgba(108,99,255,0.3)}
 .bk-reset{background:rgba(255,71,87,0.1);color:var(--red);border:1.5px solid rgba(255,71,87,0.3)}
 .bk-close{background:transparent;color:var(--sub);border:1.5px solid var(--border)}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap} /* z-index 상향 */
 .toast.show{opacity:1}
 .loading{display:flex;align-items:center;justify-content:center;height:200px;flex-direction:column;gap:12px}
 .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -426,11 +431,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 
 <div class="overlay" id="confirm-overlay">
   <div class="dialog">
-    <h3 id="dlg-title">삭제하시겠어요?</h3>
-    <p id="dlg-msg">이 작업은 되돌릴 수 없습니다.</p>
+    <h3 id="dlg-title">확인</h3>
+    <p id="dlg-msg">진행하시겠습니까?</p>
     <div class="dialog-btns">
       <button class="dbtn-cancel" onclick="closeConfirm()">취소</button>
-      <button class="dbtn-confirm" id="dlg-ok" onclick="doConfirm()">삭제</button>
+      <button id="dlg-ok" style="color:#fff;" onclick="doConfirm()">실행</button>
     </div>
   </div>
 </div>
@@ -481,12 +486,11 @@ let myStatPeriod = 'month', myStatYear = new Date().getFullYear(), myStatMonth =
 
 // 출입코드 공통
 let codeSearchQuery = '';
-let codeEditMode = ''; // 'add-group', 'edit-group', 'add-item', 'edit-item'
+let codeEditMode = ''; 
 let codeEditTargetGroupId = null;
 let codeEditTargetItemId = null;
 
 
-// 한국 시간 기준 날짜 반환
 function today() {
   const d = new Date();
   const tz = d.getTime() + (d.getTimezoneOffset() * 60000) + (9 * 3600000); 
@@ -969,15 +973,20 @@ async function executeCodeSync() {
        if(w) sourceCodes = JSON.parse(JSON.stringify(w.codes));
     }
 
+    // 🚨 여기서 가져올 코드가 없으면 알림 띄우고 중단
     if(sourceCodes.length === 0) {
-        showToast('⚠️ 가져올 코드가 없습니다'); return;
+        showToast('⚠️ 복사할(가져올) 원본 코드가 아무것도 없습니다!'); 
+        return;
     }
 
     const confirmMsg = mode === 'overwrite' ? 
         `${targetW.name}의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
         `${targetW.name} 노트에 코드를 추가(병합)합니다.\n진행할까요?`;
         
-    openConfirm('🔄 코드 복사/통합', confirmMsg, '실행', async () => {
+    // 🚨 겹침 방지를 위해 팝업 띄우기 전에 하단 시트 닫기
+    document.getElementById('code-sync-sheet').classList.remove('show');
+
+    openConfirm('🔄 코드 복사/통합', confirmMsg, '실행하기', async () => {
         let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(targetW.codes));
 
         // 지능형 병합 (이름이 같은 그룹은 합치고, 주소/코드가 완전히 같으면 중복 방지)
@@ -996,8 +1005,7 @@ async function executeCodeSync() {
         });
 
         await syncCodesToDB(tgtId, newCodes);
-        document.getElementById('code-sync-sheet').classList.remove('show');
-    });
+    }, mode === 'overwrite'); // 덮어쓰기(위험)일 때만 빨간 버튼 표시
 }
 
 
@@ -1595,10 +1603,15 @@ async function saveDailyToDB(date, data){
   }
 }
 
-function openConfirm(title,msg,btnLabel,action){
+// 🚨 팝업/모달 개선: 확인 버튼의 색상을 동적으로 바꾸도록 수정
+function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
-  document.getElementById('dlg-ok').textContent=btnLabel;
+  
+  const okBtn = document.getElementById('dlg-ok');
+  okBtn.textContent=btnLabel;
+  okBtn.style.background = isDanger ? 'var(--red)' : 'var(--teal)'; // 덮어쓰기면 빨간색, 추가/병합이면 녹록색
+  
   confirmAction=action;
   document.getElementById('confirm-overlay').classList.add('show');
 }
