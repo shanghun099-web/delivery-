@@ -102,7 +102,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
 
-/* ── 일별/기록/통계 (기존과 동일) ── */
+/* ── 배달원 선택 드롭다운 (디자인 개편) ── */
+.ws-wrap { position: relative; margin-bottom: 18px; }
+.ws-select { width: 100%; appearance: none; background: linear-gradient(135deg, var(--card2), #0a0c16); border: 1.5px solid var(--border); border-radius: 16px; padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.ws-select:focus { border-color: var(--accent); box-shadow: 0 4px 20px rgba(108,99,255,0.15); color: var(--text); }
+.ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
+
+/* ── 일별/기록/통계 ── */
 .date-nav{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border-radius:12px;padding:10px 14px;margin-bottom:14px;border:1.5px solid var(--border)}
 .date-nav-btn{background:transparent;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
 .date-nav-label{font-size:14px;font-weight:900;color:var(--text)}
@@ -261,11 +267,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
         <div class="header-title" id="h-title">배송 관리자</div>
         <div class="header-date" id="h-date"></div>
       </div>
+      
       <div class="header-actions">
-        <div class="hbtn" id="btn-settings" onclick="openSettings()" style="display:none">⚙️</div>
         <button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
         <div class="hbtn" onclick="openBackup()">💾</div>
+        <div class="hbtn" id="btn-settings" onclick="openSettings()" style="display:none">⚙️</div>
       </div>
+      
     </div>
   </div>
   <div class="summary-bar cols3" id="summary-bar">
@@ -443,8 +451,7 @@ function doLogin(){
     currentUser = adminAcc;
     finishLogin();
   } else {
-    // Supabase DB에서 배달원 계정 직접 확인 
-    // (로컬 ACCOUNTS 배열 하드코딩 없이 DB 기반 로그인 처리)
+    // Supabase DB에서 배달원 계정 직접 확인
     checkWorkerLogin(id, pw, errEl);
   }
 }
@@ -454,18 +461,6 @@ async function checkWorkerLogin(id, pw, errEl) {
     try {
         const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
         if (error || !data) throw new Error('ID_NOT_FOUND');
-        
-        // 현재는 비밀번호 컬럼이 없으므로, 비밀번호를 소스 내 배열과 대조하거나 단순화. 
-        // 요구사항에 맞춰 로컬 ACCOUNTS로 체크하거나 특정 룰을 적용할 수 있으나, 
-        // 완벽한 DB 제어를 위해 배달원 설정 시 알려준 PW(ACCOUNTS 배열 내용)와 일치하는지 확인.
-        // 스크립트 상단의 ACCOUNTS 배열을 통해 PW를 확인하거나, 보안상 이 앱에서는 간단히 id 존재 여부만 체크.
-        // 여기선 ACCOUNTS 배열에 등록해둔 PW와 맞는지 체크 (기존 로직 호환)
-        const acc = ACCOUNTS.find(a => a.id === id && a.pw === pw);
-        if(!acc) {
-            // ACCOUNTS에 없다면 임시 패스워드 방어막 통과 (실제 서비스에선 DB에 pw컬럼 추가 권장)
-            // 편의를 위해 id가 존재하면 그냥 통과시키되, pw가 1234 등 단순한지 확인
-            // 여기서는 임시로 통과시킴 (데모 목적)
-        }
         
         currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
         finishLogin();
@@ -538,12 +533,11 @@ async function loadAll(){
     const {data:w,error:we}=await db.from('workers').select('*').order('id');
     if(we) throw we;
     
-    // region, access_codes 컬럼 매핑
     workers=(w||[]).map(x=>({
         id:x.id, name:x.name, priceA:x.price_a, priceB:x.price_b, 
         loginId:x.login_id||'', 
         region: x.region || '', 
-        codes: x.access_codes || [] // JSONB Array
+        codes: x.access_codes || []
     }));
 
     const {data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
@@ -663,7 +657,6 @@ function saveAdminSettings() {
      sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
   }
 }
-
 
 // ══════════════════════════════════════════
 //  관리자: 배달원 관리
@@ -828,10 +821,14 @@ function bindCodeSearchEvent() {
 //  관리자/배달원: 출입코드 탭 처리
 // ══════════════════════════════════════════
 function renderAdminCodes(){
-  let selectHtml = `<select id="admin-code-worker-sel" class="field" style="margin-bottom:14px;background:var(--card);font-weight:700" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
-      <option value="">👤 조회할 배달원을 선택하세요</option>
-      ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''}>${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
-  </select>`;
+  // 수정된 드롭다운 UI 적용
+  let selectHtml = `<div class="ws-wrap">
+      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
+          <option value="" style="color:var(--sub)">👤 조회할 배달원을 선택하세요</option>
+          ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
+      </select>
+      <div class="ws-icon">▼</div>
+  </div>`;
 
   const target = workers.find(w => w.id == adminSelectedCodeWorkerId);
   return selectHtml + (target ? renderCodeNoteCore(target) : '');
