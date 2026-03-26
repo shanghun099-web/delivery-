@@ -183,6 +183,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .wsc-pay{text-align:right}
 .wsc-gross{font-size:15px;font-weight:900;color:var(--accent3)}
 .wsc-net{font-size:11px;color:var(--green2);margin-top:2px}
+.wsc-qty{font-size:10px;color:var(--sub);margin-top:1px}
 .back-btn{display:flex;align-items:center;gap:6px;background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;margin-bottom:14px;font-family:inherit}
 .detail-header{background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(108,99,255,0.05));border:1.5px solid rgba(108,99,255,0.2);border-radius:14px;padding:16px;margin-bottom:12px}
 .detail-day-row{background:var(--card2);border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
@@ -426,7 +427,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
       <button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업 (출입코드 포함)</span></button>
       <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
     </div>
-    <button class="bk-row bk-copy" onclick="copyCode()">📋 전체 코드 복사</button>
+    <button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()">📋 전체 코드 복사</button>
     <button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
     <button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
     <button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
@@ -588,6 +589,7 @@ function setupUI(){
       <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button>`;
     document.getElementById('csv-btn').style.display='block';
     document.getElementById('reset-btn').style.display='block';
+    document.getElementById('copy-btn').style.display='block'; // 관리자만 보이도록 설정
   } else {
     myTab = 'input';
     tabsWrap.innerHTML = `
@@ -597,6 +599,7 @@ function setupUI(){
       <button class="tab" id="tab-my-codes" onclick="switchMyTab('codes')">🔑 노트</button>`;
     document.getElementById('csv-btn').style.display='none';
     document.getElementById('reset-btn').style.display='none';
+    document.getElementById('copy-btn').style.display='none'; // 배달원 화면에서는 숨김
   }
 }
 
