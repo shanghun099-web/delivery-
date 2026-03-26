@@ -102,8 +102,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
 
-/* ── 배달원 선택 드롭다운 (디자인 개편) ── */
-.ws-wrap { position: relative; margin-bottom: 18px; }
+/* ── 배달원 선택 드롭다운 ── */
+.ws-wrap { position: relative; }
 .ws-select { width: 100%; appearance: none; background: linear-gradient(135deg, var(--card2), #0a0c16); border: 1.5px solid var(--border); border-radius: 16px; padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .ws-select:focus { border-color: var(--accent); box-shadow: 0 4px 20px rgba(108,99,255,0.15); color: var(--text); }
 .ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
@@ -336,6 +336,45 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 
     <button class="btn-primary orange" onclick="saveCodeEntry()">💾 저장</button>
     <button class="btn-secondary" onclick="document.getElementById('code-edit-sheet').classList.remove('show')">취소</button>
+  </div>
+</div>
+
+<div class="bsoverlay" id="code-sync-sheet" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="bsheet">
+    <div class="bs-handle"></div>
+    <div class="bs-title">🔄 출입코드 전달 및 병합</div>
+    <div class="bs-sub">특정 배달원의 코드를 다른 배달원에게 복사하거나, 여러 사람의 코드를 하나로 합칩니다.</div>
+
+    <div class="field">
+      <label>📤 원본 (가져올 데이터)</label>
+      <select id="sync-source" style="font-weight:700">
+        </select>
+    </div>
+
+    <div class="field" style="text-align:center; color:var(--sub); margin: -4px 0 8px;">▼</div>
+
+    <div class="field">
+      <label>📥 대상 (기록을 받을 배달원)</label>
+      <select id="sync-target" style="font-weight:700">
+        </select>
+    </div>
+
+    <div class="field">
+      <label>⚙️ 복사 방식</label>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <label style="background:var(--card2); border:1.5px solid var(--border); border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px; cursor:pointer;">
+          <input type="radio" name="sync-mode" value="merge" checked style="width:18px;height:18px;margin:0"> 
+          <span style="font-size:14px;font-weight:700">기존 항목에 추가 (병합)</span>
+        </label>
+        <label style="background:rgba(255,71,87,0.1); border:1.5px solid rgba(255,71,87,0.3); border-radius:10px; padding:14px; display:flex; align-items:center; gap:10px; cursor:pointer; color:var(--red);">
+          <input type="radio" name="sync-mode" value="overwrite" style="width:18px;height:18px;margin:0"> 
+          <span style="font-size:14px;font-weight:700">모두 지우고 덮어쓰기</span>
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-primary teal" style="margin-top:14px" onclick="executeCodeSync()">🚀 실행하기</button>
+    <button class="btn-secondary" onclick="document.getElementById('code-sync-sheet').classList.remove('show')">닫기</button>
   </div>
 </div>
 
@@ -736,7 +775,7 @@ function askDeleteWorker(id){
 //  공통: 출입코드 노트 UI 렌더링
 // ══════════════════════════════════════════
 function renderCodeNoteCore(workerTarget) {
-    if(!workerTarget) return `<div class="empty">배달원을 선택해주세요</div>`;
+    if(!workerTarget) return `<div class="empty">조회할 배달원을 선택해주세요</div>`;
     
     let codes = workerTarget.codes || [];
     
@@ -821,13 +860,15 @@ function bindCodeSearchEvent() {
 //  관리자/배달원: 출입코드 탭 처리
 // ══════════════════════════════════════════
 function renderAdminCodes(){
-  // 수정된 드롭다운 UI 적용
-  let selectHtml = `<div class="ws-wrap">
-      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
-          <option value="" style="color:var(--sub)">👤 조회할 배달원을 선택하세요</option>
-          ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
-      </select>
-      <div class="ws-icon">▼</div>
+  let selectHtml = `<div style="display:flex; gap:10px; margin-bottom:18px; align-items:center;">
+      <div class="ws-wrap" style="flex:1; margin-bottom:0;">
+          <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
+              <option value="" style="color:var(--sub)">👤 조회할 배달원을 선택하세요</option>
+              ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
+          </select>
+          <div class="ws-icon">▼</div>
+      </div>
+      <button class="btn-primary" style="width:auto; margin:0; padding:0 18px; border-radius:16px; background:linear-gradient(135deg,#007a6a,#00bcd4); font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달/통합</button>
   </div>`;
 
   const target = workers.find(w => w.id == adminSelectedCodeWorkerId);
@@ -840,7 +881,85 @@ function renderMyCodes(){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 DB 조작 로직
+//  출입코드 복사 / 통합 로직 (신규 기능)
+// ══════════════════════════════════════════
+function openCodeSyncSheet() {
+    const src = document.getElementById('sync-source');
+    const tgt = document.getElementById('sync-target');
+    
+    const workerOptions = workers.map(w => `<option value="${w.id}">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('');
+    
+    src.innerHTML = `<option value="ALL">🌟 모든 배달원의 코드 전체 (통합)</option>` + workerOptions;
+    tgt.innerHTML = `<option value="">대상을 선택하세요</option>` + workerOptions;
+    
+    if(adminSelectedCodeWorkerId) {
+        tgt.value = adminSelectedCodeWorkerId;
+    }
+    
+    document.getElementById('code-sync-sheet').classList.add('show');
+}
+
+async function executeCodeSync() {
+    const srcId = document.getElementById('sync-source').value;
+    const tgtId = document.getElementById('sync-target').value;
+    const mode = document.querySelector('input[name="sync-mode"]:checked').value;
+    
+    if(!tgtId) { showToast('⚠️ 대상을 선택해주세요'); return; }
+    if(srcId === tgtId) { showToast('⚠️ 원본과 대상이 같습니다'); return; }
+    
+    const targetW = workers.find(x => x.id == tgtId);
+    if(!targetW) return;
+
+    let sourceCodes = [];
+    if(srcId === 'ALL') {
+       // 모든 배달원 코드를 병합 (본인 제외)
+       workers.forEach(w => {
+           if(w.id != tgtId) { 
+               w.codes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
+           }
+       });
+    } else {
+       const w = workers.find(x => x.id == srcId);
+       if(w) sourceCodes = JSON.parse(JSON.stringify(w.codes));
+    }
+
+    if(sourceCodes.length === 0) {
+        showToast('⚠️ 가져올 코드가 없습니다'); return;
+    }
+
+    const confirmMsg = mode === 'overwrite' ? 
+        `${targetW.name}님의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
+        `${targetW.name}님의 노트에 가져온 코드를 추가(병합)합니다.\n진행할까요?`;
+        
+    openConfirm('🔄 코드 복사/통합', confirmMsg, '실행', async () => {
+        // 기존 데이터 유지 또는 초기화
+        let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(targetW.codes));
+
+        // 지능형 병합 (이름이 같은 그룹은 합치고, 주소/코드가 완전히 같으면 중복 방지)
+        sourceCodes.forEach(sg => {
+           let tg = newCodes.find(g => g.name === sg.name);
+           if (!tg) {
+               // 새 그룹 생성
+               tg = { id: 'g_' + Date.now() + Math.random().toString(36).substr(2,5), name: sg.name, items: [] };
+               newCodes.push(tg);
+           }
+           sg.items.forEach(si => {
+               // 중복 검사 (주소와 코드가 둘 다 정확히 같으면 추가하지 않음)
+               let exists = tg.items.find(i => i.addr === si.addr && i.code === si.code);
+               if (!exists) {
+                   tg.items.push({ id: 'i_' + Date.now() + Math.random().toString(36).substr(2,5), addr: si.addr, code: si.code });
+               }
+           });
+        });
+
+        await syncCodesToDB(tgtId, newCodes);
+        document.getElementById('code-sync-sheet').classList.remove('show');
+    });
+}
+
+
+// ══════════════════════════════════════════
+//  출입코드 DB 조작 로직 (개별 수정용)
 // ══════════════════════════════════════════
 function getActiveCodeWorkerId() {
     if(currentUser.role === 'admin') return adminSelectedCodeWorkerId;
@@ -855,7 +974,7 @@ async function syncCodesToDB(workerId, newCodes) {
         // 로컬 데이터 갱신
         const w = workers.find(x => x.id == workerId);
         if(w) w.codes = newCodes;
-        showToast('✅ 저장 완료');
+        showToast('✅ 처리 완료');
         render();
     } catch(e) {
         showToast('❌ 오류: ' + e.message);
@@ -1227,7 +1346,7 @@ function renderWorkerDetail(){
 }
 
 // ══════════════════════════════════════════
-//  배달원: 일별 입력 등 (기존 로직 유지)
+//  배달원: 오늘 입력
 // ══════════════════════════════════════════
 function renderMyInput(){
   const w=workers.find(x=>x.id===currentUser.workerId);
