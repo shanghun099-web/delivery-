@@ -881,7 +881,7 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 노트 렌더링 (대그룹 ➔ 하위 ➔ 주소 구조, "소그룹" 글씨 삭제, 엑셀 및 +하위 삭제)
+//  출입코드 노트 렌더링
 // ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
@@ -1008,12 +1008,13 @@ function bindCodeSearchEvent() {
   }
 }
 
+// 👑 여기서 "현재 기기" 문구를 삭제했습니다!
 function renderAdminCodes(){
   let selectHtml = `<div style="display:flex; gap:10px; margin-bottom:18px; align-items:center;">
     <div class="ws-wrap" style="flex:1; margin-bottom:0;">
       <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
         <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
-        <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 (마스터 노트)</option>
+        <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 마스터 노트</option>
         ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
       </select>
       <div class="ws-icon">▼</div>
@@ -1261,13 +1262,14 @@ function saveSmartBulk() {
 }
 
 // ══════════════════════════════════════════
-//  출입코드 복사 / 통합 로직
+//  출입코드 복사 / 통합 로직 
+//  👑 여기서도 "현재 기기" 문구를 삭제했습니다!
 // ══════════════════════════════════════════
 function openCodeSyncSheet() {
   const src = document.getElementById('sync-source');
   const tgt = document.getElementById('sync-target');
   const workerOptions = workers.map(w => `<option value="${w.id}" style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('');
-  const adminOption = `<option value="admin" style="color:var(--orange2)">👑 관리자 (마스터 노트 - 현재 기기)</option>`;
+  const adminOption = `<option value="admin" style="color:var(--orange2)">👑 관리자 마스터 노트</option>`;
   src.innerHTML = `<option value="ALL" style="color:var(--teal2)">🌟 모든 배달원의 코드 전체 (통합)</option>` + adminOption + workerOptions;
   tgt.innerHTML = `<option value="" style="color:var(--sub)">대상을 선택하세요</option>` + adminOption + workerOptions;
   if(adminSelectedCodeWorkerId) tgt.value = adminSelectedCodeWorkerId;
