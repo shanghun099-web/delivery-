@@ -881,7 +881,7 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 노트 렌더링 (대그룹 ➔ 하위 ➔ 주소 구조, "소그룹" 글씨 삭제)
+//  출입코드 노트 렌더링 (대그룹 ➔ 하위 ➔ 주소 구조, "소그룹" 글씨 삭제, 엑셀 및 +하위 삭제)
 // ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
@@ -926,7 +926,6 @@ function renderCodeNoteCore(workerTarget) {
     </div>
     <div style="display:flex; gap:6px; margin-bottom:12px;">
       <button class="btn-primary orange" style="width:100%; padding:10px; margin:0; font-size:13px" onclick="openCodeEdit(null, null, null, 'add-folder')">+ 대그룹(폴더) 추가</button>
-      <button class="btn-primary" style="width:100%; padding:10px; margin:0; font-size:13px; background:linear-gradient(135deg,#007a6a,#00bcd4);" onclick="exportCodesCSV('${workerTarget.id}')">📊 엑셀 다운로드</button>
     </div>
     <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">
   `;
@@ -946,7 +945,6 @@ function renderCodeNoteCore(workerTarget) {
           </div>
           <div class="cn-group-stat">${f.subs.length}개 하위 · 총 ${totalItems}개</div>
           <div class="cn-actions" onclick="event.stopPropagation()">
-            <button class="cn-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-sub')">+하위</button>
             <button class="cn-btn" onclick="openCodeEdit('${f.id}', null, null, 'edit-folder')">✏️</button>
             <button class="cn-btn" onclick="askDeleteCodeFolder('${f.id}')">🗑</button>
           </div>
@@ -985,7 +983,7 @@ function renderCodeNoteCore(workerTarget) {
             </div>
           </div>
           `).join('')}
-          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더가 없습니다. [+하위]를 눌러 추가하세요.</div>` : ''}
+          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더가 없습니다. 일괄등록을 활용해보세요.</div>` : ''}
         </div>
       </div>
       `}).join('');
@@ -1209,7 +1207,7 @@ function saveSmartBulk() {
   lines.forEach(line => {
     const parts = line.split(/\s+/);
     
-    // 패턴 검사: 띄어쓰기가 있고, 마지막 덩어리에 숫자나 특정 기호(*, #, 종, 열쇠 등)가 있으면 코드로 인식
+    // 패턴 검사: 띄어쓰기가 있고, 마지막 덩어리에 숫자나 특정 기호가 있으면 코드로 인식
     if(parts.length >= 2 && /[0-9*#종열쇠]/.test(parts[parts.length-1])) {
       const code = parts.pop();
       const addr = parts.join(' ');
@@ -1260,34 +1258,6 @@ function saveSmartBulk() {
   document.getElementById('smart-bulk-sheet').classList.remove('show');
   syncCodesToDB(wid, newCodes);
   showToast(`✅ ${count}개 항목 스마트 일괄등록 완료!`);
-}
-
-// ══════════════════════════════════════════
-//  출입코드 엑셀 (CSV) 전용 내보내기 로직
-// ══════════════════════════════════════════
-function exportCodesCSV(workerId) {
-  const w = getCodeWorker(workerId);
-  if(!w || !w.codes || !w.codes.length) { showToast('내보낼 출입코드가 없습니다'); return; }
-  
-  let rows = ['대그룹(폴더명),하위폴더명,상세주소,출입코드'];
-  
-  w.codes.forEach(f => {
-    (f.subs || []).forEach(s => {
-      (s.items || []).forEach(i => {
-        const fname = `"${f.name.replace(/"/g, '""')}"`;
-        const sname = `"${s.name.replace(/"/g, '""')}"`;
-        const addr = `"${i.addr.replace(/"/g, '""')}"`;
-        const code = `"${i.code.replace(/"/g, '""')}"`;
-        rows.push(`${fname},${sname},${addr},${code}`);
-      });
-    });
-  });
-
-  const blob = new Blob(['\uFEFF'+rows.join('\n')], {type:'text/csv;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href=url; a.download=`${w.name}_출입코드정리.csv`; a.click();
-  URL.revokeObjectURL(url);
-  showToast('📊 출입코드 엑셀 다운로드 완료!');
 }
 
 // ══════════════════════════════════════════
@@ -1957,7 +1927,7 @@ function showToast(msg){
 }
 
 // ══════════════════════════════════════════
-//  👇 드래그 앤 드롭 순서 변경 로직 (민감도 하향 조정 완료)
+//  👇 드래그 앤 드롭 순서 변경 로직 (민감도 하향 조정 완벽 적용)
 // ══════════════════════════════════════════
 function initSortableCodes() {
   if (typeof Sortable === 'undefined') return;
@@ -2047,3 +2017,4 @@ if(savedUser){
 </script>
 </body>
 </html>
+
