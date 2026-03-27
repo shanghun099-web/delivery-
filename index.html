@@ -341,9 +341,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 
     <div class="sec-title">📝 화면에 표시할 물품 이름</div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
-      <div class="field"><label style="color:var(--orange2)">🅰 A 이름</label><input type="text" id="set-name-a" placeholder="물품 A"></div>
-      <div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b" placeholder="물품 B"></div>
-      <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c" placeholder="물품 C"></div>
+      <div class="field"><label style="color:var(--orange2)">🅰 A 이름</label><input type="text" id="set-name-a" placeholder="오네"></div>
+      <div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b" placeholder="오네 책"></div>
+      <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c" placeholder="딜리"></div>
     </div>
 
     <button class="btn-primary" onclick="saveSettings()">💾 변경 저장</button>
@@ -470,8 +470,8 @@ let isLoading = false;
 let confirmAction = null;
 let editWorkerId = null;
 
-// 글로벌 설정 (물품 이름)
-let itemNames = JSON.parse(localStorage.getItem('mgr-item-names')) || { a: '물품 A', b: '물품 B', c: '물품 C' };
+// 글로벌 설정 (물품 이름) 기본값을 오네, 오네 책, 딜리로 변경
+let itemNames = JSON.parse(localStorage.getItem('mgr-item-names')) || { a: '오네', b: '오네 책', c: '딜리' };
 
 // 관리자 전용
 let adminInputDate = today();
@@ -577,6 +577,12 @@ function setupUI(){
   document.getElementById('h-label').textContent = isAdmin ? '📊 ADMIN' : '🚗 DELIVERY';
   document.getElementById('h-title').textContent = isAdmin ? '배송 관리자' : currentUser.name+'님';
   document.getElementById('h-date').textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+
+  // 💡 수정됨: 관리자일 때만 톱니바퀴 버튼이 보이고, 배달원일 때는 완전히 숨겨짐
+  const btnSettings = document.getElementById('btn-settings');
+  if (btnSettings) {
+      btnSettings.style.display = isAdmin ? 'flex' : 'none';
+  }
 
   const tabsWrap = document.getElementById('tabs-wrap');
   if(isAdmin){
