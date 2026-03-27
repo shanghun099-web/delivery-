@@ -9,13 +9,13 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0d0f1a;--card:#131625;--card2:#0f1120;--border:#1e2240;
-  --text:#e8eaf6;--sub:#5c6080;--sub2:#3a3f60;
-  --accent:#6c63ff;--accent2:#8b83ff;--accent3:#b8b5ff;
-  --green:#00d4aa;--green2:#00f5c4;
-  --orange:#ffb74d;--orange2:#ff9800;
-  --red:#ff4757;--teal:#00bcd4;--teal2:#5eead4;
-  --pink:#ff6b81;--pink2:#ff879a;
+--bg:#0d0f1a;--card:#131625;--card2:#0f1120;--border:#1e2240;
+--text:#e8eaf6;--sub:#5c6080;--sub2:#3a3f60;
+--accent:#6c63ff;--accent2:#8b83ff;--accent3:#b8b5ff;
+--green:#00d4aa;--green2:#00f5c4;
+--orange:#ffb74d;--orange2:#ff9800;
+--red:#ff4757;--teal:#00bcd4;--teal2:#5eead4;
+--pink:#ff6b81;--pink2:#ff879a;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
@@ -105,7 +105,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 
 /* ── 배달원 선택 드롭다운 ── */
 .ws-wrap { position: relative; }
-.ws-select { width: 100%; appearance: none; background: linear-gradient(135deg, var(--card2), #0a0c16); border: 1.5px solid var(--border); border-radius: 16px; padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.ws-select { width: 100%; appearance: none; background: linear-gradient(135deg, var(--card2), #0a0c16); border: 1.5px solid var(--border); border-radius: 16px;
+padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit;
+box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .ws-select:focus { border-color: var(--accent); box-shadow: 0 4px 20px rgba(108,99,255,0.15); color: var(--text); }
 .ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
 
@@ -191,37 +193,36 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .ddr-net{font-size:10px;color:var(--green2);text-align:right}
 
-/* ── 출입코드 노트 (이중 폴더 & 스마트 파서 지원) ── */
+/* ── 출입코드 노트 ── */
 .cn-wrap { padding-bottom: 20px; }
-.cn-search { width: 100%; padding: 12px 16px 12px 40px; background: var(--card2) url('data:image/svg+xml;utf8,<svg fill="%235c6080" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 12px center/18px; border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 14px; outline: none; transition: border 0.2s; margin-bottom: 14px; font-family: inherit; }
+.cn-search { width: 100%; padding: 12px 16px 12px 40px; background: var(--card2) url('data:image/svg+xml;utf8,<svg fill="%235c6080" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 12px center/18px;
+border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 14px; outline: none; transition: border 0.2s; margin-bottom: 14px; font-family: inherit; }
 .cn-search:focus { border-color: var(--orange); }
-.cn-folder { background: var(--card2); border: 1.5px solid var(--border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
-.cn-folder-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-left: 4px solid var(--orange); background: linear-gradient(90deg, rgba(255,152,0,0.08) 0%, transparent 100%); cursor: pointer; user-select: none; }
-.cn-folder-title { font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px; color: var(--text); }
-.cn-folder-icon { background: rgba(255,152,0,0.2); color: var(--orange2); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-.cn-subfolder { background: var(--card); border-top: 1px solid var(--border); }
-.cn-subfolder-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px 12px 24px; border-left: 4px solid var(--teal); background: rgba(0, 188, 212, 0.04); cursor: pointer; user-select: none; }
-.cn-subfolder-title { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; color: var(--teal2); }
-.cn-actions { display: flex; gap: 4px; align-items: center; }
-.cn-btn { width: 28px; height: 28px; border-radius: 8px; border: none; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255,255,255,0.05); color: var(--sub); transition: all 0.2s; }
+.cn-group { background: var(--card2); border: 1.5px solid var(--border); border-radius: 14px; margin-bottom: 12px; overflow: hidden; }
+.cn-group-head { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-left: 4px solid var(--orange);
+background: linear-gradient(90deg, rgba(255,152,0,0.05) 0%, transparent 100%); cursor: pointer; user-select: none; }
+.cn-group-title { font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.cn-group-icon { background: rgba(255,152,0,0.2); color: var(--orange2); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;
+}
+.cn-group-stat { font-size: 11px; color: var(--sub); font-weight: 400; margin-left: auto; margin-right: 12px; }
+.cn-actions { display: flex; gap: 6px; }
+.cn-btn { width: 28px; height: 28px; border-radius: 8px; border: none; font-size: 14px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+background: rgba(255,255,255,0.05); color: var(--sub); transition: all 0.2s; }
 .cn-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 .cn-btn.add { color: var(--orange2); background: rgba(255,152,0,0.1); }
-.cn-btn.move { font-size: 12px; background: transparent; }
-.cn-items { display: none; padding: 0; background: var(--bg); }
-.cn-subfolder.open .cn-items { display: block; }
-.cn-folder.open .cn-subfolders { display: block; }
-.cn-subfolders { display: none; }
-.cn-folder.open.search-mode .cn-subfolders, .cn-subfolder.open.search-mode .cn-items { display: block !important; }
-.cn-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px 12px 32px; border-top: 1px solid var(--border); cursor: pointer; transition: background 0.2s; }
-.cn-item-addr { font-size: 13px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
-.cn-item-code { font-size: 15px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; }
+.cn-items { padding: 0; display: none; }
+.cn-group.open .cn-items { display: block; }
+.cn-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border-top: 1px solid var(--border); background: var(--bg); cursor: pointer;
+transition: background 0.2s; }
+.cn-item:active { background: rgba(255,255,255,0.02); }
+.cn-item-addr { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: var(--text); }
+.cn-item-code { font-size: 16px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; }
 .cn-empty { padding: 20px; text-align: center; color: var(--sub); font-size: 12px; }
-.parser-textarea { width: 100%; height: 150px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 12px; font-size: 13px; color: var(--text); outline: none; resize: none; font-family: inherit; margin-bottom: 12px; line-height: 1.5; }
-.parser-textarea:focus { border-color: var(--teal); }
 
 /* ── 복사 방식 카드 라디오 버튼 ── */
 .radio-card input { display: none; }
-.radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+.radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px;
+cursor: pointer; transition: all 0.2s; }
 .radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
 .radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
 .radio-card .rc-desc { font-size: 11px; color: var(--sub); line-height: 1.3; }
@@ -258,7 +259,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .bk-copy{background:rgba(108,99,255,0.1);color:var(--accent3);border:1.5px solid rgba(108,99,255,0.3)}
 .bk-reset{background:rgba(255,71,87,0.1);color:var(--red);border:1.5px solid rgba(255,71,87,0.3)}
 .bk-close{background:transparent;color:var(--sub);border:1.5px solid var(--border)}
-.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap} 
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--card2);border:1px solid var(--accent);color:var(--accent3);padding:11px 22px;border-radius:28px;font-size:13px;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;white-space:nowrap}
 .toast.show{opacity:1}
 .loading{display:flex;align-items:center;justify-content:center;height:200px;flex-direction:column;gap:12px}
 .spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite}
@@ -269,245 +270,217 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .input-subtabs{display:flex;gap:6px;margin-bottom:12px}
 .input-subtab{flex:1;padding:9px 0;border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:var(--sub);transition:all 0.2s}
 .input-subtab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ── 드래그 앤 드롭 핸들 ── */
+.code-drag-handle {
+  font-size: 20px;
+  color: var(--sub);
+  padding: 8px 12px 8px 0;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+}
+.code-drag-handle:active { cursor: grabbing; }
 </style>
 </head>
 <body>
 
 <div class="login-wrap" id="login-wrap">
-  <div class="login-logo">📊</div>
-  <div class="login-title">배송 관리자</div>
-  <div class="login-sub">DELIVERY MANAGER</div>
-  <div class="login-card">
-    <div class="lf"><label>아이디</label><input type="text" id="l-id" placeholder="아이디 입력" autocomplete="username"></div>
-    <div class="lf"><label>비밀번호</label><input type="password" id="l-pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    <button class="btn-login" onclick="doLogin()">🔐 로그인</button>
-    <div class="login-err" id="l-err"></div>
-  </div>
+<div class="login-logo">📊</div>
+<div class="login-title">배송 관리자</div>
+<div class="login-sub">DELIVERY MANAGER</div>
+<div class="login-card">
+<div class="lf"><label>아이디</label><input type="text" id="l-id" placeholder="아이디 입력" autocomplete="username"></div>
+<div class="lf"><label>비밀번호</label><input type="password" id="l-pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<button class="btn-login" onclick="doLogin()">🔐 로그인</button>
+<div class="login-err" id="l-err"></div>
+</div>
 </div>
 
 <div id="app" style="display:none;flex-direction:column;height:100vh;height:-webkit-fill-available">
-  <div class="header" id="main-header">
-    <div class="header-row">
-      <div>
-        <div class="header-label" id="h-label">DELIVERY MANAGER</div>
-        <div class="header-title" id="h-title">배송 관리자</div>
-        <div class="header-date" id="h-date"></div>
-      </div>
-      
-      <div class="header-actions">
-        <button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
-        <div class="hbtn" onclick="openBackup()">💾</div>
-        <div class="hbtn" id="btn-settings" onclick="openSettings()">⚙️</div>
-      </div>
-      
-    </div>
-  </div>
-  <div class="summary-bar cols3" id="summary-bar">
-    <div class="sum-item"><div class="sum-val" id="s1">-</div><div class="sum-lbl" id="s1l">-</div></div>
-    <div class="sum-item g"><div class="sum-val" id="s2">-</div><div class="sum-lbl" id="s2l">-</div></div>
-    <div class="sum-item t"><div class="sum-val" id="s3">-</div><div class="sum-lbl" id="s3l">-</div></div>
-  </div>
-  <div class="tabs" id="tabs-wrap"></div>
-  <div class="content" id="content"></div>
+<div class="header" id="main-header">
+<div class="header-row">
+<div>
+<div class="header-label" id="h-label">DELIVERY MANAGER</div>
+<div class="header-title" id="h-title">배송 관리자</div>
+<div class="header-date" id="h-date"></div>
+</div>
+
+<div class="header-actions">
+<button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
+<div class="hbtn" onclick="openBackup()">💾</div>
+<div class="hbtn" id="btn-settings" onclick="openSettings()">⚙️</div>
+</div>
+
+</div>
+</div>
+<div class="summary-bar cols3" id="summary-bar">
+<div class="sum-item"><div class="sum-val" id="s1">-</div><div class="sum-lbl" id="s1l">-</div></div>
+<div class="sum-item g"><div class="sum-val" id="s2">-</div><div class="sum-lbl" id="s2l">-</div></div>
+<div class="sum-item t"><div class="sum-val" id="s3">-</div><div class="sum-lbl" id="s3l">-</div></div>
+</div>
+<div class="tabs" id="tabs-wrap"></div>
+<div class="content" id="content"></div>
 </div>
 
 <div class="bsoverlay" id="worker-sheet" onclick="if(event.target===this)closeWorkerSheet()">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title" id="ws-title">👤 배달원 추가</div>
-    <div class="bs-sub">이름, 지역, 로그인 정보를 입력하세요</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-        <div class="field" style="margin-bottom:0"><label>이름</label><input type="text" id="ws-name" placeholder="홍길동" maxlength="10"></div>
-        <div class="field" style="margin-bottom:0"><label>담당 지역</label><input type="text" id="ws-region" placeholder="구리시 갈매동"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-      <div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1"></div>
-      <div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="text" id="ws-pw" placeholder="1234"></div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;margin-bottom:16px">
-      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pa">🅰 물품A 단가</label><input type="number" id="ws-pa" inputmode="numeric" placeholder="1400"></div>
-      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pb">🅱 물품B 단가</label><input type="number" id="ws-pb" inputmode="numeric" placeholder="1200"></div>
-      <div class="field" style="margin-bottom:0"><label id="lbl-ws-pc" style="color:var(--pink2)">🅲 물품C 단가</label><input type="number" id="ws-pc" inputmode="numeric" placeholder="1000"></div>
-    </div>
-    <button class="btn-primary" onclick="saveWorker()">💾 저장</button>
-    <button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
-  </div>
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title" id="ws-title">👤 배달원 추가</div>
+<div class="bs-sub">이름, 지역, 로그인 정보를 입력하세요</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+<div class="field" style="margin-bottom:0"><label>이름</label><input type="text" id="ws-name" placeholder="홍길동" maxlength="10"></div>
+<div class="field" style="margin-bottom:0"><label>담당 지역</label><input type="text" id="ws-region" placeholder="구리시 갈매동"></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+<div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1"></div>
+<div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="text" id="ws-pw" placeholder="1234"></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;margin-bottom:16px">
+<div class="field" style="margin-bottom:0"><label id="lbl-ws-pa">🅰 물품A 단가</label><input type="number" id="ws-pa" inputmode="numeric" placeholder="1400"></div>
+<div class="field" style="margin-bottom:0"><label id="lbl-ws-pb">🅱 물품B 단가</label><input type="number" id="ws-pb" inputmode="numeric" placeholder="1200"></div>
+<div class="field" style="margin-bottom:0"><label id="lbl-ws-pc" style="color:var(--pink2)">🅲 물품C 단가</label><input type="number" id="ws-pc" inputmode="numeric" placeholder="1000"></div>
+</div>
+<button class="btn-primary" onclick="saveWorker()">💾 저장</button>
+<button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
+</div>
 </div>
 
 <div class="bsoverlay" id="settings-sheet" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title">⚙️ 앱 설정</div>
-    <div class="bs-sub">개인 설정 및 기기 설정을 변경합니다.</div>
-    
-    <div id="admin-settings-area" style="display:none; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border)">
-      <div class="sec-title">👑 관리자 계정 변경</div>
-      <div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id"></div>
-      <div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw"></div>
-    </div>
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title">⚙️ 앱 설정</div>
+<div class="bs-sub">개인 설정 및 기기 설정을 변경합니다.</div>
 
-    <div class="sec-title">📝 화면에 표시할 물품 이름</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
-      <div class="field"><label style="color:var(--orange2)">🅰 A 이름</label><input type="text" id="set-name-a" placeholder="오네"></div>
-      <div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b" placeholder="오네 책"></div>
-      <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c" placeholder="딜리"></div>
-    </div>
+<div id="admin-settings-area" style="display:none; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border)">
+<div class="sec-title">👑 관리자 계정 변경</div>
+<div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id"></div>
+<div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw"></div>
+</div>
 
-    <button class="btn-primary" onclick="saveSettings()">💾 변경 저장</button>
-    <button class="btn-secondary" onclick="document.getElementById('settings-sheet').classList.remove('show')">닫기</button>
-  </div>
+<div class="sec-title">📝 화면에 표시할 물품 이름</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
+<div class="field"><label style="color:var(--orange2)">🅰 A 이름</label><input type="text" id="set-name-a" placeholder="오네"></div>
+<div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b" placeholder="오네 책"></div>
+<div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c" placeholder="딜리"></div>
+</div>
+
+<button class="btn-primary" onclick="saveSettings()">💾 변경 저장</button>
+<button class="btn-secondary" onclick="document.getElementById('settings-sheet').classList.remove('show')">닫기</button>
+</div>
 </div>
 
 <div class="bsoverlay" id="code-edit-sheet" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title" id="ce-title">항목 추가</div>
-    <div class="bs-sub" id="ce-sub">정보를 입력해주세요</div>
-    
-    <div id="ce-folder-fields" style="display:none">
-        <div class="field"><label>대분류(지역/단지명)</label><input type="text" id="ce-fname" placeholder="예: 일원동, 힐스테이트"></div>
-    </div>
-    
-    <div id="ce-subfolder-fields" style="display:none">
-        <div class="field"><label>중분류(세부단지/동)</label><input type="text" id="ce-sfname" placeholder="예: 1단지, 101동"></div>
-    </div>
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title" id="ce-title">항목 추가</div>
+<div class="bs-sub" id="ce-sub">정보를 입력해주세요</div>
 
-    <div id="ce-item-fields" style="display:none">
-        <div class="field"><label>상세주소/호수</label><input type="text" id="ce-iaddr" placeholder="예: 101호"></div>
-        <div class="field"><label>출입코드</label><input type="text" id="ce-icode" placeholder="예: 종1234, 301#0000"></div>
-    </div>
-
-    <button class="btn-primary orange" onclick="saveCodeEntry()">💾 저장</button>
-    <button class="btn-secondary" onclick="document.getElementById('code-edit-sheet').classList.remove('show')">취소</button>
-  </div>
+<div id="ce-group-fields" style="display:none">
+<div class="field"><label>그룹명 (동/단지 이름)</label><input type="text" id="ce-gname" placeholder="예: 대치동, 힐스테이트"></div>
 </div>
 
-<div class="bsoverlay" id="smart-parser-sheet" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title">⚡ 스마트 텍스트 일괄 등록</div>
-    <div class="bs-sub">저장할 위치를 선택하고 텍스트를 붙여넣으세요.</div>
+<div id="ce-item-fields" style="display:none">
+<div class="field"><label>주소/세부단지</label><input type="text" id="ce-iaddr" placeholder="예: 일원로3길82"></div>
+<div class="field"><label>출입코드</label><input type="text" id="ce-icode" placeholder="예: 종1234, 301#0000"></div>
+</div>
 
-    <div style="display:flex; gap:10px; margin-bottom:12px;">
-      <div class="field" style="flex:1; margin-bottom:0;">
-        <label>대분류 (폴더)</label>
-        <select id="sp-folder-sel" class="ws-select" style="padding:10px; font-size:13px;" onchange="updateSmartParserSubFolders()"></select>
-      </div>
-      <div class="field" style="flex:1; margin-bottom:0;">
-        <label>중분류 (하위폴더)</label>
-        <select id="sp-subfolder-sel" class="ws-select" style="padding:10px; font-size:13px;"></select>
-      </div>
-    </div>
-
-    <textarea id="sp-textarea" class="parser-textarea" placeholder="예시:&#10;101동 101호 1234*&#10;101동 102호 #4567&#10;(주소와 코드를 띄어쓰기로 구분하여 여러 줄 입력)"></textarea>
-
-    <button class="btn-primary teal" onclick="executeSmartParser()">🚀 일괄 등록 실행</button>
-    <button class="btn-secondary" onclick="document.getElementById('smart-parser-sheet').classList.remove('show')">닫기</button>
-  </div>
+<button class="btn-primary orange" onclick="saveCodeEntry()">💾 저장</button>
+<button class="btn-secondary" onclick="document.getElementById('code-edit-sheet').classList.remove('show')">취소</button>
+</div>
 </div>
 
 <div class="bsoverlay" id="code-sync-sheet" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title">🔄 출입코드 전달 및 병합</div>
-    <div class="bs-sub">코드를 복사하거나, 여러 사람의 코드를 하나로 합칩니다.</div>
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title">🔄 출입코드 전달 및 병합</div>
+<div class="bs-sub">코드를 복사하거나, 여러 사람의 코드를 하나로 합칩니다.</div>
 
-    <div class="field">
-      <label>📤 원본 (가져올 데이터)</label>
-      <select id="sync-source" class="ws-select" style="padding-left:14px; font-weight:700"></select>
-    </div>
-    <div class="field" style="text-align:center; color:var(--sub); margin: -4px 0 8px;">▼</div>
-    <div class="field">
-      <label>📥 대상 (기록을 받을 배달원)</label>
-      <select id="sync-target" class="ws-select" style="padding-left:14px; font-weight:700"></select>
-    </div>
+<div class="field">
+<label>📤 원본 (가져올 데이터)</label>
+<select id="sync-source" class="ws-select" style="padding-left:14px; font-weight:700"></select>
+</div>
+<div class="field" style="text-align:center; color:var(--sub); margin: -4px 0 8px;">▼</div>
+<div class="field">
+<label>📥 대상 (기록을 받을 배달원)</label>
+<select id="sync-target" class="ws-select" style="padding-left:14px; font-weight:700"></select>
+</div>
 
-    <div class="field">
-      <label>⚙️ 복사 방식 선택</label>
-      <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
-        <label class="radio-card">
-          <input type="radio" name="sync-mode" value="merge" checked>
-          <div class="rc-content">
-            <div class="rc-icon">➕</div>
-            <div class="rc-text">
-              <div class="rc-title">기존 항목에 추가 (병합)</div>
-              <div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div>
-            </div>
-          </div>
-        </label>
-        <label class="radio-card danger">
-          <input type="radio" name="sync-mode" value="overwrite">
-          <div class="rc-content">
-            <div class="rc-icon">🗑️</div>
-            <div class="rc-text">
-              <div class="rc-title">모두 지우고 덮어쓰기</div>
-              <div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div>
-            </div>
-          </div>
-        </label>
-      </div>
-    </div>
+<div class="field">
+<label>⚙️ 복사 방식 선택</label>
+<div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
+<label class="radio-card">
+<input type="radio" name="sync-mode" value="merge" checked>
+<div class="rc-content">
+<div class="rc-icon">➕</div>
+<div class="rc-text">
+<div class="rc-title">기존 항목에 추가 (병합)</div>
+<div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div>
+</div>
+</div>
+</label>
+<label class="radio-card danger">
+<input type="radio" name="sync-mode" value="overwrite">
+<div class="rc-content">
+<div class="rc-icon">🗑️</div>
+<div class="rc-text">
+<div class="rc-title">모두 지우고 덮어쓰기</div>
+<div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div>
+</div>
+</div>
+</label>
+</div>
+</div>
 
-    <button class="btn-primary teal" style="margin-top:14px" onclick="executeCodeSync()">🚀 실행하기</button>
-    <button class="btn-secondary" onclick="document.getElementById('code-sync-sheet').classList.remove('show')">닫기</button>
-  </div>
+<button class="btn-primary teal" style="margin-top:14px" onclick="executeCodeSync()">🚀 실행하기</button>
+<button class="btn-secondary" onclick="document.getElementById('code-sync-sheet').classList.remove('show')">닫기</button>
+</div>
 </div>
 
 <div class="bsoverlay" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="bsheet">
-    <div class="bs-handle"></div>
-    <div class="bs-title">💾 데이터 백업 / 관리</div>
-    <div class="bs-sub" id="backup-sub">-</div>
-    <div class="bk-grid">
-      <button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업 (출입코드 포함)</span></button>
-      <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
-    </div>
-    <button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()">📋 전체 코드 복사</button>
-    <button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
-    <button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
-    <button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
-  </div>
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title">💾 데이터 백업 / 관리</div>
+<div class="bs-sub" id="backup-sub">-</div>
+<div class="bk-grid">
+<button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업 (출입코드 포함)</span></button>
+<button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
+</div>
+<button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()">📋 전체 코드 복사</button>
+<button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
+<button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
+<button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
+</div>
 </div>
 
 <div class="overlay" id="confirm-overlay">
-  <div class="dialog">
-    <h3 id="dlg-title">확인</h3>
-    <p id="dlg-msg">진행하시겠습니까?</p>
-    <div class="dialog-btns">
-      <button class="dbtn-cancel" onclick="closeConfirm()">취소</button>
-      <button id="dlg-ok" style="color:#fff;" onclick="doConfirm()">실행</button>
-    </div>
-  </div>
+<div class="dialog">
+<h3 id="dlg-title">확인</h3>
+<p id="dlg-msg">진행하시겠습니까?</p>
+<div class="dialog-btns">
+<button class="dbtn-cancel" onclick="closeConfirm()">취소</button>
+<button id="dlg-ok" style="color:#fff;" onclick="doConfirm()">실행</button>
+</div>
+</div>
 </div>
 
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
 <div class="toast" id="toast"></div>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script>
 // ══════════════════════════════════════════
-//  Supabase 연결 및 초기 데이터 보호
+//  Supabase 연결
 // ══════════════════════════════════════════
 const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
 const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 
-// 로컬스토리지 파싱 에러 방지용 try-catch
-let itemNames = { a: '오네', b: '오네 책', c: '딜리' };
-try {
-  const storedNames = localStorage.getItem('mgr-item-names');
-  if (storedNames && storedNames !== 'undefined') itemNames = JSON.parse(storedNames);
-} catch(e) { console.warn('itemNames load error', e); }
-
-function getAdminCodes() {
-  try {
-    const codes = localStorage.getItem('mgr-admin-codes');
-    if (codes && codes !== 'undefined') return JSON.parse(codes);
-  } catch(e) { console.warn('adminCodes load error', e); }
-  return [];
-}
-
-// 공통 상태 및 유틸리티
+// ══════════════════════════════════════════
+//  공통 상태 및 유틸리티
+// ══════════════════════════════════════════
 const TAX = 0.033;
 const DAYS = ['일','월','화','수','목','금','토'];
 let currentUser = null;
@@ -517,6 +490,8 @@ let tab = '';
 let isLoading = false;
 let confirmAction = null;
 let editWorkerId = null;
+
+let itemNames = JSON.parse(localStorage.getItem('mgr-item-names')) || { a: '오네', b: '오네 책', c: '딜리' };
 
 let adminInputDate = today();
 let adminInputData = {};
@@ -529,9 +504,8 @@ let myTab = 'input';
 let myInputDate = today();
 let myQtyA = '', myQtyB = '', myQtyC = '';
 let myStatPeriod = 'month', myStatYear = new Date().getFullYear(), myStatMonth = new Date().getMonth();
-
 let codeSearchQuery = '';
-let codeEditMode = '', codeEditFolderId = null, codeEditSubFolderId = null, codeEditItemId = null;
+let codeEditMode = '', codeEditTargetGroupId = null, codeEditTargetItemId = null;
 
 function today() {
   const d = new Date();
@@ -540,16 +514,17 @@ function today() {
   const dd = String(d.getDate()).padStart(2, '0');
   return `${yy}-${mm}-${dd}`;
 }
+
 function won(n){ return Number(n).toLocaleString()+'원'; }
 function wonShort(n){ return n>=10000?Math.round(n/1000)/10+'만원':won(n); }
-function fmtDate(dateStr){ 
-  const [y,m,d] = dateStr.split('-'); 
-  return `${Number(m)}월 ${Number(d)}일`; 
+function fmtDate(dateStr){
+  const [y,m,d] = dateStr.split('-');
+  return `${Number(m)}월 ${Number(d)}일`;
 }
-function fmtDay(dateStr){ 
+function fmtDay(dateStr){
   const [y,m,d] = dateStr.split('-');
   const dateObj = new Date(y, m-1, d);
-  return DAYS[dateObj.getDay()]+'요일'; 
+  return DAYS[dateObj.getDay()]+'요일';
 }
 function av(name){ return name?name[0]:'?'; }
 function calcPay(w, qA, qB, qC){
@@ -560,20 +535,16 @@ function calcPay(w, qA, qB, qC){
 }
 
 // ══════════════════════════════════════════
-//  로그인 / 로그아웃
+//  로그인 / 로그아웃 (비밀번호 검증 추가됨)
 // ══════════════════════════════════════════
 function doLogin(){
   const id = document.getElementById('l-id').value.trim();
   const pw = document.getElementById('l-pw').value;
   const errEl = document.getElementById('l-err');
   if(!id||!pw){ errEl.textContent='아이디와 비밀번호를 입력해주세요'; return; }
-  
-  let adminAcc = { id:'admin', pw:'admin1234', role:'admin', name:'관리자' };
-  try {
-    const storedAdmin = localStorage.getItem('mgr-admin-acc');
-    if (storedAdmin && storedAdmin !== 'undefined') adminAcc = JSON.parse(storedAdmin);
-  } catch(e) { console.warn('adminAcc load error', e); }
-  
+
+  const adminAcc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || { id:'admin', pw:'admin1234', role:'admin', name:'관리자' };
+
   if (id === adminAcc.id && pw === adminAcc.pw) {
     currentUser = adminAcc;
     finishLogin();
@@ -583,15 +554,19 @@ function doLogin(){
 }
 
 async function checkWorkerLogin(id, pw, errEl) {
-    errEl.textContent = '확인 중...';
-    try {
-        const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
-        if (error || !data) throw new Error('ID_NOT_FOUND');
-        currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
-        finishLogin();
-    } catch(e) {
-        errEl.textContent='❌ 아이디 또는 비밀번호가 틀렸어요';
-    }
+  errEl.textContent = '확인 중...';
+  try {
+    const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
+    if (error || !data) throw new Error('ID_NOT_FOUND');
+    
+    // 👇 비밀번호 일치 검증 로직 추가
+    if (data.login_pw && data.login_pw !== pw) throw new Error('WRONG_PW');
+
+    currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
+    finishLogin();
+  } catch(e) {
+    errEl.textContent='❌ 아이디 또는 비밀번호가 틀렸어요';
+  }
 }
 
 function finishLogin() {
@@ -619,35 +594,35 @@ function setupUI(){
   const isAdmin = currentUser.role === 'admin';
   const header = document.getElementById('main-header');
   header.className = 'header ' + (isAdmin?'admin-mode':'worker-mode');
-  
+
   document.getElementById('h-label').textContent = isAdmin ? '📊 ADMIN' : '🚗 DELIVERY';
   document.getElementById('h-title').textContent = isAdmin ? '배송 관리자' : currentUser.name+'님';
   document.getElementById('h-date').textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
 
   const btnSettings = document.getElementById('btn-settings');
   if (btnSettings) {
-      btnSettings.style.display = isAdmin ? 'flex' : 'none';
+    btnSettings.style.display = isAdmin ? 'flex' : 'none';
   }
 
   const tabsWrap = document.getElementById('tabs-wrap');
   if(isAdmin){
     tab = 'daily';
     tabsWrap.innerHTML = `
-      <button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
-      <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
-      <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
-      <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
-      <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button>`;
+    <button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
+    <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
+    <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
+    <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
+    <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button>`;
     document.getElementById('csv-btn').style.display='block';
     document.getElementById('reset-btn').style.display='block';
     document.getElementById('copy-btn').style.display='block';
   } else {
     myTab = 'input';
     tabsWrap.innerHTML = `
-      <button class="tab active worker" id="tab-my-input" onclick="switchMyTab('input')">✏️ 오늘 입력</button>
-      <button class="tab" id="tab-my-records" onclick="switchMyTab('records')">📋 내 기록</button>
-      <button class="tab" id="tab-my-stats" onclick="switchMyTab('stats')">📊 통계</button>
-      <button class="tab" id="tab-my-codes" onclick="switchMyTab('codes')">🔑 노트</button>`;
+    <button class="tab active worker" id="tab-my-input" onclick="switchMyTab('input')">✏️ 오늘 입력</button>
+    <button class="tab" id="tab-my-records" onclick="switchMyTab('records')">📋 내 기록</button>
+    <button class="tab" id="tab-my-stats" onclick="switchMyTab('stats')">📊 통계</button>
+    <button class="tab" id="tab-my-codes" onclick="switchMyTab('codes')">🔑 노트</button>`;
     document.getElementById('csv-btn').style.display='none';
     document.getElementById('reset-btn').style.display='none';
     document.getElementById('copy-btn').style.display='none';
@@ -664,9 +639,9 @@ async function loadAll(){
     if(we) throw we;
     
     workers=(w||[]).map(x=>({
-        id:x.id, name:x.name, 
-        priceA:x.price_a||0, priceB:x.price_b||0, priceC:x.price_c||0, 
-        loginId:x.login_id||'', region: x.region||'', codes: x.access_codes||[]
+      id:x.id, name:x.name,
+      priceA:x.price_a||0, priceB:x.price_b||0, priceC:x.price_c||0,
+      loginId:x.login_id||'', region: x.region||'', codes: x.access_codes||[]
     }));
 
     const {data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
@@ -678,9 +653,9 @@ async function loadAll(){
       map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0)};
     });
     dailyRecords=Object.values(map).sort((a,b)=>b.date.localeCompare(a.date));
-  } catch(e){ 
-      console.error(e);
-      showToast('❌ 로드 실패: '+e.message); 
+  } catch(e){
+    console.error(e);
+    showToast('❌ 로드 실패: '+e.message);
   }
   isLoading=false;
   updateSummary();
@@ -744,7 +719,7 @@ function render(){
   const c=document.getElementById('content');
   if(!currentUser){ c.innerHTML=''; return; }
   if(isLoading){ c.innerHTML=`<div class="loading"><div class="spinner"></div><div class="loading-txt">데이터 불러오는 중...</div></div>`; return; }
-  
+
   if(currentUser.role==='admin'){
     if(tab==='daily') c.innerHTML=renderAdminDaily();
     else if(tab==='records') c.innerHTML=renderAdminRecords();
@@ -753,7 +728,7 @@ function render(){
     else if(tab==='codes') c.innerHTML=renderAdminCodes();
     
     if(tab==='daily') bindAdminDailyEvents();
-    if(tab==='codes') bindCodeSearchEvent();
+    if(tab==='codes') { bindCodeSearchEvent(); initSortableCodes(); } 
   } else {
     if(myTab==='input') c.innerHTML=renderMyInput();
     else if(myTab==='records') c.innerHTML=renderMyRecords();
@@ -761,31 +736,27 @@ function render(){
     else if(myTab==='codes') c.innerHTML=renderMyCodes();
     
     if(myTab==='input') bindMyInputEvents();
-    if(myTab==='codes') bindCodeSearchEvent();
+    if(myTab==='codes') { bindCodeSearchEvent(); initSortableCodes(); }
   }
 }
 
 // ══════════════════════════════════════════
-//  공통 설정
+//  공통 설정 (기기/물품이름)
 // ══════════════════════════════════════════
 function openSettings() {
   const isAdmin = currentUser.role === 'admin';
   document.getElementById('admin-settings-area').style.display = isAdmin ? 'block' : 'none';
-  
+
   if(isAdmin) {
-    let acc = { id:'admin', pw:'admin1234' };
-    try {
-        const stored = localStorage.getItem('mgr-admin-acc');
-        if(stored && stored !== 'undefined') acc = JSON.parse(stored);
-    } catch(e) {}
+    const acc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || {id:'admin', pw:'admin1234'};
     document.getElementById('set-admin-id').value = acc.id;
     document.getElementById('set-admin-pw').value = acc.pw;
   }
-  
+
   document.getElementById('set-name-a').value = itemNames.a;
   document.getElementById('set-name-b').value = itemNames.b;
   document.getElementById('set-name-c').value = itemNames.c;
-  
+
   document.getElementById('settings-sheet').classList.add('show');
 }
 
@@ -804,17 +775,17 @@ function saveSettings() {
   const nameA = document.getElementById('set-name-a').value.trim() || '물품 A';
   const nameB = document.getElementById('set-name-b').value.trim() || '물품 B';
   const nameC = document.getElementById('set-name-c').value.trim() || '물품 C';
-  
+
   itemNames = { a: nameA, b: nameB, c: nameC };
   localStorage.setItem('mgr-item-names', JSON.stringify(itemNames));
-  
+
   showToast('✅ 설정이 저장되었습니다.');
   document.getElementById('settings-sheet').classList.remove('show');
   render();
 }
 
 // ══════════════════════════════════════════
-//  관리자: 배달원 관리
+//  관리자: 배달원 관리 (DB 비밀번호 저장 추가)
 // ══════════════════════════════════════════
 function renderAdminWorkers(){
   const addBtn=`<button class="btn-primary" onclick="openWorkerSheet(null)" style="margin-bottom:16px">+ 배달원 추가</button>`;
@@ -867,6 +838,7 @@ async function saveWorker(){
     if(editWorkerId){
       const upd={name, region, price_a:pa, price_b:pb, price_c:pc};
       if(loginId) upd.login_id=loginId;
+      if(pw) upd.login_pw=pw; // 👇 비밀번호 수정 시 반영
       const {error}=await db.from('workers').update(upd).eq('id',editWorkerId);
       if(error) throw error;
       workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||w.loginId}:w);
@@ -874,6 +846,7 @@ async function saveWorker(){
     } else {
       const ins={name, region, price_a:pa, price_b:pb, price_c:pc};
       if(loginId) ins.login_id=loginId;
+      if(pw) ins.login_pw=pw; // 👇 신규 생성 시 반영
       const {data,error}=await db.from('workers').insert(ins).select().single();
       if(error) throw error;
       workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||'', codes:[]});
@@ -895,152 +868,117 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 마이그레이션 & 구조 처리
+//  공통: 출입코드 노트 UI 렌더링 (드래그 핸들 추가)
 // ══════════════════════════════════════════
-function migrateCodeData(codes) {
-    if (!codes) return [];
-    return codes.map(folder => {
-        if (folder.items && !folder.subFolders) {
-            folder.subFolders = [{
-                id: 'sf_' + Date.now() + Math.random().toString(36).substr(2,5),
-                name: '기본(미분류)',
-                items: folder.items || []
-            }];
-            delete folder.items;
-        }
-        if (!folder.subFolders) folder.subFolders = [];
-        return folder;
-    });
-}
-
 function getCodeWorker(wid) {
-    if (wid === 'admin') {
-        return { id: 'admin', name: '👑 관리자 마스터', codes: getAdminCodes() };
-    }
-    return workers.find(x => x.id == wid);
+  if (wid === 'admin') {
+    return { id: 'admin', name: '👑 관리자 마스터', codes: JSON.parse(localStorage.getItem('mgr-admin-codes')) || [] };
+  }
+  return workers.find(x => x.id == wid);
 }
 
 function renderCodeNoteCore(workerTarget) {
-    if(!workerTarget) return `<div class="empty">조회할 대상을 선택해주세요</div>`;
-    
-    let folders = migrateCodeData(workerTarget.codes || []);
-    
-    if(codeSearchQuery) {
-        const q = codeSearchQuery.toLowerCase();
-        let filtered = [];
-        folders.forEach(f => {
-            let filteredSubFolders = [];
-            f.subFolders.forEach(sf => {
-                const mItems = sf.items.filter(i => i.addr.toLowerCase().includes(q) || i.code.toLowerCase().includes(q));
-                if (sf.name.toLowerCase().includes(q) || mItems.length > 0) {
-                    filteredSubFolders.push({ ...sf, items: mItems.length > 0 ? mItems : sf.items });
-                }
-            });
-            if (f.name.toLowerCase().includes(q) || filteredSubFolders.length > 0) {
-                filtered.push({ ...f, subFolders: filteredSubFolders.length > 0 ? filteredSubFolders : f.subFolders });
-            }
-        });
-        folders = filtered;
-    }
+  if(!workerTarget) return `<div class="empty">조회할 대상을 선택해주세요</div>`;
 
-    let html = `
-    <div class="cn-wrap">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
-        <div style="font-size:16px; font-weight:900; color:var(--orange2)">🔑 ${workerTarget.name} 노트</div>
-        <div style="display:flex; gap:6px;">
-            <button class="btn-primary teal" style="width:auto; padding:8px 10px; margin:0; font-size:12px" onclick="openSmartParser()">⚡ 일괄등록</button>
-            <button class="btn-primary orange" style="width:auto; padding:8px 10px; margin:0; font-size:12px" onclick="openCodeEdit(null, null, null, 'add-folder')">+ 폴더 추가</button>
+  let codes = workerTarget.codes || [];
+
+  if(codeSearchQuery) {
+    const q = codeSearchQuery.toLowerCase();
+    let filtered = [];
+    codes.forEach(g => {
+      const mItems = g.items.filter(i => i.addr.toLowerCase().includes(q) || i.code.toLowerCase().includes(q));
+      if(g.name.toLowerCase().includes(q) || mItems.length > 0) {
+        filtered.push({ ...g, items: mItems.length > 0 ? mItems : g.items });
+      }
+    });
+    codes = filtered;
+  }
+
+  let html = `
+  <div class="cn-wrap">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
+      <div style="font-size:16px; font-weight:900; color:var(--orange2)">🔑 ${workerTarget.name} 노트</div>
+      <button class="btn-primary orange" style="width:auto; padding:8px 14px; margin:0; font-size:13px" onclick="openCodeEdit(null, null, 'add-group')">+ 그룹/지역 추가</button>
+    </div>
+    <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">
+  `;
+
+  if(!codes.length) {
+    html += `<div class="cn-empty">${codeSearchQuery ? '검색 결과가 없습니다' : '등록된 출입코드가 없습니다.<br>+ 버튼을 눌러 그룹을 먼저 추가하세요.'}</div>`;
+  } else {
+    html += `<div id="cn-group-list">`;
+    html += codes.map(g => `
+    <div class="cn-group ${codeSearchQuery ? 'open' : ''}" data-id="${g.id}" id="cg-${g.id}">
+      <div class="cn-group-head" onclick="this.parentElement.classList.toggle('open')">
+        <div style="display:flex; align-items:center;">
+          <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
+          <div class="cn-group-title">
+            <div class="cn-group-icon">🏠</div>
+            ${g.name}
+          </div>
+        </div>
+        <div class="cn-group-stat">${g.items.length}개 주소</div>
+        <div class="cn-actions" onclick="event.stopPropagation()">
+          <button class="cn-btn add" onclick="openCodeEdit('${g.id}', null, 'add-item')">+</button>
+          <button class="cn-btn" onclick="openCodeEdit('${g.id}', null, 'edit-group')">✏️</button>
+          <button class="cn-btn" onclick="askDeleteCodeGroup('${g.id}')">🗑</button>
         </div>
       </div>
-      <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">
-    `;
-
-    if(!folders.length) {
-        html += `<div class="cn-empty">${codeSearchQuery ? '검색 결과가 없습니다' : '등록된 출입코드가 없습니다.<br>+ 버튼을 눌러 폴더를 먼저 추가하세요.'}</div>`;
-    } else {
-        html += folders.map((f, fIdx) => `
-          <div class="cn-folder ${codeSearchQuery ? 'open search-mode' : ''}" id="cf-${f.id}">
-            <div class="cn-folder-head" onclick="this.parentElement.classList.toggle('open')">
-              <div class="cn-folder-title"><div class="cn-folder-icon">📁</div>${f.name}</div>
-              <div class="cn-actions" onclick="event.stopPropagation()">
-                <button class="cn-btn move" onclick="moveCodeNode('${f.id}', null, null, -1)">▲</button>
-                <button class="cn-btn move" onclick="moveCodeNode('${f.id}', null, null, 1)">▼</button>
-                <button class="cn-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-subfolder')">+하위</button>
-                <button class="cn-btn" onclick="openCodeEdit('${f.id}', null, null, 'edit-folder')">✏️</button>
-                <button class="cn-btn" onclick="askDeleteCodeNode('${f.id}', null, null)">🗑</button>
-              </div>
-            </div>
-            
-            <div class="cn-subfolders">
-              ${f.subFolders.map((sf, sfIdx) => `
-                <div class="cn-subfolder ${codeSearchQuery ? 'open search-mode' : ''}">
-                    <div class="cn-subfolder-head" onclick="this.parentElement.classList.toggle('open')">
-                        <div class="cn-subfolder-title">📂 ${sf.name} <span style="font-size:10px;color:var(--sub);font-weight:400">(${sf.items.length})</span></div>
-                        <div class="cn-actions" onclick="event.stopPropagation()">
-                            <button class="cn-btn move" onclick="moveCodeNode('${f.id}', '${sf.id}', null, -1)">▲</button>
-                            <button class="cn-btn move" onclick="moveCodeNode('${f.id}', '${sf.id}', null, 1)">▼</button>
-                            <button class="cn-btn add" style="color:var(--teal2); background:rgba(0,188,212,0.1)" onclick="openCodeEdit('${f.id}', '${sf.id}', null, 'add-item')">+항목</button>
-                            <button class="cn-btn" onclick="openCodeEdit('${f.id}', '${sf.id}', null, 'edit-subfolder')">✏️</button>
-                            <button class="cn-btn" onclick="askDeleteCodeNode('${f.id}', '${sf.id}', null)">🗑</button>
-                        </div>
-                    </div>
-                    <div class="cn-items">
-                        ${sf.items.map((i, iIdx) => `
-                            <div class="cn-item" onclick="navigator.clipboard.writeText('${i.code}');showToast('📋 복사 완료');">
-                                <div>
-                                    <div class="cn-item-addr">${i.addr}</div>
-                                    <div class="cn-item-code">${i.code}</div>
-                                </div>
-                                <div class="cn-actions" onclick="event.stopPropagation()">
-                                    <button class="cn-btn move" onclick="moveCodeNode('${f.id}', '${sf.id}', '${i.id}', -1)">▲</button>
-                                    <button class="cn-btn move" onclick="moveCodeNode('${f.id}', '${sf.id}', '${i.id}', 1)">▼</button>
-                                    <button class="cn-btn" onclick="openCodeEdit('${f.id}', '${sf.id}', '${i.id}', 'edit-item')">✏️</button>
-                                    <button class="cn-btn" onclick="askDeleteCodeNode('${f.id}', '${sf.id}', '${i.id}')">🗑</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                        ${sf.items.length === 0 ? `<div style="padding:12px;text-align:center;font-size:11px;color:var(--sub)">등록된 코드가 없습니다.</div>` : ''}
-                    </div>
-                </div>
-              `).join('')}
-              ${f.subFolders.length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위 폴더가 없습니다. +하위 버튼을 눌러 추가하세요.</div>` : ''}
+      <div class="cn-items">
+        ${g.items.map(i => `
+        <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code}');showToast('📋 복사 완료');">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
+            <div>
+              <div class="cn-item-addr">${i.addr}</div>
+              <div class="cn-item-code">${i.code}</div>
             </div>
           </div>
-        `).join('');
-    }
-    
+          <div class="cn-actions" onclick="event.stopPropagation()">
+            <button class="cn-btn" onclick="openCodeEdit('${g.id}', '${i.id}', 'edit-item')">✏️</button>
+            <button class="cn-btn" onclick="askDeleteCodeItem('${g.id}', '${i.id}')">🗑</button>
+          </div>
+        </div>
+        `).join('')}
+        ${g.items.length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">등록된 주소가 없습니다. + 버튼을 눌러 추가하세요.</div>` : ''}
+      </div>
+    </div>
+    `).join('');
     html += `</div>`;
-    return html;
+  }
+  
+  html += `</div>`;
+  return html;
 }
 
 function bindCodeSearchEvent() {
-    const input = document.getElementById('code-search-input');
-    if(input) {
-        input.addEventListener('input', (e) => {
-            codeSearchQuery = e.target.value.trim();
-            render();
-            setTimeout(() => {
-                const newInp = document.getElementById('code-search-input');
-                if(newInp) { newInp.focus(); newInp.setSelectionRange(codeSearchQuery.length, codeSearchQuery.length); }
-            }, 10);
-        });
-    }
+  const input = document.getElementById('code-search-input');
+  if(input) {
+    input.addEventListener('input', (e) => {
+      codeSearchQuery = e.target.value.trim();
+      render();
+      setTimeout(() => {
+        const newInp = document.getElementById('code-search-input');
+        if(newInp) { newInp.focus(); newInp.setSelectionRange(codeSearchQuery.length, codeSearchQuery.length); }
+      }, 10);
+    });
+  }
 }
 
 // ══════════════════════════════════════════
-//  출입코드 UI 연동 (관리자/배달원)
+//  관리자/배달원: 출입코드 탭 처리
 // ══════════════════════════════════════════
 function renderAdminCodes(){
   let selectHtml = `<div style="display:flex; gap:10px; margin-bottom:18px; align-items:center;">
-      <div class="ws-wrap" style="flex:1; margin-bottom:0;">
-          <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
-              <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
-              <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 (마스터 노트)</option>
-              ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
-          </select>
-          <div class="ws-icon">▼</div>
-      </div>
-      <button class="btn-primary" style="width:auto; margin:0; padding:0 18px; border-radius:16px; background:linear-gradient(135deg,#007a6a,#00bcd4); font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달/통합</button>
+    <div class="ws-wrap" style="flex:1; margin-bottom:0;">
+      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
+        <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
+        <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 (마스터 노트)</option>
+        ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
+      </select>
+      <div class="ws-icon">▼</div>
+    </div>
+    <button class="btn-primary" style="width:auto; margin:0; padding:0 18px; border-radius:16px; background:linear-gradient(135deg,#007a6a,#00bcd4); font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달/통합</button>
   </div>`;
 
   const target = getCodeWorker(adminSelectedCodeWorkerId);
@@ -1053,367 +991,221 @@ function renderMyCodes(){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 전달 및 스마트 파서
+//  출입코드 복사 / 통합 로직
 // ══════════════════════════════════════════
 function openCodeSyncSheet() {
-    const src = document.getElementById('sync-source');
-    const tgt = document.getElementById('sync-target');
-    
-    const workerOptions = workers.map(w => `<option value="${w.id}" style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('');
-    const adminOption = `<option value="admin" style="color:var(--orange2)">👑 관리자 (마스터 노트)</option>`;
-    
-    src.innerHTML = `<option value="ALL" style="color:var(--teal2)">🌟 모든 배달원의 코드 전체 (통합)</option>` + adminOption + workerOptions;
-    tgt.innerHTML = `<option value="" style="color:var(--sub)">대상을 선택하세요</option>` + adminOption + workerOptions;
-    
-    if(adminSelectedCodeWorkerId) tgt.value = adminSelectedCodeWorkerId;
-    
-    document.getElementById('code-sync-sheet').classList.add('show');
+  const src = document.getElementById('sync-source');
+  const tgt = document.getElementById('sync-target');
+
+  const workerOptions = workers.map(w => `<option value="${w.id}" style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('');
+  const adminOption = `<option value="admin" style="color:var(--orange2)">👑 관리자 (마스터 노트 - 현재 기기)</option>`;
+
+  src.innerHTML = `<option value="ALL" style="color:var(--teal2)">🌟 모든 배달원의 코드 전체 (통합)</option>` + adminOption + workerOptions;
+  tgt.innerHTML = `<option value="" style="color:var(--sub)">대상을 선택하세요</option>` + adminOption + workerOptions;
+
+  if(adminSelectedCodeWorkerId) {
+    tgt.value = adminSelectedCodeWorkerId;
+  }
+  
+  document.getElementById('code-sync-sheet').classList.add('show');
 }
 
 async function executeCodeSync() {
-    const srcId = document.getElementById('sync-source').value;
-    const tgtId = document.getElementById('sync-target').value;
-    const mode = document.querySelector('input[name="sync-mode"]:checked').value;
-    
-    if(!tgtId) { showToast('⚠️ 대상을 선택해주세요'); return; }
-    if(srcId === tgtId) { showToast('⚠️ 원본과 대상이 같습니다'); return; }
-    
-    const targetW = getCodeWorker(tgtId);
-    if(!targetW) return;
+  const srcId = document.getElementById('sync-source').value;
+  const tgtId = document.getElementById('sync-target').value;
+  const mode = document.querySelector('input[name="sync-mode"]:checked').value;
 
-    let sourceCodes = [];
-    if(srcId === 'ALL') {
-       workers.forEach(w => {
-           if(w.id != tgtId) { 
-               migrateCodeData(w.codes).forEach(f => sourceCodes.push(JSON.parse(JSON.stringify(f))));
-           }
-       });
-       if(tgtId !== 'admin') {
-           migrateCodeData(getAdminCodes()).forEach(f => sourceCodes.push(JSON.parse(JSON.stringify(f))));
-       }
-    } else if(srcId === 'admin') {
-       sourceCodes = migrateCodeData(getAdminCodes());
-    } else {
-       const w = workers.find(x => x.id == srcId);
-       if(w) sourceCodes = JSON.parse(JSON.stringify(migrateCodeData(w.codes)));
+  if(!tgtId) { showToast('⚠️ 대상을 선택해주세요'); return; }
+  if(srcId === tgtId) { showToast('⚠️ 원본과 대상이 같습니다'); return; }
+
+  const targetW = getCodeWorker(tgtId);
+  if(!targetW) return;
+
+  let sourceCodes = [];
+  
+  if(srcId === 'ALL') {
+    workers.forEach(w => {
+      if(w.id != tgtId) {
+        w.codes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
+      }
+    });
+    if(tgtId !== 'admin') {
+      const adminCodes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
+      adminCodes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
     }
+  } else if(srcId === 'admin') {
+    sourceCodes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
+  } else {
+    const w = workers.find(x => x.id == srcId);
+    if(w) sourceCodes = JSON.parse(JSON.stringify(w.codes));
+  }
 
-    if(sourceCodes.length === 0) {
-        showToast('⚠️ 가져올 원본 코드가 없습니다!'); 
-        return;
-    }
+  if(sourceCodes.length === 0) {
+    showToast('⚠️ 복사할(가져올) 원본 코드가 아무것도 없습니다!');
+    return;
+  }
 
-    const confirmMsg = mode === 'overwrite' ? 
-        `${targetW.name}의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
-        `${targetW.name} 노트에 코드를 병합합니다.\n진행할까요?`;
-        
-    document.getElementById('code-sync-sheet').classList.remove('show');
+  const confirmMsg = mode === 'overwrite' ? 
+    `${targetW.name}의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
+    `${targetW.name} 노트에 코드를 추가(병합)합니다.\n진행할까요?`;
 
-    openConfirm('🔄 코드 복사/통합', confirmMsg, '실행하기', async () => {
-        let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(migrateCodeData(targetW.codes)));
-
-        sourceCodes.forEach(sf => {
-           let tf = newCodes.find(f => f.name === sf.name);
-           if (!tf) {
-               tf = { id: 'f_' + Date.now() + Math.random().toString(36).substr(2,5), name: sf.name, subFolders: [] };
-               newCodes.push(tf);
-           }
-           sf.subFolders.forEach(ssf => {
-               let tsf = tf.subFolders.find(s => s.name === ssf.name);
-               if (!tsf) {
-                   tsf = { id: 'sf_' + Date.now() + Math.random().toString(36).substr(2,5), name: ssf.name, items: [] };
-                   tf.subFolders.push(tsf);
-               }
-               ssf.items.forEach(si => {
-                   if (!tsf.items.find(i => i.addr === si.addr && i.code === si.code)) {
-                       tsf.items.push({ id: 'i_' + Date.now() + Math.random().toString(36).substr(2,5), addr: si.addr, code: si.code });
-                   }
-               });
-           });
-        });
-
-        await syncCodesToDB(tgtId, newCodes);
-    }, mode === 'overwrite');
-}
-
-// [스마트 파서 로직]
-function openSmartParser() {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    if (!w || !w.codes || w.codes.length === 0) {
-        showToast('⚠️ 폴더를 먼저 생성해주세요.'); return;
-    }
+  document.getElementById('code-sync-sheet').classList.remove('show');
+  
+  openConfirm('🔄 코드 복사/통합', confirmMsg, '실행하기', async () => {
+    let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(targetW.codes));
     
-    const folders = migrateCodeData(w.codes);
-    const folderSel = document.getElementById('sp-folder-sel');
-    folderSel.innerHTML = folders.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
-    
-    updateSmartParserSubFolders();
-    document.getElementById('sp-textarea').value = '';
-    document.getElementById('smart-parser-sheet').classList.add('show');
-}
-
-function updateSmartParserSubFolders() {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    const folders = migrateCodeData(w.codes);
-    const folderId = document.getElementById('sp-folder-sel').value;
-    
-    const targetFolder = folders.find(f => f.id === folderId);
-    const subSel = document.getElementById('sp-subfolder-sel');
-    
-    if (targetFolder && targetFolder.subFolders.length > 0) {
-        subSel.innerHTML = targetFolder.subFolders.map(sf => `<option value="${sf.id}">${sf.name}</option>`).join('');
-    } else {
-        subSel.innerHTML = `<option value="">하위폴더 없음</option>`;
-    }
-}
-
-function executeSmartParser() {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    const folderId = document.getElementById('sp-folder-sel').value;
-    const subFolderId = document.getElementById('sp-subfolder-sel').value;
-    const text = document.getElementById('sp-textarea').value.trim();
-
-    if (!subFolderId) { showToast('⚠️ 저장할 하위폴더가 없습니다.'); return; }
-    if (!text) { showToast('⚠️ 텍스트를 입력해주세요.'); return; }
-
-    let newCodes = JSON.parse(JSON.stringify(migrateCodeData(w.codes)));
-    const f = newCodes.find(x => x.id === folderId);
-    const sf = f.subFolders.find(x => x.id === subFolderId);
-
-    const lines = text.split('\n');
-    let addCount = 0;
-
-    lines.forEach(line => {
-        const cleaned = line.trim();
-        if (!cleaned) return;
-        
-        const parts = cleaned.split(/\s+/);
-        if (parts.length >= 2) {
-            const code = parts.pop();
-            const addr = parts.join(' ');
-            sf.items.push({ id: 'i_' + Date.now() + Math.random().toString(36).substr(2,5), addr: addr, code: code });
-            addCount++;
+    sourceCodes.forEach(sg => {
+      let tg = newCodes.find(g => g.name === sg.name);
+      if (!tg) {
+        tg = { id: 'g_' + Date.now() + Math.random().toString(36).substr(2,5), name: sg.name, items: [] };
+        newCodes.push(tg);
+      }
+      sg.items.forEach(si => {
+        let exists = tg.items.find(i => i.addr === si.addr && i.code === si.code);
+        if (!exists) {
+          tg.items.push({ id: 'i_' + Date.now() + Math.random().toString(36).substr(2,5), addr: si.addr, code: si.code });
         }
+      });
     });
 
-    if (addCount > 0) {
-        syncCodesToDB(wid, newCodes);
-        document.getElementById('smart-parser-sheet').classList.remove('show');
-        showToast(`✅ ${addCount}개 항목 일괄 등록 완료`);
-    } else {
-        showToast('⚠️ 파싱할 수 있는 형식의 텍스트가 없습니다.');
-    }
+    await syncCodesToDB(tgtId, newCodes);
+  }, mode === 'overwrite');
 }
 
 // ══════════════════════════════════════════
-//  출입코드 DB 조작 및 에디터 로직 (이중 폴더 지원)
+//  출입코드 DB 조작 로직 (개별 수정용)
 // ══════════════════════════════════════════
 function getActiveCodeWorkerId() {
-    if(currentUser.role === 'admin') return adminSelectedCodeWorkerId;
-    return currentUser.workerId;
+  if(currentUser.role === 'admin') return adminSelectedCodeWorkerId;
+  return currentUser.workerId;
 }
 
 async function syncCodesToDB(workerId, newCodes) {
-    showToast('저장 중...');
-    if (workerId === 'admin') {
-        localStorage.setItem('mgr-admin-codes', JSON.stringify(newCodes));
-        showToast('✅ 관리자 노트에 저장 완료');
-        render();
-        return;
-    }
-    try {
-        const {error} = await db.from('workers').update({access_codes: newCodes}).eq('id', workerId);
-        if(error) throw error;
-        const w = workers.find(x => x.id == workerId);
-        if(w) w.codes = newCodes;
-        showToast('✅ 처리 완료');
-        render();
-    } catch(e) {
-        showToast('❌ 오류: ' + e.message);
-    }
+  showToast('저장 중...');
+  if (workerId === 'admin') {
+    localStorage.setItem('mgr-admin-codes', JSON.stringify(newCodes));
+    showToast('✅ 관리자 노트에 저장 완료');
+    render();
+    return;
+  }
+  try {
+    const {error} = await db.from('workers').update({access_codes: newCodes}).eq('id', workerId);
+    if(error) throw error;
+    const w = workers.find(x => x.id == workerId);
+    if(w) w.codes = newCodes;
+    showToast('✅ 처리 완료');
+    render();
+  } catch(e) {
+    showToast('❌ 오류: ' + e.message);
+  }
 }
 
-function moveCodeNode(folderId, subFolderId, itemId, direction) {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    if (!w) return;
-    
-    let newCodes = JSON.parse(JSON.stringify(migrateCodeData(w.codes)));
-    let targetArray = null;
-    let targetIndex = -1;
+function openCodeEdit(groupId, itemId, mode) {
+  codeEditMode = mode;
+  codeEditTargetGroupId = groupId;
+  codeEditTargetItemId = itemId;
 
-    if (itemId) {
-        const f = newCodes.find(x => x.id === folderId);
-        const sf = f.subFolders.find(x => x.id === subFolderId);
-        targetArray = sf.items;
-        targetIndex = targetArray.findIndex(x => x.id === itemId);
-    } else if (subFolderId) {
-        const f = newCodes.find(x => x.id === folderId);
-        targetArray = f.subFolders;
-        targetIndex = targetArray.findIndex(x => x.id === subFolderId);
-    } else {
-        targetArray = newCodes;
-        targetIndex = targetArray.findIndex(x => x.id === folderId);
-    }
+  const wid = getActiveCodeWorkerId();
+  const w = getCodeWorker(wid);
+  if(!w) return;
 
-    if (targetIndex !== -1 && targetIndex + direction >= 0 && targetIndex + direction < targetArray.length) {
-        const temp = targetArray[targetIndex];
-        targetArray[targetIndex] = targetArray[targetIndex + direction];
-        targetArray[targetIndex + direction] = temp;
-        syncCodesToDB(wid, newCodes);
-    }
-}
+  document.getElementById('ce-group-fields').style.display = 'none';
+  document.getElementById('ce-item-fields').style.display = 'none';
+  document.getElementById('ce-gname').value = '';
+  document.getElementById('ce-iaddr').value = '';
+  document.getElementById('ce-icode').value = '';
 
-function openCodeEdit(folderId, subFolderId, itemId, mode) {
-    codeEditMode = mode;
-    codeEditFolderId = folderId;
-    codeEditSubFolderId = subFolderId;
-    codeEditItemId = itemId;
-    
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    if(!w) return;
-    
-    document.getElementById('ce-folder-fields').style.display = 'none';
-    document.getElementById('ce-subfolder-fields').style.display = 'none';
-    document.getElementById('ce-item-fields').style.display = 'none';
-    
-    document.getElementById('ce-fname').value = '';
-    document.getElementById('ce-sfname').value = '';
-    document.getElementById('ce-iaddr').value = '';
-    document.getElementById('ce-icode').value = '';
-
-    const newCodes = migrateCodeData(w.codes);
-
-    if(mode === 'add-folder') {
-        document.getElementById('ce-title').textContent = '새 폴더 추가';
-        document.getElementById('ce-sub').textContent = '지역, 아파트명 등을 입력하세요';
-        document.getElementById('ce-folder-fields').style.display = 'block';
-        setTimeout(()=>document.getElementById('ce-fname').focus(), 300);
-    } 
-    else if(mode === 'edit-folder') {
-        const f = newCodes.find(x => x.id == folderId);
-        document.getElementById('ce-title').textContent = '폴더명 수정';
-        document.getElementById('ce-sub').textContent = '새로운 폴더명을 입력하세요';
-        document.getElementById('ce-folder-fields').style.display = 'block';
-        document.getElementById('ce-fname').value = f.name;
-        setTimeout(()=>document.getElementById('ce-fname').focus(), 300);
-    }
-    else if(mode === 'add-subfolder') {
-        document.getElementById('ce-title').textContent = '하위 폴더 추가';
-        document.getElementById('ce-sub').textContent = '단지, 동 이름 등을 입력하세요';
-        document.getElementById('ce-subfolder-fields').style.display = 'block';
-        setTimeout(()=>document.getElementById('ce-sfname').focus(), 300);
-    }
-    else if(mode === 'edit-subfolder') {
-        const f = newCodes.find(x => x.id == folderId);
-        const sf = f.subFolders.find(x => x.id == subFolderId);
-        document.getElementById('ce-title').textContent = '하위 폴더명 수정';
-        document.getElementById('ce-sub').textContent = '새로운 이름을 입력하세요';
-        document.getElementById('ce-subfolder-fields').style.display = 'block';
-        document.getElementById('ce-sfname').value = sf.name;
-        setTimeout(()=>document.getElementById('ce-sfname').focus(), 300);
-    }
-    else if(mode === 'add-item') {
-        document.getElementById('ce-title').textContent = '새 주소/코드 추가';
-        document.getElementById('ce-sub').textContent = '상세 주소와 출입코드를 입력하세요';
-        document.getElementById('ce-item-fields').style.display = 'block';
-        setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
-    }
-    else if(mode === 'edit-item') {
-        const f = newCodes.find(x => x.id == folderId);
-        const sf = f.subFolders.find(x => x.id == subFolderId);
-        const i = sf.items.find(x => x.id == itemId);
-        document.getElementById('ce-title').textContent = '주소/코드 수정';
-        document.getElementById('ce-sub').textContent = '수정할 내용을 입력하세요';
-        document.getElementById('ce-item-fields').style.display = 'block';
-        document.getElementById('ce-iaddr').value = i.addr;
-        document.getElementById('ce-icode').value = i.code;
-        setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
-    }
-    document.getElementById('code-edit-sheet').classList.add('show');
+  if(mode === 'add-group') {
+    document.getElementById('ce-title').textContent = '새 그룹 추가';
+    document.getElementById('ce-sub').textContent = '지역, 동, 단지 이름 등을 입력하세요';
+    document.getElementById('ce-group-fields').style.display = 'block';
+    setTimeout(()=>document.getElementById('ce-gname').focus(), 300);
+  }
+  else if(mode === 'edit-group') {
+    const g = w.codes.find(x => x.id == groupId);
+    document.getElementById('ce-title').textContent = '그룹명 수정';
+    document.getElementById('ce-sub').textContent = '새로운 그룹명을 입력하세요';
+    document.getElementById('ce-group-fields').style.display = 'block';
+    document.getElementById('ce-gname').value = g.name;
+    setTimeout(()=>document.getElementById('ce-gname').focus(), 300);
+  }
+  else if(mode === 'add-item') {
+    document.getElementById('ce-title').textContent = '새 주소/코드 추가';
+    document.getElementById('ce-sub').textContent = '상세 주소와 출입코드를 입력하세요';
+    document.getElementById('ce-item-fields').style.display = 'block';
+    setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
+  }
+  else if(mode === 'edit-item') {
+    const g = w.codes.find(x => x.id == groupId);
+    const i = g.items.find(x => x.id == itemId);
+    document.getElementById('ce-title').textContent = '주소/코드 수정';
+    document.getElementById('ce-sub').textContent = '수정할 내용을 입력하세요';
+    document.getElementById('ce-item-fields').style.display = 'block';
+    document.getElementById('ce-iaddr').value = i.addr;
+    document.getElementById('ce-icode').value = i.code;
+    setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
+  }
+  document.getElementById('code-edit-sheet').classList.add('show');
 }
 
 function saveCodeEntry() {
+  const wid = getActiveCodeWorkerId();
+  const w = getCodeWorker(wid);
+  if(!w) return;
+  let newCodes = JSON.parse(JSON.stringify(w.codes));
+
+  if(codeEditMode.includes('group')) {
+    const name = document.getElementById('ce-gname').value.trim();
+    if(!name) { showToast('그룹명을 입력하세요'); return; }
+    if(codeEditMode === 'add-group') {
+      newCodes.push({ id: 'g_'+Date.now(), name: name, items: [] });
+    } else {
+      const g = newCodes.find(x => x.id == codeEditTargetGroupId);
+      if(g) g.name = name;
+    }
+  }
+  else {
+    const addr = document.getElementById('ce-iaddr').value.trim();
+    const code = document.getElementById('ce-icode').value.trim();
+    if(!addr || !code) { showToast('주소와 코드를 모두 입력하세요'); return; }
+    const g = newCodes.find(x => x.id == codeEditTargetGroupId);
+    if(!g) return;
+    if(codeEditMode === 'add-item') {
+      g.items.push({ id: 'i_'+Date.now(), addr: addr, code: code });
+    } else {
+      const i = g.items.find(x => x.id == codeEditTargetItemId);
+      if(i) { i.addr = addr; i.code = code; }
+    }
+  }
+  document.getElementById('code-edit-sheet').classList.remove('show');
+  syncCodesToDB(wid, newCodes);
+}
+
+function askDeleteCodeGroup(groupId) {
+  openConfirm('🗑 그룹 삭제', '그룹 내 모든 주소/코드도 함께 삭제됩니다.\n계속하시겠습니까?', '삭제', () => {
     const wid = getActiveCodeWorkerId();
     const w = getCodeWorker(wid);
     if(!w) return;
-    let newCodes = JSON.parse(JSON.stringify(migrateCodeData(w.codes))); 
-
-    if(codeEditMode.includes('folder') && !codeEditMode.includes('sub')) {
-        const name = document.getElementById('ce-fname').value.trim();
-        if(!name) { showToast('이름을 입력하세요'); return; }
-        if(codeEditMode === 'add-folder') {
-            newCodes.push({ id: 'f_'+Date.now(), name: name, subFolders: [] });
-        } else {
-            const f = newCodes.find(x => x.id == codeEditFolderId);
-            if(f) f.name = name;
-        }
-    } 
-    else if(codeEditMode.includes('subfolder')) {
-        const name = document.getElementById('ce-sfname').value.trim();
-        if(!name) { showToast('이름을 입력하세요'); return; }
-        const f = newCodes.find(x => x.id == codeEditFolderId);
-        if(f) {
-            if(codeEditMode === 'add-subfolder') {
-                f.subFolders.push({ id: 'sf_'+Date.now(), name: name, items: [] });
-            } else {
-                const sf = f.subFolders.find(x => x.id == codeEditSubFolderId);
-                if(sf) sf.name = name;
-            }
-        }
-    }
-    else {
-        const addr = document.getElementById('ce-iaddr').value.trim();
-        const code = document.getElementById('ce-icode').value.trim();
-        if(!addr || !code) { showToast('주소와 코드를 모두 입력하세요'); return; }
-        const f = newCodes.find(x => x.id == codeEditFolderId);
-        if(!f) return;
-        const sf = f.subFolders.find(x => x.id == codeEditSubFolderId);
-        if(!sf) return;
-
-        if(codeEditMode === 'add-item') {
-            sf.items.push({ id: 'i_'+Date.now(), addr: addr, code: code });
-        } else {
-            const i = sf.items.find(x => x.id == codeEditItemId);
-            if(i) { i.addr = addr; i.code = code; }
-        }
-    }
-    document.getElementById('code-edit-sheet').classList.remove('show');
+    const newCodes = w.codes.filter(x => x.id != groupId);
     syncCodesToDB(wid, newCodes);
+  });
 }
 
-function askDeleteCodeNode(folderId, subFolderId, itemId) {
-    let msg = '';
-    if (itemId) msg = '이 주소와 코드를 삭제하시겠습니까?';
-    else if (subFolderId) msg = '하위 폴더와 안의 모든 내용을 삭제할까요?';
-    else msg = '폴더와 안의 모든 내용을 삭제할까요?';
-
-    openConfirm('🗑 삭제 확인', msg, '삭제', () => {
-        const wid = getActiveCodeWorkerId();
-        const w = getCodeWorker(wid);
-        if(!w) return;
-        let newCodes = JSON.parse(JSON.stringify(migrateCodeData(w.codes)));
-        
-        if (itemId) {
-            const f = newCodes.find(x => x.id == folderId);
-            const sf = f.subFolders.find(x => x.id == subFolderId);
-            sf.items = sf.items.filter(x => x.id != itemId);
-        } else if (subFolderId) {
-            const f = newCodes.find(x => x.id == folderId);
-            f.subFolders = f.subFolders.filter(x => x.id != subFolderId);
-        } else {
-            newCodes = newCodes.filter(x => x.id != folderId);
-        }
-        syncCodesToDB(wid, newCodes);
-    });
+function askDeleteCodeItem(groupId, itemId) {
+  openConfirm('🗑 항목 삭제', '이 주소와 코드를 삭제하시겠습니까?', '삭제', () => {
+    const wid = getActiveCodeWorkerId();
+    const w = getCodeWorker(wid);
+    if(!w) return;
+    let newCodes = JSON.parse(JSON.stringify(w.codes));
+    const g = newCodes.find(x => x.id == groupId);
+    if(g) {
+      g.items = g.items.filter(x => x.id != itemId);
+      syncCodesToDB(wid, newCodes);
+    }
+  });
 }
-
-// ══════════════════════════════════════════
-//  관리자: 일별 입력 
+ // ══════════════════════════════════════════
+//  관리자: 일별 입력
 // ══════════════════════════════════════════
 function renderAdminDaily(){
   if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
@@ -1427,49 +1219,49 @@ function renderAdminDaily(){
   </div>`;
   if(adminInputMode==='worker') return subTabs+renderAdminWorkerMode();
   return subTabs+`
-    <div class="date-nav">
-      <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
-      <div style="text-align:center">
-        <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow})</div>
-        <div class="date-nav-sub">${isEdit?'✏️ 수정 중':'새 기록'}</div>
-      </div>
-      <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
+  <div class="date-nav">
+    <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
+    <div style="text-align:center">
+      <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow})</div>
+      <div class="date-nav-sub">${isEdit?'✏️ 수정 중':'새 기록'}</div>
     </div>
-    ${workers.map(w=>{
-      const prev=recData[w.id]||{};
-      const qa=adminInputData[w.id]?.qtyA??prev.qtyA??'';
-      const qb=adminInputData[w.id]?.qtyB??prev.qtyB??'';
-      const qc=adminInputData[w.id]?.qtyC??prev.qtyC??'';
-      const p=calcPay(w,qa,qb,qc);
-      return `<div class="daily-worker-row ${p.qty>0?'has-data':''}" id="dwr-${w.id}">
-        <div class="daily-row-top">
-          <div class="daily-avatar">${av(w.name)}</div>
-          <div class="daily-name">${w.name} ${w.region? `<span style="font-size:10px;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
-          ${p.qty>0?`<div class="daily-total-badge">${won(p.gross)}</div>`:''}
+    <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
+  </div>
+  ${workers.map(w=>{
+    const prev=recData[w.id]||{};
+    const qa=adminInputData[w.id]?.qtyA??prev.qtyA??'';
+    const qb=adminInputData[w.id]?.qtyB??prev.qtyB??'';
+    const qc=adminInputData[w.id]?.qtyC??prev.qtyC??'';
+    const p=calcPay(w,qa,qb,qc);
+    return `<div class="daily-worker-row ${p.qty>0?'has-data':''}" id="dwr-${w.id}">
+      <div class="daily-row-top">
+        <div class="daily-avatar">${av(w.name)}</div>
+        <div class="daily-name">${w.name} ${w.region? `<span style="font-size:10px;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
+        ${p.qty>0?`<div class="daily-total-badge">${won(p.gross)}</div>`:''}
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 ${itemNames.a} (${(w.priceA||0).toLocaleString()}원)</label>
+          <input type="number" id="qa-${w.id}" value="${qa}" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-${w.id}">${qa?won(Number(qa)*(w.priceA||0)):''}</div>
         </div>
-        <div class="daily-inputs">
-          <div class="daily-field">
-            <label style="color:var(--orange2)">🅰 ${itemNames.a} (${(w.priceA||0).toLocaleString()}원)</label>
-            <input type="number" id="qa-${w.id}" value="${qa}" placeholder="0" inputmode="numeric" min="0">
-            <div class="daily-field-sub" id="sub-a-${w.id}">${qa?won(Number(qa)*(w.priceA||0)):''}</div>
-          </div>
-          <div class="daily-field">
-            <label style="color:var(--accent2)">🅱 ${itemNames.b} (${(w.priceB||0).toLocaleString()}원)</label>
-            <input type="number" id="qb-${w.id}" value="${qb}" placeholder="0" inputmode="numeric" min="0">
-            <div class="daily-field-sub" id="sub-b-${w.id}">${qb?won(Number(qb)*(w.priceB||0)):''}</div>
-          </div>
-          <div class="daily-field">
-            <label style="color:var(--pink2)">🅲 ${itemNames.c} (${(w.priceC||0).toLocaleString()}원)</label>
-            <input type="number" id="qc-${w.id}" value="${qc}" placeholder="0" inputmode="numeric" min="0">
-            <div class="daily-field-sub" id="sub-c-${w.id}">${qc?won(Number(qc)*(w.priceC||0)):''}</div>
-          </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 ${itemNames.b} (${(w.priceB||0).toLocaleString()}원)</label>
+          <input type="number" id="qb-${w.id}" value="${qb}" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-${w.id}">${qb?won(Number(qb)*(w.priceB||0)):''}</div>
         </div>
-      </div>`;
-    }).join('')}
-    <div style="height:8px"></div>
-    <button class="btn-primary green" onclick="saveAdminDaily()">${isEdit?'✏️ 수정 저장':'💾 저장하기'}</button>
-    ${isEdit?`<button class="btn-secondary" onclick="askDeleteRecord('${adminInputDate}')">🗑 이 날 기록 삭제</button>`:''}
-    <div style="height:20px"></div>`;
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 ${itemNames.c} (${(w.priceC||0).toLocaleString()}원)</label>
+          <input type="number" id="qc-${w.id}" value="${qc}" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-${w.id}">${qc?won(Number(qc)*(w.priceC||0)):''}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join('')}
+  <div style="height:8px"></div>
+  <button class="btn-primary green" onclick="saveAdminDaily()">${isEdit?'✏️ 수정 저장':'💾 저장하기'}</button>
+  ${isEdit?`<button class="btn-secondary" onclick="askDeleteRecord('${adminInputDate}')">🗑 이 날 기록 삭제</button>`:''}
+  <div style="height:20px"></div>`;
 }
 
 function renderAdminWorkerMode(){
@@ -1504,14 +1296,14 @@ function bindAdminDailyEvents(){
         const qB=document.getElementById(`qb-${w.id}`)?.value||'';
         const qC=document.getElementById(`qc-${w.id}`)?.value||'';
         const p=calcPay(w,qA,qB,qC);
-        
+
         const subA=document.getElementById(`sub-a-${w.id}`);
         const subB=document.getElementById(`sub-b-${w.id}`);
         const subC=document.getElementById(`sub-c-${w.id}`);
         if(subA) subA.textContent=qA?won(Number(qA)*(w.priceA||0)):'';
         if(subB) subB.textContent=qB?won(Number(qB)*(w.priceB||0)):'';
         if(subC) subC.textContent=qC?won(Number(qC)*(w.priceC||0)):'';
-        
+
         const row=document.getElementById(`dwr-${w.id}`);
         if(row) row.classList.toggle('has-data',p.qty>0);
         const badge=document.querySelector(`#dwr-${w.id} .daily-total-badge`);
@@ -1632,24 +1424,24 @@ function renderAdminStats(){
   });
   const sorted=Object.values(totals).filter(x=>x.gross>0).sort((a,b)=>b.gross-a.gross);
   return pBar+navHtml+`
-    <div class="stat-summary">
-      <div class="stat-title admin">💰 ${title} 요약</div>
-      <div class="stat-row"><span class="stat-row-lbl">📦 총 배송량</span><span class="stat-row-val">${gQty.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">📅 기록일수</span><span class="stat-row-val">${filtered.length}일</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">👥 활동 배달원</span><span class="stat-row-val">${sorted.length}명</span></div>
-      <hr class="stat-sep">
-      <div class="stat-total">${won(gGross)}</div>
-      <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 합계: ${won(gNet)}</div>
-      <div style="font-size:10px;color:var(--red);margin-top:3px">세금(3.3%): -${won(gGross-gNet)}</div>
-    </div>
-    <div class="sec-title">개인별 정산 <span style="font-weight:400;color:var(--sub2)">(탭하면 상세)</span></div>
-    ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
-      <div class="wsc-rank">${i+1}</div>
-      <div class="wsc-avatar">${av(t.w.name)}</div>
-      <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div class="wsc-detail">🅰${t.qtyA.toLocaleString()} · 🅱${t.qtyB.toLocaleString()} · 🅲${t.qtyC.toLocaleString()}</div></div>
-      <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
-    </div>`).join('')}
-    <div style="height:20px"></div>`;
+  <div class="stat-summary">
+    <div class="stat-title admin">💰 ${title} 요약</div>
+    <div class="stat-row"><span class="stat-row-lbl">📦 총 배송량</span><span class="stat-row-val">${gQty.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">📅 기록일수</span><span class="stat-row-val">${filtered.length}일</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">👥 활동 배달원</span><span class="stat-row-val">${sorted.length}명</span></div>
+    <hr class="stat-sep">
+    <div class="stat-total">${won(gGross)}</div>
+    <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 합계: ${won(gNet)}</div>
+    <div style="font-size:10px;color:var(--red);margin-top:3px">세금(3.3%): -${won(gGross-gNet)}</div>
+  </div>
+  <div class="sec-title">개인별 정산 <span style="font-weight:400;color:var(--sub2)">(탭하면 상세)</span></div>
+  ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
+    <div class="wsc-rank">${i+1}</div>
+    <div class="wsc-avatar">${av(t.w.name)}</div>
+    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div class="wsc-detail">🅰${t.qtyA.toLocaleString()} · 🅱${t.qtyB.toLocaleString()} · 🅲${t.qtyC.toLocaleString()}</div></div>
+    <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
+  </div>`).join('')}
+  <div style="height:20px"></div>`;
 }
 
 function renderWorkerDetail(){
@@ -1660,27 +1452,27 @@ function renderWorkerDetail(){
   let tG=0,tN=0,tA=0,tB=0,tC=0;
   days.forEach(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC); tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c; });
   return `<button class="back-btn" onclick="detailWorkerId=null;render()">◀ 목록으로</button>
-    <div class="detail-header">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-        <div class="wsc-avatar" style="width:46px;height:46px;font-size:20px">${av(w.name)}</div>
-        <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 지급액</div><div style="font-size:17px;font-weight:900;color:var(--accent3)">${won(tG)}</div></div>
-        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">실수령</div><div style="font-size:17px;font-weight:900;color:var(--green2)">${won(tN)}</div></div>
-        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB+tC).toLocaleString()}건</div></div>
-        <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">세금공제(3.3%)</div><div style="font-size:16px;font-weight:900;color:var(--red)">-${won(tG-tN)}</div></div>
-      </div>
+  <div class="detail-header">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+      <div class="wsc-avatar" style="width:46px;height:46px;font-size:20px">${av(w.name)}</div>
+      <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div></div>
     </div>
-    <div class="sec-title">일별 상세 (${days.length}일)</div>
-    ${days.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
-      return `<div class="detail-day-row">
-        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div></div>
-        <div style="text-align:right"><div class="ddr-pay">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
-      </div>`;
-    }).join('')}
-    ${!days.length?`<div class="empty" style="padding:30px 0">해당 기간 기록 없음</div>`:''}
-    <div style="height:20px"></div>`;
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 지급액</div><div style="font-size:17px;font-weight:900;color:var(--accent3)">${won(tG)}</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">실수령</div><div style="font-size:17px;font-weight:900;color:var(--green2)">${won(tN)}</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB+tC).toLocaleString()}건</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">세금공제(3.3%)</div><div style="font-size:16px;font-weight:900;color:var(--red)">-${won(tG-tN)}</div></div>
+    </div>
+  </div>
+  <div class="sec-title">일별 상세 (${days.length}일)</div>
+  ${days.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+    return `<div class="detail-day-row">
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div></div>
+      <div style="text-align:right"><div class="ddr-pay">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
+    </div>`;
+  }).join('')}
+  ${!days.length?`<div class="empty" style="padding:30px 0">해당 기간 기록 없음</div>`:''}
+  <div style="height:20px"></div>`;
 }
 
 // ══════════════════════════════════════════
@@ -1698,51 +1490,51 @@ function renderMyInput(){
   const dow=fmtDay(myInputDate);
 
   return `
-    <div class="my-input-header">
-      <div class="my-input-name">안녕하세요, ${w.name}님 👋</div>
-      <div class="my-input-sub">오늘의 배송 수량을 입력해주세요</div>
+  <div class="my-input-header">
+    <div class="my-input-name">안녕하세요, ${w.name}님 👋</div>
+    <div class="my-input-sub">오늘의 배송 수량을 입력해주세요</div>
+  </div>
+  <div class="date-nav" style="margin-bottom:14px">
+    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(-1)">◀</button>
+    <div style="text-align:center">
+      <div class="date-nav-label">${fmtDate(myInputDate)} (${dow})</div>
+      <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
     </div>
-    <div class="date-nav" style="margin-bottom:14px">
-      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(-1)">◀</button>
-      <div style="text-align:center">
-        <div class="date-nav-label">${fmtDate(myInputDate)} (${dow})</div>
-        <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
-      </div>
-      <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(1)">▶</button>
+    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(1)">▶</button>
+  </div>
+  <div class="my-qty-grid">
+    <div class="my-qty-box">
+      <div class="my-qty-label a">🅰 ${itemNames.a}</div>
+      <input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0">
     </div>
-    <div class="my-qty-grid">
-      <div class="my-qty-box">
-        <div class="my-qty-label a">🅰 ${itemNames.a}</div>
-        <input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0">
-      </div>
-      <div class="my-qty-box">
-        <div class="my-qty-label b">🅱 ${itemNames.b}</div>
-        <input class="my-qty-input" type="number" id="my-qb" value="${qb}" placeholder="0" inputmode="numeric" min="0">
-      </div>
-      <div class="my-qty-box">
-        <div class="my-qty-label c">🅲 ${itemNames.c}</div>
-        <input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0">
-      </div>
+    <div class="my-qty-box">
+      <div class="my-qty-label b">🅱 ${itemNames.b}</div>
+      <input class="my-qty-input" type="number" id="my-qb" value="${qb}" placeholder="0" inputmode="numeric" min="0">
     </div>
-    ${p.qty>0?`<div class="my-calc-box">
-      <div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div>
-      <hr class="my-calc-sep">
-      <div style="font-size:10px;color:var(--sub);margin-bottom:4px">예상 수령액</div>
-      <div class="my-calc-total">${won(p.gross)}</div>
-      <div style="font-size:11px;color:var(--teal2);margin-top:4px">실수령 (3.3% 공제): ${won(p.net)}</div>
-    </div>`:''}
-    <button class="btn-primary teal" onclick="saveMyRecord()">💾 저장하기</button>
-    <div style="height:20px"></div>`;
+    <div class="my-qty-box">
+      <div class="my-qty-label c">🅲 ${itemNames.c}</div>
+      <input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0">
+    </div>
+  </div>
+  ${p.qty>0?`<div class="my-calc-box">
+    <div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div>
+    <hr class="my-calc-sep">
+    <div style="font-size:10px;color:var(--sub);margin-bottom:4px">예상 수령액</div>
+    <div class="my-calc-total">${won(p.gross)}</div>
+    <div style="font-size:11px;color:var(--teal2);margin-top:4px">실수령 (3.3% 공제): ${won(p.net)}</div>
+  </div>`:''}
+  <button class="btn-primary teal" onclick="saveMyRecord()">💾 저장하기</button>
+  <div style="height:20px"></div>`;
 }
 
 function bindMyInputEvents(){
   const w=workers.find(x=>x.id===currentUser.workerId); if(!w) return;
   const updateCalc = () => {
-      myQtyA=document.getElementById('my-qa')?.value||'';
-      myQtyB=document.getElementById('my-qb')?.value||'';
-      myQtyC=document.getElementById('my-qc')?.value||'';
-      const p=calcPay(w,myQtyA,myQtyB,myQtyC);
-      refreshMyCalc(p);
+    myQtyA=document.getElementById('my-qa')?.value||'';
+    myQtyB=document.getElementById('my-qb')?.value||'';
+    myQtyC=document.getElementById('my-qc')?.value||'';
+    const p=calcPay(w,myQtyA,myQtyB,myQtyC);
+    refreshMyCalc(p);
   };
   document.getElementById('my-qa')?.addEventListener('input', updateCalc);
   document.getElementById('my-qb')?.addEventListener('input', updateCalc);
@@ -1792,8 +1584,8 @@ async function saveMyRecord(){
   showToast('💾 저장 중...');
   try {
     const {error}=await db.from('daily_records').upsert({
-        work_date:myInputDate, worker_id:w.id,
-        qty_a:Number(qa)||0, qty_b:Number(qb)||0, qty_c:Number(qc)||0
+      work_date:myInputDate, worker_id:w.id,
+      qty_a:Number(qa)||0, qty_b:Number(qb)||0, qty_c:Number(qc)||0
     },{onConflict:'work_date,worker_id'});
     if(error) throw error;
     
@@ -1802,7 +1594,7 @@ async function saveMyRecord(){
     if(idx>=0){ dailyRecords[idx].data[w.id]=entry; }
     else { dailyRecords.unshift({date:myInputDate,data:{[w.id]:entry}}); }
     dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-    
+
     myQtyA=''; myQtyB=''; myQtyC='';
     updateSummary();
     showToast('✅ 저장 완료!');
@@ -1856,28 +1648,28 @@ function renderMyStats(){
   });
   const avgQty=filtered.length?Math.round(tQty/filtered.length):0;
   return pBar+navHtml+`
-    <div class="stat-summary worker-stat">
-      <div class="stat-title worker">📊 ${title} 내 통계</div>
-      <div class="stat-row"><span class="stat-row-lbl">📅 배송일수</span><span class="stat-row-val">${filtered.length}일</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">🅰 ${itemNames.a}</span><span class="stat-row-val">${tQtyA.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">🅱 ${itemNames.b}</span><span class="stat-row-val">${tQtyB.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tQtyC.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQty.toLocaleString()}건</span></div>
-      <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${avgQty.toLocaleString()}건</span></div>
-      <hr class="stat-sep">
-      <div class="stat-title worker" style="margin-bottom:6px">💰 예상 수령액</div>
-      <div class="stat-total" style="color:var(--teal2)">${won(tGross)}</div>
-      <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 (3.3% 공제): ${won(tNet)}</div>
-      <div style="font-size:10px;color:var(--red);margin-top:3px">세금 공제액: -${won(tGross-tNet)}</div>
-    </div>
-    <div class="sec-title">일별 내역 (${filtered.length}일)</div>
-    ${filtered.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
-      return `<div class="detail-day-row">
-        <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} · 🅱${p.b} · 🅲${p.c}</div></div>
-        <div style="text-align:right"><div class="ddr-pay" style="color:var(--teal2)">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
-      </div>`;
-    }).join('')}
-    <div style="height:20px"></div>`;
+  <div class="stat-summary worker-stat">
+    <div class="stat-title worker">📊 ${title} 내 통계</div>
+    <div class="stat-row"><span class="stat-row-lbl">📅 배송일수</span><span class="stat-row-val">${filtered.length}일</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅰 ${itemNames.a}</span><span class="stat-row-val">${tQtyA.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅱 ${itemNames.b}</span><span class="stat-row-val">${tQtyB.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tQtyC.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQty.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${avgQty.toLocaleString()}건</span></div>
+    <hr class="stat-sep">
+    <div class="stat-title worker" style="margin-bottom:6px">💰 예상 수령액</div>
+    <div class="stat-total" style="color:var(--teal2)">${won(tGross)}</div>
+    <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 (3.3% 공제): ${won(tNet)}</div>
+    <div style="font-size:10px;color:var(--red);margin-top:3px">세금 공제액: -${won(tGross-tNet)}</div>
+  </div>
+  <div class="sec-title">일별 내역 (${filtered.length}일)</div>
+  ${filtered.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+    return `<div class="detail-day-row">
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} · 🅱${p.b} · 🅲${p.c}</div></div>
+      <div style="text-align:right"><div class="ddr-pay" style="color:var(--teal2)">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
+    </div>`;
+  }).join('')}
+  <div style="height:20px"></div>`;
 }
 
 // ══════════════════════════════════════════
@@ -1889,8 +1681,8 @@ async function saveDailyToDB(date, data){
   const rows=Object.entries(data)
     .filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0)
     .map(([wid,d])=>({
-        work_date:date, worker_id:Number(wid),
-        qty_a:Number(d.qtyA)||0, qty_b:Number(d.qtyB)||0, qty_c:Number(d.qtyC)||0
+      work_date:date, worker_id:Number(wid),
+      qty_a:Number(d.qtyA)||0, qty_b:Number(d.qtyB)||0, qty_c:Number(d.qtyC)||0
     }));
   if(rows.length>0){
     const {error:ie}=await db.from('daily_records').insert(rows);
@@ -1902,11 +1694,11 @@ async function saveDailyToDB(date, data){
 function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
-  
+
   const okBtn = document.getElementById('dlg-ok');
   okBtn.textContent=btnLabel;
   okBtn.style.background = isDanger ? 'var(--red)' : 'var(--teal)';
-  
+
   confirmAction=action;
   document.getElementById('confirm-overlay').classList.add('show');
 }
@@ -1936,8 +1728,8 @@ async function importData(e){
       for(const w of (data.workers||[])){
         if(!existIds.has(w.id)){
           const {data:d,error}=await db.from('workers').insert({
-              name:w.name, price_a:w.priceA, price_b:w.priceB, price_c:w.priceC||0,
-              region:w.region||'', access_codes:w.codes||[]
+            name:w.name, price_a:w.priceA, price_b:w.priceB, price_c:w.priceC||0,
+            region:w.region||'', access_codes:w.codes||[]
           }).select().single();
           if(!error) workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,loginId:'',codes:w.codes||[]});
         }
@@ -2016,8 +1808,65 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
+// ══════════════════════════════════════════
+//  👇 드래그 앤 드롭 순서 변경 로직 (새로 추가)
+// ══════════════════════════════════════════
+function initSortableCodes() {
+  if (typeof Sortable === 'undefined') return;
+
+  // 1. 그룹 순서 변경
+  const groupList = document.getElementById('cn-group-list');
+  if (groupList) {
+    new Sortable(groupList, {
+      handle: '.code-drag-handle',
+      animation: 150,
+      onEnd: updateCodeOrderFromDOM
+    });
+  }
+
+  // 2. 세부 주소 순서 변경 (그룹 간 이동 가능)
+  const itemLists = document.querySelectorAll('.cn-items');
+  itemLists.forEach(list => {
+    new Sortable(list, {
+      group: 'items', 
+      handle: '.code-drag-handle',
+      animation: 150,
+      onEnd: updateCodeOrderFromDOM
+    });
+  });
+}
+
+function updateCodeOrderFromDOM() {
+  const wid = getActiveCodeWorkerId();
+  const w = getCodeWorker(wid);
+  if (!w) return;
+
+  const allItems = [];
+  w.codes.forEach(g => g.items.forEach(i => allItems.push(i)));
+
+  const newCodes = [];
+  const groupEls = document.querySelectorAll('#cn-group-list > .cn-group');
+  
+  groupEls.forEach(gEl => {
+    const gId = gEl.getAttribute('data-id');
+    const oldGroup = w.codes.find(x => x.id === gId);
+    if (oldGroup) {
+      const newGroup = { ...oldGroup, items: [] };
+      const itemEls = gEl.querySelectorAll('.cn-items > .cn-item');
+      itemEls.forEach(iEl => {
+        const iId = iEl.getAttribute('data-id');
+        const itemObj = allItems.find(x => x.id === iId);
+        if (itemObj) newGroup.items.push(itemObj);
+      });
+      newCodes.push(newGroup);
+    }
+  });
+
+  syncCodesToDB(wid, newCodes);
+}
+
 const savedUser=sessionStorage.getItem('mgr-user');
-if(savedUser && savedUser !== 'undefined'){
+if(savedUser){
   try{
     currentUser=JSON.parse(savedUser);
     document.getElementById('login-wrap').classList.add('hide');
@@ -2030,4 +1879,4 @@ if(savedUser && savedUser !== 'undefined'){
 }
 </script>
 </body>
-</html>
+</html> 
