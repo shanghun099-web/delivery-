@@ -193,7 +193,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 .ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .ddr-net{font-size:10px;color:var(--green2);text-align:right}
 
-/* ── 출입코드 노트 (폴더, 하위폴더 계층 구조 UI) ── */
+/* ── 출입코드 노트 (폴더 구조) ── */
 .cn-wrap { padding-bottom: 20px; }
 .cn-search { width: 100%; padding: 12px 16px 12px 40px; background: var(--card2) url('data:image/svg+xml;utf8,<svg fill="%235c6080" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 12px center/18px;
 border: 1.5px solid var(--border); border-radius: 12px; color: var(--text); font-size: 14px; outline: none; transition: border 0.2s; margin-bottom: 14px; font-family: inherit; }
@@ -208,7 +208,7 @@ background: linear-gradient(90deg, rgba(255,152,0,0.05) 0%, transparent 100%); c
 .cn-subs { padding: 10px; display: none; background: var(--bg); }
 .cn-folder.open > .cn-subs { display: block; }
 
-/* 소그룹 (하위폴더) */
+/* 소그룹 (하위폴더) - 소그룹이라는 글씨를 없애고 아이콘과 이름만 표시 */
 .cn-sub { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
 .cn-sub-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-left: 3px solid var(--teal);
 background: linear-gradient(90deg, rgba(0,188,212,0.05) 0%, transparent 100%); cursor: pointer; user-select: none; }
@@ -228,7 +228,6 @@ background: linear-gradient(90deg, rgba(0,188,212,0.05) 0%, transparent 100%); c
 .cn-btn { width: 28px; height: 28px; border-radius: 8px; border: none; font-size: 13px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: rgba(255,255,255,0.05); color: var(--sub); transition: all 0.2s; }
 .cn-btn:hover { background: rgba(255,255,255,0.1); color: var(--text); }
 .cn-btn.add { color: var(--orange2); background: rgba(255,152,0,0.1); }
-.cn-btn.bulk { color: var(--teal2); background: rgba(0,188,212,0.1); width: auto; padding: 0 8px; font-size: 11px; font-weight: 700; }
 .cn-empty { padding: 20px; text-align: center; color: var(--sub); font-size: 12px; }
 
 /* ── 모달/오버레이 ── */
@@ -399,16 +398,27 @@ background: linear-gradient(90deg, rgba(0,188,212,0.05) 0%, transparent 100%); c
 <div class="field"><label>출입코드 (예: 1234*)</label><input type="text" id="ce-icode"></div>
 </div>
 
-<div id="ce-bulk-fields" style="display:none">
-<div class="field">
-<label>메모장 텍스트 붙여넣기 (일괄등록)</label>
-<textarea id="ce-bulk" rows="6" placeholder="예시:&#10;101호 1234*&#10;102호 #5678&#10;103호 종1111" style="line-height:1.5;"></textarea>
-</div>
-<p style="font-size:11px; color:var(--sub); margin-bottom:14px;">※ 주소와 코드를 띄어쓰기로 구분해서 한 줄에 하나씩 입력하세요.</p>
-</div>
-
 <button class="btn-primary orange" onclick="saveCodeEntry()">💾 저장</button>
 <button class="btn-secondary" onclick="document.getElementById('code-edit-sheet').classList.remove('show')">취소</button>
+</div>
+</div>
+
+<div class="bsoverlay" id="smart-bulk-sheet" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title">📝 스마트 일괄등록</div>
+<div class="bs-sub">카톡이나 메모장의 텍스트를 그대로 붙여넣으세요!</div>
+<div class="field">
+<textarea id="sb-text" rows="8" placeholder="예시:&#10;삼성아파트&#10;101동&#10;101호 1234*&#10;102호 #5678&#10;&#10;현대아파트&#10;102동&#10;201호 종1111" style="line-height:1.5; font-size:13px;"></textarea>
+</div>
+<div style="background:rgba(0,188,212,0.1); border-radius:10px; padding:12px; margin-bottom:14px; font-size:11px; color:var(--sub); line-height:1.6;">
+  <span style="color:var(--teal2); font-weight:700;">💡 작성 팁</span><br>
+  1. 글자만 있으면 <b>자동으로 폴더/하위폴더</b>로 만들어집니다.<br>
+  2. 숫자나 기호(별, 우물정, 종 등)가 포함되어 띄어쓰기로 분리되어 있으면 <b>자동으로 출입코드</b>로 들어갑니다!
+</div>
+
+<button class="btn-primary teal" onclick="saveSmartBulk()">🚀 마법의 자동 정리 시작</button>
+<button class="btn-secondary" onclick="document.getElementById('smart-bulk-sheet').classList.remove('show')">취소</button>
 </div>
 </div>
 
@@ -642,10 +652,9 @@ async function loadAll(){
     
     workers=(w||[]).map(x=> {
       let codes = x.access_codes || [];
-      // 👇 과거 데이터 ➔ 폴더/하위폴더 구조로 자동 이사 (에러 방지용)
       codes.forEach(c => {
         if(c.items && !c.subs) {
-          c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위폴더', items: c.items }];
+          c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위', items: c.items }];
           delete c.items;
         }
       });
@@ -872,12 +881,12 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 노트 렌더링 (대그룹 ➔ 소그룹 ➔ 주소 구조)
+//  출입코드 노트 렌더링 (대그룹 ➔ 하위 ➔ 주소 구조, "소그룹" 글씨 삭제)
 // ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
     let codes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
-    codes.forEach(c => { if(c.items && !c.subs) { c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위폴더', items: c.items }]; delete c.items; }});
+    codes.forEach(c => { if(c.items && !c.subs) { c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위', items: c.items }]; delete c.items; }});
     return { id: 'admin', name: '👑 관리자 마스터', codes: codes };
   }
   return workers.find(x => x.id == wid);
@@ -912,15 +921,18 @@ function renderCodeNoteCore(workerTarget) {
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px">
       <div style="font-size:16px; font-weight:900; color:var(--orange2)">🔑 ${workerTarget.name} 노트</div>
       <div style="display:flex; gap:6px;">
-        <button class="btn-primary orange" style="width:auto; padding:8px 10px; margin:0; font-size:11px" onclick="openCodeEdit(null, null, null, 'add-folder')">+ 대그룹(폴더)</button>
-        <button class="btn-primary teal" style="width:auto; padding:8px 10px; margin:0; font-size:11px" onclick="exportCodesCSV('${workerTarget.id}')">📊 엑셀</button>
+        <button class="btn-primary teal" style="width:auto; padding:8px 10px; margin:0; font-size:11px" onclick="openSmartBulkSheet()">📝 스마트 일괄등록</button>
       </div>
+    </div>
+    <div style="display:flex; gap:6px; margin-bottom:12px;">
+      <button class="btn-primary orange" style="width:100%; padding:10px; margin:0; font-size:13px" onclick="openCodeEdit(null, null, null, 'add-folder')">+ 대그룹(폴더) 추가</button>
+      <button class="btn-primary" style="width:100%; padding:10px; margin:0; font-size:13px; background:linear-gradient(135deg,#007a6a,#00bcd4);" onclick="exportCodesCSV('${workerTarget.id}')">📊 엑셀 다운로드</button>
     </div>
     <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">
   `;
 
   if(!codes.length) {
-    html += `<div class="cn-empty">${codeSearchQuery ? '검색 결과가 없습니다' : '등록된 출입코드가 없습니다.<br>상단 [+대그룹(폴더)] 버튼을 눌러 그룹을 먼저 추가하세요.'}</div>`;
+    html += `<div class="cn-empty">${codeSearchQuery ? '검색 결과가 없습니다' : '등록된 출입코드가 없습니다.<br>상단 [+대그룹 추가] 또는 [스마트 일괄등록]을 눌러 추가하세요.'}</div>`;
   } else {
     html += `<div id="cn-folder-list">`;
     html += codes.map(f => {
@@ -932,9 +944,9 @@ function renderCodeNoteCore(workerTarget) {
             <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
             <div class="cn-folder-title"><div class="cn-folder-icon">📁</div>${f.name}</div>
           </div>
-          <div class="cn-group-stat">${f.subs.length}개 소그룹 · 총 ${totalItems}개</div>
+          <div class="cn-group-stat">${f.subs.length}개 하위 · 총 ${totalItems}개</div>
           <div class="cn-actions" onclick="event.stopPropagation()">
-            <button class="cn-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-sub')">+소그룹</button>
+            <button class="cn-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-sub')">+하위</button>
             <button class="cn-btn" onclick="openCodeEdit('${f.id}', null, null, 'edit-folder')">✏️</button>
             <button class="cn-btn" onclick="askDeleteCodeFolder('${f.id}')">🗑</button>
           </div>
@@ -949,7 +961,6 @@ function renderCodeNoteCore(workerTarget) {
               </div>
               <div class="cn-actions" onclick="event.stopPropagation()">
                 <button class="cn-btn add" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'add-item')">+</button>
-                <button class="cn-btn bulk" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'add-bulk')">📝일괄</button>
                 <button class="cn-btn" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'edit-sub')">✏️</button>
                 <button class="cn-btn" onclick="askDeleteCodeSub('${f.id}', '${s.id}')">🗑</button>
               </div>
@@ -974,7 +985,7 @@ function renderCodeNoteCore(workerTarget) {
             </div>
           </div>
           `).join('')}
-          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더(소그룹)가 없습니다. [+소그룹]을 눌러 추가하세요.</div>` : ''}
+          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더가 없습니다. [+하위]를 눌러 추가하세요.</div>` : ''}
         </div>
       </div>
       `}).join('');
@@ -1021,7 +1032,7 @@ function renderMyCodes(){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 추가/수정/일괄등록/삭제 로직
+//  출입코드 추가/수정/삭제 로직
 // ══════════════════════════════════════════
 function getActiveCodeWorkerId() {
   return currentUser.role === 'admin' ? adminSelectedCodeWorkerId : currentUser.workerId;
@@ -1055,12 +1066,10 @@ function openCodeEdit(folderId, subId, itemId, mode) {
   document.getElementById('ce-folder-fields').style.display = 'none';
   document.getElementById('ce-sub-fields').style.display = 'none';
   document.getElementById('ce-item-fields').style.display = 'none';
-  document.getElementById('ce-bulk-fields').style.display = 'none';
   document.getElementById('ce-fname').value = '';
   document.getElementById('ce-sname').value = '';
   document.getElementById('ce-iaddr').value = '';
   document.getElementById('ce-icode').value = '';
-  document.getElementById('ce-bulk').value = '';
 
   if(mode === 'add-folder') {
     document.getElementById('ce-title').textContent = '새 대그룹(폴더) 추가';
@@ -1077,7 +1086,7 @@ function openCodeEdit(folderId, subId, itemId, mode) {
     setTimeout(()=>document.getElementById('ce-fname').focus(), 300);
   }
   else if(mode === 'add-sub') {
-    document.getElementById('ce-title').textContent = '새 소그룹(하위폴더) 추가';
+    document.getElementById('ce-title').textContent = '새 하위폴더 추가';
     document.getElementById('ce-sub').textContent = '동 이름이나 세부 단지를 입력하세요';
     document.getElementById('ce-sub-fields').style.display = 'block';
     setTimeout(()=>document.getElementById('ce-sname').focus(), 300);
@@ -1085,8 +1094,8 @@ function openCodeEdit(folderId, subId, itemId, mode) {
   else if(mode === 'edit-sub') {
     const f = w.codes.find(x => x.id == folderId);
     const s = f.subs.find(x => x.id == subId);
-    document.getElementById('ce-title').textContent = '소그룹명 수정';
-    document.getElementById('ce-sub').textContent = '새로운 소그룹명을 입력하세요';
+    document.getElementById('ce-title').textContent = '하위폴더명 수정';
+    document.getElementById('ce-sub').textContent = '새로운 하위폴더명을 입력하세요';
     document.getElementById('ce-sub-fields').style.display = 'block';
     document.getElementById('ce-sname').value = s.name;
     setTimeout(()=>document.getElementById('ce-sname').focus(), 300);
@@ -1108,12 +1117,6 @@ function openCodeEdit(folderId, subId, itemId, mode) {
     document.getElementById('ce-icode').value = i.code;
     setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
   }
-  else if(mode === 'add-bulk') {
-    document.getElementById('ce-title').textContent = '메모장 일괄 등록';
-    document.getElementById('ce-sub').textContent = '복사한 주소와 코드를 붙여넣기 하세요';
-    document.getElementById('ce-bulk-fields').style.display = 'block';
-    setTimeout(()=>document.getElementById('ce-bulk').focus(), 300);
-  }
   
   document.getElementById('code-edit-sheet').classList.add('show');
 }
@@ -1132,7 +1135,7 @@ function saveCodeEntry() {
   }
   else if(codeEditMode === 'add-sub' || codeEditMode === 'edit-sub') {
     const name = document.getElementById('ce-sname').value.trim();
-    if(!name) { showToast('소그룹명을 입력하세요'); return; }
+    if(!name) { showToast('하위폴더명을 입력하세요'); return; }
     const f = newCodes.find(x => x.id == codeEditTargetFolderId);
     if(codeEditMode === 'add-sub') f.subs.push({ id: 's_'+Date.now(), name: name, items: [] });
     else { const s = f.subs.find(x => x.id == codeEditTargetSubId); if(s) s.name = name; }
@@ -1145,25 +1148,6 @@ function saveCodeEntry() {
     const s = f.subs.find(x => x.id == codeEditTargetSubId);
     if(codeEditMode === 'add-item') s.items.push({ id: 'i_'+Date.now()+Math.random().toString(36).substr(2,5), addr: addr, code: code });
     else { const i = s.items.find(x => x.id == codeEditTargetItemId); if(i) { i.addr = addr; i.code = code; } }
-  }
-  else if(codeEditMode === 'add-bulk') {
-    const text = document.getElementById('ce-bulk').value.trim();
-    if(!text) { showToast('내용을 입력해주세요'); return; }
-    const lines = text.split('\n');
-    const f = newCodes.find(x => x.id == codeEditTargetFolderId);
-    const s = f.subs.find(x => x.id == codeEditTargetSubId);
-    let count = 0;
-    lines.forEach(line => {
-      const parts = line.trim().split(/\s+/);
-      if(parts.length >= 2) {
-        const code = parts.pop();
-        const addr = parts.join(' ');
-        s.items.push({ id: 'i_'+Date.now()+Math.random().toString(36).substr(2,5), addr: addr, code: code });
-        count++;
-      }
-    });
-    if(count === 0) { showToast('⚠️ 등록된 항목이 없습니다. 양식을 확인하세요.'); return; }
-    showToast(`✅ ${count}개 항목 일괄 등록 완료`);
   }
 
   document.getElementById('code-edit-sheet').classList.remove('show');
@@ -1179,7 +1163,7 @@ function askDeleteCodeFolder(folderId) {
   });
 }
 function askDeleteCodeSub(folderId, subId) {
-  openConfirm('🗑 소그룹 삭제', '이 하위폴더의 모든 주소와 코드가 삭제됩니다.\n계속하시겠습니까?', '삭제', () => {
+  openConfirm('🗑 하위폴더 삭제', '이 하위폴더의 모든 주소와 코드가 삭제됩니다.\n계속하시겠습니까?', '삭제', () => {
     const wid = getActiveCodeWorkerId(); const w = getCodeWorker(wid);
     if(!w) return;
     let newCodes = JSON.parse(JSON.stringify(w.codes));
@@ -1199,13 +1183,93 @@ function askDeleteCodeItem(folderId, subId, itemId) {
 }
 
 // ══════════════════════════════════════════
-//  출입코드 엑셀 (CSV) 전용 내보내기 로직 (새 기능)
+//  스마트 일괄등록 마법사 (자동 분류 로직)
+// ══════════════════════════════════════════
+function openSmartBulkSheet() {
+  document.getElementById('sb-text').value = '';
+  document.getElementById('smart-bulk-sheet').classList.add('show');
+  setTimeout(()=>document.getElementById('sb-text').focus(), 300);
+}
+
+function saveSmartBulk() {
+  const text = document.getElementById('sb-text').value.trim();
+  if(!text) { showToast('내용을 붙여넣어 주세요'); return; }
+
+  const wid = getActiveCodeWorkerId();
+  const w = getCodeWorker(wid);
+  if(!w) return;
+  let newCodes = JSON.parse(JSON.stringify(w.codes));
+
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
+
+  let currentFolder = null;
+  let currentSub = null;
+  let count = 0;
+
+  lines.forEach(line => {
+    const parts = line.split(/\s+/);
+    
+    // 패턴 검사: 띄어쓰기가 있고, 마지막 덩어리에 숫자나 특정 기호(*, #, 종, 열쇠 등)가 있으면 코드로 인식
+    if(parts.length >= 2 && /[0-9*#종열쇠]/.test(parts[parts.length-1])) {
+      const code = parts.pop();
+      const addr = parts.join(' ');
+
+      if(!currentFolder) {
+        currentFolder = newCodes.find(f => f.name === '일괄등록 (자동생성)');
+        if(!currentFolder) {
+          currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: '일괄등록 (자동생성)', subs: [] };
+          newCodes.push(currentFolder);
+        }
+      }
+      if(!currentSub) {
+        currentSub = currentFolder.subs.find(s => s.name === '기본 하위');
+        if(!currentSub) {
+          currentSub = { id: 's_'+Date.now()+Math.random().toString(36).substr(2,5), name: '기본 하위', items: [] };
+          currentFolder.subs.push(currentSub);
+        }
+      }
+      currentSub.items.push({ id: 'i_'+Date.now()+Math.random().toString(36).substr(2,5), addr: addr, code: code });
+      count++;
+    } 
+    else {
+      // 코드가 아니라 글자만 있는 경우 (폴더 또는 하위폴더로 분류)
+      if(line.endsWith('아파트') || line.endsWith('단지') || line.endsWith('마을')) {
+         currentFolder = newCodes.find(f => f.name === line);
+         if(!currentFolder) {
+           currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: line, subs: [] };
+           newCodes.push(currentFolder);
+         }
+         currentSub = null; // 폴더가 바뀌면 하위폴더 초기화
+      } else {
+         if(!currentFolder) {
+           currentFolder = newCodes.find(f => f.name === '일괄등록 (자동생성)');
+           if(!currentFolder) {
+             currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: '일괄등록 (자동생성)', subs: [] };
+             newCodes.push(currentFolder);
+           }
+         }
+         currentSub = currentFolder.subs.find(s => s.name === line);
+         if(!currentSub) {
+           currentSub = { id: 's_'+Date.now()+Math.random().toString(36).substr(2,5), name: line, items: [] };
+           currentFolder.subs.push(currentSub);
+         }
+      }
+    }
+  });
+
+  document.getElementById('smart-bulk-sheet').classList.remove('show');
+  syncCodesToDB(wid, newCodes);
+  showToast(`✅ ${count}개 항목 스마트 일괄등록 완료!`);
+}
+
+// ══════════════════════════════════════════
+//  출입코드 엑셀 (CSV) 전용 내보내기 로직
 // ══════════════════════════════════════════
 function exportCodesCSV(workerId) {
   const w = getCodeWorker(workerId);
   if(!w || !w.codes || !w.codes.length) { showToast('내보낼 출입코드가 없습니다'); return; }
   
-  let rows = ['대그룹(폴더명),소그룹(하위폴더명),상세주소,출입코드'];
+  let rows = ['대그룹(폴더명),하위폴더명,상세주소,출입코드'];
   
   w.codes.forEach(f => {
     (f.subs || []).forEach(s => {
@@ -1893,25 +1957,31 @@ function showToast(msg){
 }
 
 // ══════════════════════════════════════════
-//  👇 드래그 앤 드롭 순서 변경 로직 (폴더-하위폴더 구조 완벽 지원)
+//  👇 드래그 앤 드롭 순서 변경 로직 (민감도 하향 조정 완료)
 // ══════════════════════════════════════════
 function initSortableCodes() {
   if (typeof Sortable === 'undefined') return;
 
-  // 1. 대그룹(폴더) 순서 변경
+  // 모바일 환경에서 스크롤 오작동을 막기 위해 '0.2초(200ms)' 꾹 눌러야 작동하도록 설정합니다.
+  const dragOptions = {
+    handle: '.code-drag-handle',
+    animation: 150,
+    delay: 200,             // 👈 0.2초 꾹 누르기
+    delayOnTouchOnly: true, // 👈 모바일 터치 환경에서만 꾹 누르기 적용
+    onEnd: updateCodeOrderFromDOM
+  };
+
   const folderList = document.getElementById('cn-folder-list');
   if (folderList) {
-    new Sortable(folderList, { handle: '.code-drag-handle', animation: 150, onEnd: updateCodeOrderFromDOM });
+    new Sortable(folderList, { ...dragOptions });
   }
 
-  // 2. 소그룹(하위폴더) 순서 변경 (대그룹 간 이동 허용)
   document.querySelectorAll('.cn-subs').forEach(list => {
-    new Sortable(list, { group: 'subs', handle: '.code-drag-handle', animation: 150, onEnd: updateCodeOrderFromDOM });
+    new Sortable(list, { group: 'subs', ...dragOptions });
   });
 
-  // 3. 주소/코드 항목 순서 변경 (소그룹 간 이동 허용)
   document.querySelectorAll('.cn-items').forEach(list => {
-    new Sortable(list, { group: 'items', handle: '.code-drag-handle', animation: 150, onEnd: updateCodeOrderFromDOM });
+    new Sortable(list, { group: 'items', ...dragOptions });
   });
 }
 
@@ -1920,7 +1990,6 @@ function updateCodeOrderFromDOM() {
   const w = getCodeWorker(wid);
   if (!w) return;
 
-  // 기존 데이터 매핑 준비
   const allFolders = w.codes || [];
   const allSubs = [];
   const allItems = [];
@@ -1977,4 +2046,4 @@ if(savedUser){
 }
 </script>
 </body>
-</html>  
+</html>
