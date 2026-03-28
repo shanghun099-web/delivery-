@@ -208,7 +208,7 @@ background: linear-gradient(90deg, rgba(255,152,0,0.05) 0%, transparent 100%); c
 .cn-subs { padding: 10px; display: none; background: var(--bg); }
 .cn-folder.open > .cn-subs { display: block; }
 
-/* 소그룹 (하위폴더) - 소그룹이라는 글씨를 없애고 아이콘과 이름만 표시 */
+/* 소그룹 (하위폴더) - 소그룹 글씨 삭제, 아이콘 표시 */
 .cn-sub { background: var(--card); border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
 .cn-sub-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-left: 3px solid var(--teal);
 background: linear-gradient(90deg, rgba(0,188,212,0.05) 0%, transparent 100%); cursor: pointer; user-select: none; }
@@ -317,13 +317,11 @@ background: linear-gradient(90deg, rgba(0,188,212,0.05) 0%, transparent 100%); c
 <div class="header-title" id="h-title">배송 관리자</div>
 <div class="header-date" id="h-date"></div>
 </div>
-
 <div class="header-actions">
 <button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
 <div class="hbtn" onclick="openBackup()">💾</div>
 <div class="hbtn" id="btn-settings" onclick="openSettings()">⚙️</div>
 </div>
-
 </div>
 </div>
 <div class="summary-bar cols3" id="summary-bar">
@@ -657,6 +655,8 @@ async function loadAll(){
           c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위', items: c.items }];
           delete c.items;
         }
+        if(!c.subs) c.subs = [];
+        c.subs.forEach(s => { if(!s.items) s.items = []; });
       });
 
       return {
@@ -881,13 +881,24 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  출입코드 노트 렌더링
+//  출입코드 노트 렌더링 (대그룹 ➔ 하위 ➔ 주소 구조, "소그룹" 글씨 삭제, +하위 버튼 부활, 엑셀 삭제)
 // ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
-    let codes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
-    codes.forEach(c => { if(c.items && !c.subs) { c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위', items: c.items }]; delete c.items; }});
-    return { id: 'admin', name: '👑 관리자 마스터', codes: codes };
+    let codes = [];
+    try { codes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || []; } 
+    catch(e) { codes = []; }
+    
+    // 에러 완벽 차단 안전장치
+    codes.forEach(c => { 
+      if(c.items && !c.subs) { 
+        c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 하위', items: c.items }]; 
+        delete c.items; 
+      }
+      if(!c.subs) c.subs = [];
+      c.subs.forEach(s => { if(!s.items) s.items = []; });
+    });
+    return { id: 'admin', name: '👑 관리자 마스터 노트', codes: codes };
   }
   return workers.find(x => x.id == wid);
 }
@@ -904,9 +915,9 @@ function renderCodeNoteCore(workerTarget) {
       let matchedSubs = [];
       (f.subs || []).forEach(s => {
         let sMatch = s.name.toLowerCase().includes(q);
-        let mItems = s.items.filter(i => i.addr.toLowerCase().includes(q) || i.code.toLowerCase().includes(q));
+        let mItems = (s.items || []).filter(i => i.addr.toLowerCase().includes(q) || i.code.toLowerCase().includes(q));
         if(fMatch || sMatch || mItems.length > 0) {
-          matchedSubs.push({ ...s, items: mItems.length > 0 ? mItems : s.items });
+          matchedSubs.push({ ...s, items: mItems.length > 0 ? mItems : (s.items || []) });
         }
       });
       if(fMatch || matchedSubs.length > 0) {
@@ -935,7 +946,8 @@ function renderCodeNoteCore(workerTarget) {
   } else {
     html += `<div id="cn-folder-list">`;
     html += codes.map(f => {
-      let totalItems = 0; (f.subs||[]).forEach(s => totalItems += s.items.length);
+      let totalItems = 0; 
+      (f.subs||[]).forEach(s => totalItems += (s.items||[]).length);
       return `
       <div class="cn-folder ${codeSearchQuery ? 'open' : ''}" data-id="${f.id}">
         <div class="cn-folder-head" onclick="this.parentElement.classList.toggle('open')">
@@ -943,8 +955,9 @@ function renderCodeNoteCore(workerTarget) {
             <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
             <div class="cn-folder-title"><div class="cn-folder-icon">📁</div>${f.name}</div>
           </div>
-          <div class="cn-group-stat">${f.subs.length}개 하위 · 총 ${totalItems}개</div>
+          <div class="cn-group-stat">${(f.subs||[]).length}개 하위 · 총 ${totalItems}개</div>
           <div class="cn-actions" onclick="event.stopPropagation()">
+            <button class="cn-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-sub')">+하위</button>
             <button class="cn-btn" onclick="openCodeEdit('${f.id}', null, null, 'edit-folder')">✏️</button>
             <button class="cn-btn" onclick="askDeleteCodeFolder('${f.id}')">🗑</button>
           </div>
@@ -955,7 +968,7 @@ function renderCodeNoteCore(workerTarget) {
             <div class="cn-sub-head" onclick="this.parentElement.classList.toggle('open')">
               <div style="display:flex; align-items:center;">
                 <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
-                <div class="cn-sub-title">📂 ${s.name} <span style="font-size:10px;color:var(--sub);font-weight:400">(${s.items.length}개)</span></div>
+                <div class="cn-sub-title">📂 ${s.name} <span style="font-size:10px;color:var(--sub);font-weight:400">(${(s.items||[]).length}개)</span></div>
               </div>
               <div class="cn-actions" onclick="event.stopPropagation()">
                 <button class="cn-btn add" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'add-item')">+</button>
@@ -964,7 +977,7 @@ function renderCodeNoteCore(workerTarget) {
               </div>
             </div>
             <div class="cn-items">
-              ${s.items.map(i => `
+              ${(s.items||[]).map(i => `
               <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code}');showToast('📋 복사 완료');">
                 <div style="display:flex; align-items:center; gap:8px;">
                   <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
@@ -979,11 +992,11 @@ function renderCodeNoteCore(workerTarget) {
                 </div>
               </div>
               `).join('')}
-              ${s.items.length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">등록된 주소가 없습니다.</div>` : ''}
+              ${(s.items||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">등록된 주소가 없습니다.</div>` : ''}
             </div>
           </div>
           `).join('')}
-          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더가 없습니다. 일괄등록을 활용해보세요.</div>` : ''}
+          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">하위폴더가 없습니다. [+하위] 버튼을 눌러 추가하세요.</div>` : ''}
         </div>
       </div>
       `}).join('');
@@ -1008,7 +1021,7 @@ function bindCodeSearchEvent() {
   }
 }
 
-// 👑 여기서 "현재 기기" 문구를 삭제했습니다!
+// 👑 "현재 기기" 문구 삭제 반영
 function renderAdminCodes(){
   let selectHtml = `<div style="display:flex; gap:10px; margin-bottom:18px; align-items:center;">
     <div class="ws-wrap" style="flex:1; margin-bottom:0;">
@@ -1262,8 +1275,7 @@ function saveSmartBulk() {
 }
 
 // ══════════════════════════════════════════
-//  출입코드 복사 / 통합 로직 
-//  👑 여기서도 "현재 기기" 문구를 삭제했습니다!
+//  출입코드 복사 / 통합 로직
 // ══════════════════════════════════════════
 function openCodeSyncSheet() {
   const src = document.getElementById('sync-source');
@@ -2019,4 +2031,3 @@ if(savedUser){
 </script>
 </body>
 </html>
-
