@@ -90,14 +90,108 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .btn-primary:active{transform:scale(0.97)}
 .btn-secondary{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;color:var(--sub);background:transparent;cursor:pointer;font-family:inherit;margin-bottom:8px}
 
-/* ── 배달원 선택 드롭다운 ── */
+/* ── 🌟 배달원 및 일별입력 디자인 (복구 완료!) ── */
+.worker-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border-left:4px solid var(--accent);display:flex;align-items:center;gap:12px}
+.worker-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
+.worker-avatar.admin-av{background:linear-gradient(135deg,var(--accent),#8b83ff)}
+.worker-avatar.worker-av{background:linear-gradient(135deg,var(--teal),var(--teal2))}
+.worker-info{flex:1;min-width:0}
+.worker-name{font-size:15px;font-weight:900}
+.worker-prices{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4}
+.worker-btns{display:flex;gap:6px;flex-shrink:0;flex-direction:column}
+.wbtn{padding:7px 10px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;width:34px;height:30px;display:flex;align-items:center;justify-content:center}
+.wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
+.wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
+
+.date-nav{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:14px;border:1.5px solid var(--border)}
+.date-nav-btn{background:transparent;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
+.date-nav-label{font-size:14px;font-weight:900;color:var(--text)}
+.date-nav-sub{font-size:10px;color:var(--sub);text-align:center;margin-top:2px}
+.daily-worker-row{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;border:1.5px solid var(--border);transition:border-color 0.2s}
+.daily-worker-row.has-data{border-color:rgba(108,99,255,0.4)}
+.daily-row-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.daily-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#8b83ff);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
+.daily-name{font-size:14px;font-weight:700;flex:1}
+.daily-total-badge{font-size:12px;font-weight:900;color:var(--green2);background:rgba(0,212,170,0.1);padding:3px 9px;border-radius:20px}
+.daily-inputs{display:grid;grid-template-columns:repeat(3, 1fr);gap:6px}
+.daily-field label{display:block;font-size:9px;color:var(--sub);font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.daily-field input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 4px;font-size:20px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
+.daily-field input:focus{border-color:var(--accent);background:var(--card2)}
+.daily-field-sub{font-size:9px;color:var(--sub);text-align:center;margin-top:4px;min-height:14px;white-space:nowrap}
+.my-input-header{background:linear-gradient(135deg,rgba(0,188,212,0.12),rgba(0,188,212,0.04));border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:16px;margin-bottom:14px}
+.my-input-name{font-size:18px;font-weight:900;color:var(--teal2);margin-bottom:4px}
+.my-input-sub{font-size:11px;color:var(--sub)}
+.my-qty-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:14px}
+.my-qty-box{background:var(--card);border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center}
+.my-qty-label{font-size:10px;font-weight:700;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.my-qty-label.a{color:var(--orange2)}
+.my-qty-label.b{color:var(--accent2)}
+.my-qty-label.c{color:var(--pink2)}
+.my-qty-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 4px;font-size:26px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
+.my-qty-input:focus{border-color:var(--teal)}
+.my-calc-box{background:linear-gradient(135deg,#0a1f1a,#061410);border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:14px;margin-bottom:14px}
+.my-calc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+.my-calc-lbl{color:var(--sub)}
+.my-calc-val{font-weight:700}
+.my-calc-sep{border:none;border-top:1px solid rgba(0,188,212,0.15);margin:8px 0}
+.my-calc-total{font-size:22px;font-weight:900;color:var(--teal2)}
+.rec-day-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid var(--border)}
+.rec-day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.rec-day-date{font-size:15px;font-weight:900}
+.rec-day-total{font-size:13px;font-weight:900;color:var(--green2)}
+.rec-worker-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border-radius:9px;margin-bottom:4px}
+.rec-worker-name{font-size:12px;font-weight:700;flex:1}
+.rec-worker-qty{font-size:10px;color:var(--sub);margin-right:6px;text-align:right}
+.rec-worker-pay{font-size:13px;font-weight:900;color:var(--accent3)}
+.rec-btns{display:flex;gap:6px;margin-top:10px}
+.rec-btn{flex:1;padding:8px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
+.rec-btn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
+.rec-btn-del{background:rgba(255,71,87,0.12);color:var(--red)}
+.my-rec-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:8px;border-left:4px solid var(--teal)}
+.my-rec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.my-rec-date{font-size:14px;font-weight:900;color:var(--teal2)}
+.my-rec-pay{font-size:15px;font-weight:900;color:var(--green2)}
+.period-tabs{display:flex;gap:6px;margin-bottom:12px}
+.period-tab{flex:1;padding:9px 0;border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:var(--sub);transition:all 0.2s}
+.period-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.period-tab.active.worker-tab{background:var(--teal);border-color:var(--teal);color:#001a14}
+.month-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.month-nav-btn{background:var(--card);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--sub)}
+.month-nav-title{font-size:16px;font-weight:900}
+.stat-summary{background:linear-gradient(135deg,#131625,#0f1120);border:1.5px solid rgba(108,99,255,0.25);border-radius:14px;padding:16px;margin-bottom:12px}
+.stat-summary.worker-stat{background:linear-gradient(135deg,#0a1f1a,#061410);border-color:rgba(0,188,212,0.25)}
+.stat-title{font-size:10px;letter-spacing:0.5px;margin-bottom:12px;font-weight:700}
+.stat-title.admin{color:var(--accent3)}
+.stat-title.worker{color:var(--teal2)}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
+.stat-row-lbl{color:var(--sub)}
+.stat-row-val{font-weight:700}
+.stat-sep{border:none;border-top:1px solid var(--border);margin:8px 0}
+.stat-total{font-size:22px;font-weight:900;color:var(--green2);margin-top:4px}
+.worker-stat-card{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.wsc-rank{font-size:22px;font-weight:900;color:var(--sub2);width:28px;text-align:center;flex-shrink:0}
+.wsc-avatar{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#8b83ff);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;flex-shrink:0}
+.wsc-info{flex:1;min-width:0}
+.wsc-name{font-size:14px;font-weight:900}
+.wsc-pay{text-align:right}
+.wsc-gross{font-size:15px;font-weight:900;color:var(--accent3)}
+.wsc-net{font-size:11px;color:var(--green2);margin-top:2px}
+.wsc-qty{font-size:10px;color:var(--sub);margin-top:1px}
+.back-btn{display:flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;margin-bottom:14px;font-family:inherit}
+.detail-header{background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(108,99,255,0.05));border:1.5px solid rgba(108,99,255,0.2);border-radius:14px;padding:16px;margin-bottom:12px}
+.detail-day-row{background:var(--card);border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.ddr-date{font-size:12px;font-weight:700;flex:1}
+.ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
+.ddr-net{font-size:10px;color:var(--green2);text-align:right}
+
+/* 배달원 선택 드롭다운 */
 .ws-wrap { position: relative; }
 .ws-select { width: 100%; appearance: none; background: var(--card); border: 1.5px solid var(--border); border-radius: 16px;
 padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit;}
 .ws-select:focus { border-color: var(--accent); }
 .ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
 
-/* ── 🌟 새로운 출입코드 UI (이미지 스타일 반영) ── */
+/* ── 새로운 출입코드 UI ── */
 .cn-wrap { padding-bottom: 20px; }
 .cn-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .cn-title-area { display: flex; align-items: center; gap: 8px; }
@@ -112,10 +206,9 @@ padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--ac
 .cn-search { width: 100%; padding: 14px 16px 14px 44px; background: var(--card) url('data:image/svg+xml;utf8,<svg fill="%236b729c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 16px center/20px;
 border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 16px; font-family: inherit; }
 
-/* 공통 드래그 핸들 */
 .code-drag-handle { font-size: 18px; color: var(--sub2); padding: 0 8px; cursor: grab; display: flex; align-items: center; justify-content: center; touch-action: none; height: 100%; }
 
-/* 1단계: 지역 (대그룹) */
+/* 1단계: 지역 */
 .cn-region { background: var(--card); border-radius: 16px; margin-bottom: 12px; overflow: hidden; position: relative; }
 .cn-region::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 4px; background: var(--orange); border-radius: 0 4px 4px 0; }
 .cn-region-head { display: flex; align-items: center; padding: 16px 12px 16px 4px; cursor: pointer; user-select: none; }
@@ -133,7 +226,7 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .cn-complexes { display: none; padding: 0 12px 16px 12px; }
 .cn-region.open > .cn-complexes { display: block; }
 
-/* 2단계: 단지 (소그룹) */
+/* 2단계: 단지 */
 .cn-complex { background: var(--bg); border-radius: 14px; margin-bottom: 8px; overflow: hidden; position: relative; }
 .cn-complex::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; background: var(--blue); border-radius: 0 4px 4px 0; }
 .cn-comp-head { display: flex; align-items: center; padding: 12px 10px 12px 4px; cursor: pointer; user-select: none; }
@@ -147,13 +240,25 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .cn-items { display: none; padding: 0; }
 .cn-complex.open > .cn-items { display: block; }
 
-/* 3단계: 주소/코드 (항목) */
+/* 3단계: 주소 */
 .cn-item { display: flex; align-items: center; padding: 12px 10px 12px 4px; border-top: 1px solid var(--border); background: var(--bg); cursor: pointer; }
 .cn-i-info { flex: 1; display: flex; justify-content: space-between; align-items: center; padding-left: 6px; }
 .cn-i-addr { font-size: 13px; font-weight: 700; color: var(--text); }
 .cn-i-code { font-size: 14px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; margin-right: 12px; }
 
-/* 모달/시트 기본 스타일 생략 (기존 유지) */
+/* ── 🌟 라디오 버튼 디자인 (복구 완료!) ── */
+.radio-card input { display: none; }
+.radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+.radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
+.radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
+.radio-card .rc-desc { font-size: 11px; color: var(--sub); line-height: 1.3; }
+.radio-card input:checked + .rc-content { border-color: var(--teal); background: rgba(0, 188, 212, 0.08); }
+.radio-card input:checked + .rc-content .rc-icon { filter: none; opacity: 1; }
+.radio-card input:checked + .rc-content .rc-title { color: var(--teal2); }
+.radio-card.danger input:checked + .rc-content { border-color: var(--red); background: rgba(255, 71, 87, 0.08); }
+.radio-card.danger input:checked + .rc-content .rc-title { color: var(--red); }
+
+/* 모달/시트 공통 */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center}
 .overlay.show{display:flex}
 .dialog{background:var(--card);border-radius:18px;padding:24px;width:290px;text-align:center;border:1px solid var(--border)}
@@ -186,6 +291,9 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .loading-txt{font-size:12px;color:var(--sub)}
 .empty{text-align:center;color:var(--sub2);padding:50px 0;font-size:13px;line-height:2.4}
 .sec-title{font-size:11px;color:var(--sub);font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
+.input-subtabs{display:flex;gap:6px;margin-bottom:12px}
+.input-subtab{flex:1;padding:9px 0;border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:var(--sub);transition:all 0.2s}
+.input-subtab.active{background:var(--accent);border-color:var(--accent);color:#fff}
 </style>
 </head>
 <body>
@@ -305,11 +413,18 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="field">
 <label>⚙️ 복사 방식 선택</label>
 <div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
-<label style="display:flex; gap:10px; align-items:center"><input type="radio" name="sync-mode" value="merge" checked> 기존 항목에 추가 (병합)</label>
-<label style="display:flex; gap:10px; align-items:center"><input type="radio" name="sync-mode" value="overwrite"> <b>모두 지우고 덮어쓰기</b></label>
+<label class="radio-card">
+<input type="radio" name="sync-mode" value="merge" checked>
+<div class="rc-content"><div class="rc-icon">➕</div><div class="rc-text"><div class="rc-title">기존 항목에 추가 (병합)</div><div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div></div></div>
+</label>
+<label class="radio-card danger">
+<input type="radio" name="sync-mode" value="overwrite">
+<div class="rc-content"><div class="rc-icon">🗑️</div><div class="rc-text"><div class="rc-title">모두 지우고 덮어쓰기</div><div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div></div></div>
+</label>
 </div>
 </div>
 <button class="btn-primary teal" style="margin-top:14px" onclick="executeCodeSync()">🚀 실행하기</button>
+<button class="btn-secondary" onclick="document.getElementById('code-sync-sheet').classList.remove('show')">닫기</button>
 </div>
 </div>
 
@@ -319,11 +434,12 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="bs-title">💾 데이터 백업 / 관리</div>
 <div class="bs-sub" id="backup-sub">-</div>
 <div class="bk-grid">
-<button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업 (출입코드 포함)</span></button>
+<button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업</span></button>
 <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
 </div>
 <button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
 <button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
+<button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
 </div>
 </div>
 
@@ -353,8 +469,8 @@ const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
 const TAX = 0.033;
 const DAYS = ['일','월','화','수','목','금','토'];
 let currentUser = null;
-let workers = [];      // { id, name, region, loginId, priceA, priceB, priceC, codes: [] }
-let dailyRecords = []; // 일별 수량
+let workers = [];      
+let dailyRecords = []; 
 let tab = '';
 let isLoading = false;
 let confirmAction = null;
@@ -367,7 +483,7 @@ let adminInputData = {};
 let adminInputMode = 'date';
 let statPeriod = 'month', statYear = new Date().getFullYear(), statMonth = new Date().getMonth();
 let detailWorkerId = null;
-let adminSelectedCodeWorkerId = '';
+let adminSelectedCodeWorkerId = 'admin'; 
 
 let myTab = 'input';
 let myInputDate = today();
@@ -404,7 +520,7 @@ function calcPay(w, qA, qB, qC){
 }
 
 // ══════════════════════════════════════════
-//  로그인 / 로그아웃 (비밀번호 검증 포함)
+//  🌟 로그인 (숫자/문자 타입 불일치 오류 완벽 해결)
 // ══════════════════════════════════════════
 function doLogin(){
   const id = document.getElementById('l-id').value.trim();
@@ -427,7 +543,9 @@ async function checkWorkerLogin(id, pw, errEl) {
   try {
     const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
     if (error || !data) throw new Error('ID_NOT_FOUND');
-    if (data.login_pw && data.login_pw !== pw) throw new Error('WRONG_PW');
+    
+    // 👇 DB의 비밀번호가 숫자라도 문자로 강제 변환해서 비교! (튕김 방지)
+    if (data.login_pw && String(data.login_pw) !== String(pw)) throw new Error('WRONG_PW');
 
     currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
     finishLogin();
@@ -495,7 +613,7 @@ function setupUI(){
 }
 
 // ══════════════════════════════════════════
-//  데이터 로드 및 데이터 구조 마이그레이션
+//  데이터 로드 및 마이그레이션
 // ══════════════════════════════════════════
 async function loadAll(){
   isLoading=true; render();
@@ -617,13 +735,9 @@ function render(){
   }
 }
 
-// ══════════════════════════════════════════
-//  설정 및 배달원 관리
-// ══════════════════════════════════════════
 function openSettings() {
   const isAdmin = currentUser.role === 'admin';
   document.getElementById('admin-settings-area').style.display = isAdmin ? 'block' : 'none';
-
   if(isAdmin) {
     const acc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || {id:'admin', pw:'admin1234'};
     document.getElementById('set-admin-id').value = acc.id;
@@ -724,6 +838,7 @@ async function saveWorker(){
     closeWorkerSheet(); updateSummary(); render();
   } catch(e){ showToast('❌ 저장 실패: '+e.message); }
 }
+
 function askDeleteWorker(id){
   const w=workers.find(x=>x.id===id);
   openConfirm('🗑 배달원 삭제',`${w?.name}님을 삭제할까요?`,'삭제',async()=>{
@@ -736,7 +851,7 @@ function askDeleteWorker(id){
 }
 
 // ══════════════════════════════════════════
-//  🌟 새로운 출입코드 노트 렌더링 (이미지 UI 완벽 적용)
+//  🌟 출입코드 노트 렌더링 (에러 원천 차단)
 // ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
@@ -744,7 +859,6 @@ function getCodeWorker(wid) {
     try { codes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || []; } 
     catch(e) { codes = []; }
     
-    // 에러 완벽 차단 안전장치
     codes.forEach(c => { 
       if(c.items && !c.subs) { 
         c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 단지', items: c.items }]; 
@@ -753,7 +867,7 @@ function getCodeWorker(wid) {
       if(!c.subs) c.subs = [];
       c.subs.forEach(s => { if(!s.items) s.items = []; });
     });
-    return { id: 'admin', name: '👑 관리자 마스터', codes: codes };
+    return { id: 'admin', name: '👑 관리자 마스터 노트', codes: codes };
   }
   return workers.find(x => x.id == wid);
 }
@@ -770,7 +884,7 @@ function renderCodeNoteCore(workerTarget) {
       let matchedSubs = [];
       (f.subs || []).forEach(s => {
         let sMatch = s.name.toLowerCase().includes(q);
-        let mItems = (s.items || []).filter(i => i.addr.toLowerCase().includes(q) || i.code.toLowerCase().includes(q));
+        let mItems = (s.items || []).filter(i => (i.addr||'').toLowerCase().includes(q) || (i.code||'').toLowerCase().includes(q));
         if(fMatch || sMatch || mItems.length > 0) {
           matchedSubs.push({ ...s, items: mItems.length > 0 ? mItems : (s.items || []) });
         }
@@ -788,7 +902,7 @@ function renderCodeNoteCore(workerTarget) {
       <div class="cn-title-area">
         <div class="cn-key-icon">🔑</div>
         <div>
-          <div class="cn-title">${workerTarget.name} 노트</div>
+          <div class="cn-title">${workerTarget.name}</div>
           <div class="cn-title-sub">출입코드 관리</div>
         </div>
       </div>
@@ -843,12 +957,12 @@ function renderCodeNoteCore(workerTarget) {
             </div>
             <div class="cn-items">
               ${(s.items||[]).map(i => `
-              <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code}');showToast('📋 복사 완료');">
+              <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code||''}');showToast('📋 복사 완료');">
                 <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
                 <div class="cn-i-info">
-                  <div class="cn-i-addr">${i.addr}</div>
+                  <div class="cn-i-addr">${i.addr||''}</div>
                   <div style="display:flex; align-items:center;">
-                    <div class="cn-i-code">${i.code}</div>
+                    <div class="cn-i-code">${i.code||''}</div>
                     <div class="cn-actions" onclick="event.stopPropagation()">
                       <button class="cn-circle-btn c-edit" style="width:26px;height:26px;font-size:12px;border:none;" onclick="openCodeEdit('${f.id}', '${s.id}', '${i.id}', 'edit-item')">✏️</button>
                       <button class="cn-circle-btn del" style="width:26px;height:26px;font-size:12px;border:none;" onclick="askDeleteCodeItem('${f.id}', '${s.id}', '${i.id}')">🗑</button>
@@ -907,9 +1021,6 @@ function renderMyCodes(){
   return renderCodeNoteCore(target);
 }
 
-// ══════════════════════════════════════════
-//  출입코드 추가/수정/삭제 로직
-// ══════════════════════════════════════════
 function getActiveCodeWorkerId() {
   return currentUser.role === 'admin' ? adminSelectedCodeWorkerId : currentUser.workerId;
 }
@@ -1058,9 +1169,6 @@ function askDeleteCodeItem(folderId, subId, itemId) {
   });
 }
 
-// ══════════════════════════════════════════
-//  스마트 일괄등록 마법사 (자동 분류 로직)
-// ══════════════════════════════════════════
 function openSmartBulkSheet() {
   document.getElementById('sb-text').value = '';
   document.getElementById('smart-bulk-sheet').classList.add('show');
@@ -1136,9 +1244,6 @@ function saveSmartBulk() {
   showToast(`✅ ${count}개 항목 스마트 일괄등록 완료!`);
 }
 
-// ══════════════════════════════════════════
-//  출입코드 복사 / 통합 로직
-// ══════════════════════════════════════════
 function openCodeSyncSheet() {
   const src = document.getElementById('sync-source');
   const tgt = document.getElementById('sync-target');
@@ -1803,7 +1908,7 @@ function showToast(msg){
 }
 
 // ══════════════════════════════════════════
-//  👇 새로운 UI 클래스에 맞춰 수정한 드래그 앤 드롭 로직
+//  👇 새로운 UI (지역-단지-주소)에 맞춘 드래그 앤 드롭 로직
 // ══════════════════════════════════════════
 function initSortableCodes() {
   if (typeof Sortable === 'undefined') return;
@@ -1812,7 +1917,7 @@ function initSortableCodes() {
     handle: '.code-drag-handle',
     animation: 150,
     delay: 200,             // 0.2초 꾹 누르기
-    delayOnTouchOnly: true, // 모바일에서만 꾹 누르기 적용
+    delayOnTouchOnly: true, // 모바일 터치 환경에서만 꾹 누르기 적용
     onEnd: updateCodeOrderFromDOM
   };
 
@@ -1892,3 +1997,4 @@ if(savedUser){
 </script>
 </body>
 </html>
+
