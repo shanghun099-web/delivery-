@@ -39,7 +39,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .header{padding:46px 18px 14px;flex-shrink:0;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
 .header.admin-mode{background:linear-gradient(135deg,#1a1a3e 0%,#0d0f2a 100%)}
 .header.worker-mode{background:linear-gradient(135deg,#0a1f1a 0%,#051510 100%)}
-.header::before{content:'';position:absolute;top:-40px;right:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%)}
+.header::before{content:'absolute';top:-40px;right:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%)}
 .header-row{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:1}
 .header-label{font-size:10px;letter-spacing:3px;margin-bottom:3px;font-weight:500}
 .admin-mode .header-label{color:var(--accent3)}
@@ -55,7 +55,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .admin-mode .logout-btn{background:rgba(108,99,255,0.1);color:var(--accent3)}
 .worker-mode .logout-btn{background:rgba(0,212,170,0.1);color:var(--teal2)}
 
-/* ── 요약바 ── */
+/* ── 요약바 & 탭 ── */
 .summary-bar{display:grid;gap:6px;padding:10px 14px;flex-shrink:0;background:var(--card2);border-bottom:1px solid var(--border)}
 .summary-bar.cols3{grid-template-columns:repeat(3,1fr)}
 .sum-item{text-align:center;padding:9px 4px;background:var(--card);border-radius:10px;border-top:2px solid var(--accent)}
@@ -68,17 +68,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .sum-item.o .sum-val{color:var(--orange2)}
 .sum-lbl{font-size:9px;color:var(--sub);margin-top:3px}
 
-/* ── 탭 ── */
 .tabs{display:flex;padding:10px 14px 0;gap:4px;flex-shrink:0;background:var(--card2);overflow-x:auto;}
 .tab{flex:1;min-width:65px;padding:10px 0;border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit;border-radius:10px 10px 0 0;border-bottom:2px solid transparent;white-space:nowrap}
 .tab.active.admin{background:var(--card);color:var(--accent2);border-bottom-color:var(--accent)}
 .tab.active.worker{background:var(--card);color:var(--teal2);border-bottom-color:var(--teal)}
 .tab:not(.active){background:transparent;color:var(--sub)}
 
-/* ── 콘텐츠 ── */
+/* ── 콘텐츠 영역 ── */
 .content{flex:1;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch;background:var(--card2)}
 
-/* ── 폼 공통 ── */
+/* ── 폼 버튼 공통 ── */
 .field{margin-bottom:12px}
 .field label{display:block;font-size:10px;color:var(--sub);font-weight:700;letter-spacing:0.5px;margin-bottom:5px}
 .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-size:15px;color:var(--text);outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
@@ -90,7 +89,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .btn-primary:active{transform:scale(0.97)}
 .btn-secondary{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;color:var(--sub);background:transparent;cursor:pointer;font-family:inherit;margin-bottom:8px}
 
-/* ── 배달원 목록 및 관리자 카드 ── */
+/* ── 배달원 카드 ── */
 .worker-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border-left:4px solid var(--accent);display:flex;align-items:center;gap:12px}
 .worker-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
 .worker-avatar.admin-av{background:linear-gradient(135deg,var(--accent),#8b83ff)}
@@ -103,6 +102,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
 
+/* ── 일별 입력 공통 ── */
 .date-nav{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:14px;border:1.5px solid var(--border)}
 .date-nav-btn{background:transparent;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
 .date-nav-label{font-size:14px;font-weight:900;color:var(--text)}
@@ -118,6 +118,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .daily-field input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 4px;font-size:20px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .daily-field input:focus{border-color:var(--accent);background:var(--card2)}
 .daily-field-sub{font-size:9px;color:var(--sub);text-align:center;margin-top:4px;min-height:14px;white-space:nowrap}
+
+/* ── 배달원 오늘 입력 ── */
 .my-input-header{background:linear-gradient(135deg,rgba(0,188,212,0.12),rgba(0,188,212,0.04));border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:16px;margin-bottom:14px}
 .my-input-name{font-size:18px;font-weight:900;color:var(--teal2);margin-bottom:4px}
 .my-input-sub{font-size:11px;color:var(--sub)}
@@ -135,6 +137,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .my-calc-val{font-weight:700}
 .my-calc-sep{border:none;border-top:1px solid rgba(0,188,212,0.15);margin:8px 0}
 .my-calc-total{font-size:22px;font-weight:900;color:var(--teal2)}
+
+/* ── 기록 및 정산 ── */
 .rec-day-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid var(--border)}
 .rec-day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .rec-day-date{font-size:15px;font-weight:900}
@@ -184,36 +188,34 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .ddr-net{font-size:10px;color:var(--green2);text-align:right}
 
-/* 배달원 선택 드롭다운 */
-.ws-wrap { position: relative; }
+/* ── 🌟 새로운 출입코드 UI (이미지 스타일 완벽 적용!) ── */
+.ws-wrap { position: relative; margin-bottom: 16px; }
 .ws-select { width: 100%; appearance: none; background: var(--card); border: 1.5px solid var(--border); border-radius: 16px;
 padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit;}
 .ws-select:focus { border-color: var(--accent); }
 .ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
 
-/* ── 새로운 출입코드 UI ── */
 .cn-wrap { padding-bottom: 20px; }
 .cn-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.cn-title-area { display: flex; align-items: center; gap: 8px; }
-.cn-key-icon { font-size: 20px; }
-.cn-title { font-size: 18px; font-weight: 900; color: var(--orange2); }
-.cn-title-sub { font-size: 10px; color: var(--sub); margin-top: 2px; }
+.cn-title-area { display: flex; align-items: center; gap: 10px; }
+.cn-key-icon { background: var(--orange); color: #1a0f00; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.cn-title { font-size: 18px; font-weight: 900; color: var(--text); line-height: 1.2; }
+.cn-title-sub { font-size: 11px; color: var(--sub); margin-top: 3px; letter-spacing: -0.3px; }
 .cn-top-btns { display: flex; gap: 8px; }
-.cn-btn-pill { padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 900; border: none; cursor: pointer; color: #1a0f00; }
-.cn-btn-pill.orange { background: var(--orange); }
-.cn-btn-pill.teal { background: var(--teal); color: #001a14; }
+.cn-btn-icon { background: var(--card2); border: 1.5px solid var(--border); color: var(--text); border-radius: 12px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; }
+.cn-btn-add { background: var(--orange); border: none; color: #1a0f00; font-weight: 900; font-size: 13px; padding: 0 16px; border-radius: 12px; cursor: pointer; }
 
 .cn-search { width: 100%; padding: 14px 16px 14px 44px; background: var(--card) url('data:image/svg+xml;utf8,<svg fill="%236b729c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 16px center/20px;
 border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 16px; font-family: inherit; }
 
 .code-drag-handle { font-size: 18px; color: var(--sub2); padding: 0 8px; cursor: grab; display: flex; align-items: center; justify-content: center; touch-action: none; height: 100%; }
 
-/* 1단계: 지역 */
+/* 1단계: 지역 (대그룹) */
 .cn-region { background: var(--card); border-radius: 16px; margin-bottom: 12px; overflow: hidden; position: relative; }
 .cn-region::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 4px; background: var(--orange); border-radius: 0 4px 4px 0; }
-.cn-region-head { display: flex; align-items: center; padding: 16px 12px 16px 4px; cursor: pointer; user-select: none; }
-.cn-r-icon { background: rgba(255,152,0,0.15); color: var(--orange); width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-right: 12px; flex-shrink: 0; }
-.cn-r-info { flex: 1; min-width: 0; }
+.cn-region-head { display: flex; align-items: center; padding: 14px 12px 14px 4px; cursor: pointer; user-select: none; }
+.cn-r-icon { background: rgba(255,152,0,0.15); color: var(--orange); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 12px; flex-shrink: 0; }
+.cn-r-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 .cn-r-name { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 2px; }
 .cn-r-stat { font-size: 11px; color: var(--sub); }
 .cn-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
@@ -226,12 +228,12 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .cn-complexes { display: none; padding: 0 12px 16px 12px; }
 .cn-region.open > .cn-complexes { display: block; }
 
-/* 2단계: 단지 */
+/* 2단계: 단지 (소그룹) */
 .cn-complex { background: var(--bg); border-radius: 14px; margin-bottom: 8px; overflow: hidden; position: relative; }
 .cn-complex::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; background: var(--blue); border-radius: 0 4px 4px 0; }
 .cn-comp-head { display: flex; align-items: center; padding: 12px 10px 12px 4px; cursor: pointer; user-select: none; }
-.cn-c-icon { background: rgba(59,130,246,0.15); color: var(--blue2); width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 10px; flex-shrink: 0; }
-.cn-c-info { flex: 1; min-width: 0; }
+.cn-c-icon { background: rgba(59,130,246,0.15); color: var(--blue2); width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 10px; flex-shrink: 0; }
+.cn-c-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
 .cn-c-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
 .cn-c-stat { font-size: 10px; color: var(--sub); }
 .cn-circle-btn.c-add { color: var(--blue2); border-color: rgba(59,130,246,0.3); }
@@ -240,25 +242,25 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .cn-items { display: none; padding: 0; }
 .cn-complex.open > .cn-items { display: block; }
 
-/* 3단계: 주소 */
+/* 3단계: 주소/코드 (항목) */
 .cn-item { display: flex; align-items: center; padding: 12px 10px 12px 4px; border-top: 1px solid var(--border); background: var(--bg); cursor: pointer; }
 .cn-i-info { flex: 1; display: flex; justify-content: space-between; align-items: center; padding-left: 6px; }
 .cn-i-addr { font-size: 13px; font-weight: 700; color: var(--text); }
 .cn-i-code { font-size: 14px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; margin-right: 12px; }
 
-/* ── 🚨 라디오 버튼 디자인 꼬임 완벽 해결 (!important 추가) ── */
+/* ── 🚨 라디오 버튼 디자인 꼬임 완벽 해결 (!important) ── */
 .radio-card input[type="radio"] { display: none !important; }
 .radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
 .radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
 .radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
 .radio-card .rc-desc { font-size: 11px; color: var(--sub); line-height: 1.3; }
-.radio-card input:checked + .rc-content { border-color: var(--teal); background: rgba(0, 188, 212, 0.08); }
-.radio-card input:checked + .rc-content .rc-icon { filter: none; opacity: 1; }
-.radio-card input:checked + .rc-content .rc-title { color: var(--teal2); }
-.radio-card.danger input:checked + .rc-content { border-color: var(--red); background: rgba(255, 71, 87, 0.08); }
-.radio-card.danger input:checked + .rc-content .rc-title { color: var(--red); }
+.radio-card input[type="radio"]:checked + .rc-content { border-color: var(--teal); background: rgba(0, 188, 212, 0.08); }
+.radio-card input[type="radio"]:checked + .rc-content .rc-icon { filter: none; opacity: 1; }
+.radio-card input[type="radio"]:checked + .rc-content .rc-title { color: var(--teal2); }
+.radio-card.danger input[type="radio"]:checked + .rc-content { border-color: var(--red); background: rgba(255, 71, 87, 0.08); }
+.radio-card.danger input[type="radio"]:checked + .rc-content .rc-title { color: var(--red); }
 
-/* 모달/시트 공통 */
+/* ── 모달/시트 공통 ── */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center}
 .overlay.show{display:flex}
 .dialog{background:var(--card);border-radius:18px;padding:24px;width:290px;text-align:center;border:1px solid var(--border)}
@@ -520,7 +522,7 @@ function calcPay(w, qA, qB, qC){
 }
 
 // ══════════════════════════════════════════
-//  🌟 강력해진 로그인 로직 (띄어쓰기 및 숫자/문자 오류 완벽 차단)
+//  🌟 강력해진 로그인 로직 (중복 아이디 및 띄어쓰기 오류 완벽 차단)
 // ══════════════════════════════════════════
 function doLogin(){
   const id = document.getElementById('l-id').value.trim();
@@ -541,16 +543,20 @@ function doLogin(){
 async function checkWorkerLogin(id, pw, errEl) {
   errEl.textContent = '확인 중...';
   try {
-    const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
-    if (error || !data) throw new Error('ID_NOT_FOUND');
+    // 👇 .single() 대신에 배열로 가져옵니다. (중복 아이디가 있어도 에러 안 남!)
+    const { data, error } = await db.from('workers').select('*').eq('login_id', id);
+    if (error || !data || data.length === 0) throw new Error('ID_NOT_FOUND');
     
+    // 만약 중복 아이디가 있다면 무조건 첫 번째 계정을 사용합니다.
+    const workerData = data[0];
+
     // 👇 DB 비밀번호와 입력 비밀번호 모두 문자열로 바꾸고 앞뒤 공백을 제거한 뒤 비교!
-    const dbPw = String(data.login_pw || '').trim();
+    const dbPw = String(workerData.login_pw || '').trim();
     const inputPw = String(pw).trim();
 
     if (dbPw !== inputPw) throw new Error('WRONG_PW');
 
-    currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
+    currentUser = { id: workerData.login_id, role: 'worker', name: workerData.name, workerId: workerData.id };
     finishLogin();
   } catch(e) {
     if(e.message === 'ID_NOT_FOUND') {
@@ -1046,271 +1052,9 @@ async function syncCodesToDB(workerId, newCodes) {
     showToast('✅ 처리 완료'); render();
   } catch(e) { showToast('❌ 오류: ' + e.message); }
 }
-function openCodeEdit(folderId, subId, itemId, mode) {
-  codeEditMode = mode;
-  codeEditTargetFolderId = folderId;
-  codeEditTargetSubId = subId;
-  codeEditTargetItemId = itemId;
-
-  const w = getCodeWorker(getActiveCodeWorkerId());
-  if(!w) return;
-
-  document.getElementById('ce-folder-fields').style.display = 'none';
-  document.getElementById('ce-sub-fields').style.display = 'none';
-  document.getElementById('ce-item-fields').style.display = 'none';
-  document.getElementById('ce-fname').value = '';
-  document.getElementById('ce-sname').value = '';
-  document.getElementById('ce-iaddr').value = '';
-  document.getElementById('ce-icode').value = '';
-
-  if(mode === 'add-folder') {
-    document.getElementById('ce-title').textContent = '새 지역 추가';
-    document.getElementById('ce-sub').textContent = '지역이나 큰 단지 이름을 입력하세요';
-    document.getElementById('ce-folder-fields').style.display = 'block';
-    setTimeout(()=>document.getElementById('ce-fname').focus(), 300);
-  }
-  else if(mode === 'edit-folder') {
-    const f = w.codes.find(x => x.id == folderId);
-    document.getElementById('ce-title').textContent = '지역명 수정';
-    document.getElementById('ce-sub').textContent = '새로운 지역명을 입력하세요';
-    document.getElementById('ce-folder-fields').style.display = 'block';
-    document.getElementById('ce-fname').value = f.name;
-    setTimeout(()=>document.getElementById('ce-fname').focus(), 300);
-  }
-  else if(mode === 'add-sub') {
-    document.getElementById('ce-title').textContent = '새 단지 추가';
-    document.getElementById('ce-sub').textContent = '동 이름이나 세부 단지를 입력하세요';
-    document.getElementById('ce-sub-fields').style.display = 'block';
-    setTimeout(()=>document.getElementById('ce-sname').focus(), 300);
-  }
-  else if(mode === 'edit-sub') {
-    const f = w.codes.find(x => x.id == folderId);
-    const s = f.subs.find(x => x.id == subId);
-    document.getElementById('ce-title').textContent = '단지명 수정';
-    document.getElementById('ce-sub').textContent = '새로운 단지명을 입력하세요';
-    document.getElementById('ce-sub-fields').style.display = 'block';
-    document.getElementById('ce-sname').value = s.name;
-    setTimeout(()=>document.getElementById('ce-sname').focus(), 300);
-  }
-  else if(mode === 'add-item') {
-    document.getElementById('ce-title').textContent = '새 주소/코드 추가';
-    document.getElementById('ce-sub').textContent = '상세 주소와 출입코드를 입력하세요';
-    document.getElementById('ce-item-fields').style.display = 'block';
-    setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
-  }
-  else if(mode === 'edit-item') {
-    const f = w.codes.find(x => x.id == folderId);
-    const s = f.subs.find(x => x.id == subId);
-    const i = s.items.find(x => x.id == itemId);
-    document.getElementById('ce-title').textContent = '주소/코드 수정';
-    document.getElementById('ce-sub').textContent = '수정할 내용을 입력하세요';
-    document.getElementById('ce-item-fields').style.display = 'block';
-    document.getElementById('ce-iaddr').value = i.addr;
-    document.getElementById('ce-icode').value = i.code;
-    setTimeout(()=>document.getElementById('ce-iaddr').focus(), 300);
-  }
-  
-  document.getElementById('code-edit-sheet').classList.add('show');
-}
-
-function saveCodeEntry() {
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  if(!w) return;
-  let newCodes = JSON.parse(JSON.stringify(w.codes));
-
-  if(codeEditMode === 'add-folder' || codeEditMode === 'edit-folder') {
-    const name = document.getElementById('ce-fname').value.trim();
-    if(!name) { showToast('지역명을 입력하세요'); return; }
-    if(codeEditMode === 'add-folder') newCodes.push({ id: 'f_'+Date.now(), name: name, subs: [] });
-    else { const f = newCodes.find(x => x.id == codeEditTargetFolderId); if(f) f.name = name; }
-  }
-  else if(codeEditMode === 'add-sub' || codeEditMode === 'edit-sub') {
-    const name = document.getElementById('ce-sname').value.trim();
-    if(!name) { showToast('단지명을 입력하세요'); return; }
-    const f = newCodes.find(x => x.id == codeEditTargetFolderId);
-    if(codeEditMode === 'add-sub') f.subs.push({ id: 's_'+Date.now(), name: name, items: [] });
-    else { const s = f.subs.find(x => x.id == codeEditTargetSubId); if(s) s.name = name; }
-  }
-  else if(codeEditMode === 'add-item' || codeEditMode === 'edit-item') {
-    const addr = document.getElementById('ce-iaddr').value.trim();
-    const code = document.getElementById('ce-icode').value.trim();
-    if(!addr || !code) { showToast('주소와 코드를 모두 입력하세요'); return; }
-    const f = newCodes.find(x => x.id == codeEditTargetFolderId);
-    const s = f.subs.find(x => x.id == codeEditTargetSubId);
-    if(codeEditMode === 'add-item') s.items.push({ id: 'i_'+Date.now()+Math.random().toString(36).substr(2,5), addr: addr, code: code });
-    else { const i = s.items.find(x => x.id == codeEditTargetItemId); if(i) { i.addr = addr; i.code = code; } }
-  }
-
-  document.getElementById('code-edit-sheet').classList.remove('show');
-  syncCodesToDB(wid, newCodes);
-}
-
-function askDeleteCodeFolder(folderId) {
-  openConfirm('🗑 지역 삭제', '하위의 모든 단지와 주소가 함께 삭제됩니다.\n계속하시겠습니까?', '삭제', () => {
-    const wid = getActiveCodeWorkerId(); const w = getCodeWorker(wid);
-    if(!w) return;
-    const newCodes = w.codes.filter(x => x.id != folderId);
-    syncCodesToDB(wid, newCodes);
-  });
-}
-function askDeleteCodeSub(folderId, subId) {
-  openConfirm('🗑 단지 삭제', '이 단지의 모든 주소와 코드가 삭제됩니다.\n계속하시겠습니까?', '삭제', () => {
-    const wid = getActiveCodeWorkerId(); const w = getCodeWorker(wid);
-    if(!w) return;
-    let newCodes = JSON.parse(JSON.stringify(w.codes));
-    const f = newCodes.find(x => x.id == folderId);
-    if(f) { f.subs = f.subs.filter(x => x.id != subId); syncCodesToDB(wid, newCodes); }
-  });
-}
-function askDeleteCodeItem(folderId, subId, itemId) {
-  openConfirm('🗑 항목 삭제', '이 주소와 코드를 삭제하시겠습니까?', '삭제', () => {
-    const wid = getActiveCodeWorkerId(); const w = getCodeWorker(wid);
-    if(!w) return;
-    let newCodes = JSON.parse(JSON.stringify(w.codes));
-    const f = newCodes.find(x => x.id == folderId);
-    const s = f.subs.find(x => x.id == subId);
-    if(s) { s.items = s.items.filter(x => x.id != itemId); syncCodesToDB(wid, newCodes); }
-  });
-}
-
-function openSmartBulkSheet() {
-  document.getElementById('sb-text').value = '';
-  document.getElementById('smart-bulk-sheet').classList.add('show');
-  setTimeout(()=>document.getElementById('sb-text').focus(), 300);
-}
-
-function saveSmartBulk() {
-  const text = document.getElementById('sb-text').value.trim();
-  if(!text) { showToast('내용을 붙여넣어 주세요'); return; }
-
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  if(!w) return;
-  let newCodes = JSON.parse(JSON.stringify(w.codes));
-
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l);
-
-  let currentFolder = null;
-  let currentSub = null;
-  let count = 0;
-
-  lines.forEach(line => {
-    const parts = line.split(/\s+/);
-    
-    if(parts.length >= 2 && /[0-9*#종열쇠]/.test(parts[parts.length-1])) {
-      const code = parts.pop();
-      const addr = parts.join(' ');
-
-      if(!currentFolder) {
-        currentFolder = newCodes.find(f => f.name === '일괄등록 (자동생성)');
-        if(!currentFolder) {
-          currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: '일괄등록 (자동생성)', subs: [] };
-          newCodes.push(currentFolder);
-        }
-      }
-      if(!currentSub) {
-        currentSub = currentFolder.subs.find(s => s.name === '기본 단지');
-        if(!currentSub) {
-          currentSub = { id: 's_'+Date.now()+Math.random().toString(36).substr(2,5), name: '기본 단지', items: [] };
-          currentFolder.subs.push(currentSub);
-        }
-      }
-      currentSub.items.push({ id: 'i_'+Date.now()+Math.random().toString(36).substr(2,5), addr: addr, code: code });
-      count++;
-    } 
-    else {
-      if(line.endsWith('아파트') || line.endsWith('단지') || line.endsWith('마을')) {
-         currentFolder = newCodes.find(f => f.name === line);
-         if(!currentFolder) {
-           currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: line, subs: [] };
-           newCodes.push(currentFolder);
-         }
-         currentSub = null; 
-      } else {
-         if(!currentFolder) {
-           currentFolder = newCodes.find(f => f.name === '일괄등록 (자동생성)');
-           if(!currentFolder) {
-             currentFolder = { id: 'f_'+Date.now()+Math.random().toString(36).substr(2,5), name: '일괄등록 (자동생성)', subs: [] };
-             newCodes.push(currentFolder);
-           }
-         }
-         currentSub = currentFolder.subs.find(s => s.name === line);
-         if(!currentSub) {
-           currentSub = { id: 's_'+Date.now()+Math.random().toString(36).substr(2,5), name: line, items: [] };
-           currentFolder.subs.push(currentSub);
-         }
-      }
-    }
-  });
-
-  document.getElementById('smart-bulk-sheet').classList.remove('show');
-  syncCodesToDB(wid, newCodes);
-  showToast(`✅ ${count}개 항목 스마트 일괄등록 완료!`);
-}
-
-function openCodeSyncSheet() {
-  const src = document.getElementById('sync-source');
-  const tgt = document.getElementById('sync-target');
-  const workerOptions = workers.map(w => `<option value="${w.id}" style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('');
-  const adminOption = `<option value="admin" style="color:var(--orange2)">👑 관리자 마스터 노트</option>`;
-  src.innerHTML = `<option value="ALL" style="color:var(--teal2)">🌟 모든 배달원의 코드 전체 (통합)</option>` + adminOption + workerOptions;
-  tgt.innerHTML = `<option value="" style="color:var(--sub)">대상을 선택하세요</option>` + adminOption + workerOptions;
-  if(adminSelectedCodeWorkerId) tgt.value = adminSelectedCodeWorkerId;
-  document.getElementById('code-sync-sheet').classList.add('show');
-}
-
-async function executeCodeSync() {
-  const srcId = document.getElementById('sync-source').value;
-  const tgtId = document.getElementById('sync-target').value;
-  const mode = document.querySelector('input[name="sync-mode"]:checked').value;
-
-  if(!tgtId) { showToast('⚠️ 대상을 선택해주세요'); return; }
-  if(srcId === tgtId) { showToast('⚠️ 원본과 대상이 같습니다'); return; }
-
-  const targetW = getCodeWorker(tgtId);
-  if(!targetW) return;
-
-  let sourceCodes = [];
-  if(srcId === 'ALL') {
-    workers.forEach(w => { if(w.id != tgtId) { w.codes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g)))); } });
-    if(tgtId !== 'admin') {
-      const adminCodes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
-      adminCodes.forEach(g => sourceCodes.push(JSON.parse(JSON.stringify(g))));
-    }
-  } else if(srcId === 'admin') {
-    sourceCodes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || [];
-  } else {
-    const w = workers.find(x => x.id == srcId);
-    if(w) sourceCodes = JSON.parse(JSON.stringify(w.codes));
-  }
-
-  if(sourceCodes.length === 0) { showToast('⚠️ 복사할 원본 코드가 없습니다!'); return; }
-
-  const confirmMsg = mode === 'overwrite' ? 
-    `${targetW.name}의 기존 코드가 모두 삭제되고 덮어씌워집니다.\n진행할까요?` : 
-    `${targetW.name} 노트에 코드를 병합합니다.\n진행할까요?`;
-  document.getElementById('code-sync-sheet').classList.remove('show');
-  
-  openConfirm('🔄 코드 복사/통합', confirmMsg, '실행하기', async () => {
-    let newCodes = mode === 'overwrite' ? [] : JSON.parse(JSON.stringify(targetW.codes));
-    
-    sourceCodes.forEach(sf => {
-      let tf = newCodes.find(f => f.name === sf.name);
-      if (!tf) { tf = { id: 'f_' + Date.now() + Math.random().toString(36).substr(2,5), name: sf.name, subs: [] }; newCodes.push(tf); }
-      (sf.subs||[]).forEach(ss => {
-        let ts = tf.subs.find(s => s.name === ss.name);
-        if(!ts) { ts = { id: 's_' + Date.now() + Math.random().toString(36).substr(2,5), name: ss.name, items: [] }; tf.subs.push(ts); }
-        ss.items.forEach(si => {
-          let exists = ts.items.find(i => i.addr === si.addr && i.code === si.code);
-          if (!exists) ts.items.push({ id: 'i_' + Date.now() + Math.random().toString(36).substr(2,5), addr: si.addr, code: si.code });
-        });
-      });
-    });
-    await syncCodesToDB(tgtId, newCodes);
-  }, mode === 'overwrite');
-}
-
+// ══════════════════════════════════════════
+//  관리자: 일별 입력
+// ══════════════════════════════════════════
 function renderAdminDaily(){
   if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
   const rec=dailyRecords.find(r=>r.date===adminInputDate);
@@ -1990,3 +1734,4 @@ if(savedUser){
 </script>
 </body>
 </html>
+
