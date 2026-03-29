@@ -90,7 +90,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .btn-primary:active{transform:scale(0.97)}
 .btn-secondary{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;color:var(--sub);background:transparent;cursor:pointer;font-family:inherit;margin-bottom:8px}
 
-/* ── 🌟 배달원 및 일별입력 디자인 (복구 완료!) ── */
+/* ── 배달원 목록 및 관리자 카드 ── */
 .worker-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border-left:4px solid var(--accent);display:flex;align-items:center;gap:12px}
 .worker-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
 .worker-avatar.admin-av{background:linear-gradient(135deg,var(--accent),#8b83ff)}
@@ -246,8 +246,8 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .cn-i-addr { font-size: 13px; font-weight: 700; color: var(--text); }
 .cn-i-code { font-size: 14px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; margin-right: 12px; }
 
-/* ── 🌟 라디오 버튼 디자인 (복구 완료!) ── */
-.radio-card input { display: none; }
+/* ── 🚨 라디오 버튼 디자인 꼬임 완벽 해결 (!important 추가) ── */
+.radio-card input[type="radio"] { display: none !important; }
 .radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
 .radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
 .radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
@@ -520,7 +520,7 @@ function calcPay(w, qA, qB, qC){
 }
 
 // ══════════════════════════════════════════
-//  🌟 로그인 (숫자/문자 타입 불일치 오류 완벽 해결)
+//  🌟 강력해진 로그인 로직 (띄어쓰기 및 숫자/문자 오류 완벽 차단)
 // ══════════════════════════════════════════
 function doLogin(){
   const id = document.getElementById('l-id').value.trim();
@@ -544,13 +544,22 @@ async function checkWorkerLogin(id, pw, errEl) {
     const { data, error } = await db.from('workers').select('*').eq('login_id', id).single();
     if (error || !data) throw new Error('ID_NOT_FOUND');
     
-    // 👇 DB의 비밀번호가 숫자라도 문자로 강제 변환해서 비교! (튕김 방지)
-    if (data.login_pw && String(data.login_pw) !== String(pw)) throw new Error('WRONG_PW');
+    // 👇 DB 비밀번호와 입력 비밀번호 모두 문자열로 바꾸고 앞뒤 공백을 제거한 뒤 비교!
+    const dbPw = String(data.login_pw || '').trim();
+    const inputPw = String(pw).trim();
+
+    if (dbPw !== inputPw) throw new Error('WRONG_PW');
 
     currentUser = { id: data.login_id, role: 'worker', name: data.name, workerId: data.id };
     finishLogin();
   } catch(e) {
-    errEl.textContent='❌ 아이디 또는 비밀번호가 틀렸어요';
+    if(e.message === 'ID_NOT_FOUND') {
+      errEl.textContent='❌ 등록되지 않은 아이디입니다.';
+    } else if(e.message === 'WRONG_PW') {
+      errEl.textContent='❌ 비밀번호가 틀렸습니다.';
+    } else {
+      errEl.textContent='❌ 로그인 오류가 발생했습니다.';
+    }
   }
 }
 
@@ -850,9 +859,6 @@ function askDeleteWorker(id){
   });
 }
 
-// ══════════════════════════════════════════
-//  🌟 출입코드 노트 렌더링 (에러 원천 차단)
-// ══════════════════════════════════════════
 function getCodeWorker(wid) {
   if (wid === 'admin') {
     let codes = [];
@@ -1040,7 +1046,6 @@ async function syncCodesToDB(workerId, newCodes) {
     showToast('✅ 처리 완료'); render();
   } catch(e) { showToast('❌ 오류: ' + e.message); }
 }
-
 function openCodeEdit(folderId, subId, itemId, mode) {
   codeEditMode = mode;
   codeEditTargetFolderId = folderId;
@@ -1305,9 +1310,7 @@ async function executeCodeSync() {
     await syncCodesToDB(tgtId, newCodes);
   }, mode === 'overwrite');
 }
-// ══════════════════════════════════════════
-//  관리자: 일별 입력
-// ══════════════════════════════════════════
+
 function renderAdminDaily(){
   if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
   const rec=dailyRecords.find(r=>r.date===adminInputDate);
@@ -1576,9 +1579,6 @@ function renderWorkerDetail(){
   <div style="height:20px"></div>`;
 }
 
-// ══════════════════════════════════════════
-//  배달원: 오늘 입력
-// ══════════════════════════════════════════
 function renderMyInput(){
   const w=workers.find(x=>x.id===currentUser.workerId);
   if(!w) return `<div class="empty">⚠️ 배달원 정보를 찾을 수 없어요<br><span style="font-size:12px">관리자에게 문의하세요</span></div>`;
@@ -1773,9 +1773,6 @@ function renderMyStats(){
   <div style="height:20px"></div>`;
 }
 
-// ══════════════════════════════════════════
-//  Supabase 공통 함수
-// ══════════════════════════════════════════
 async function saveDailyToDB(date, data){
   const {error:de}=await db.from('daily_records').delete().eq('work_date',date);
   if(de) throw de;
@@ -1791,7 +1788,6 @@ async function saveDailyToDB(date, data){
   }
 }
 
-// 🚨 팝업/모달 로직
 function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
@@ -1907,17 +1903,14 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ══════════════════════════════════════════
-//  👇 새로운 UI (지역-단지-주소)에 맞춘 드래그 앤 드롭 로직
-// ══════════════════════════════════════════
 function initSortableCodes() {
   if (typeof Sortable === 'undefined') return;
 
   const dragOptions = {
     handle: '.code-drag-handle',
     animation: 150,
-    delay: 200,             // 0.2초 꾹 누르기
-    delayOnTouchOnly: true, // 모바일 터치 환경에서만 꾹 누르기 적용
+    delay: 200,             
+    delayOnTouchOnly: true, 
     onEnd: updateCodeOrderFromDOM
   };
 
@@ -1997,4 +1990,3 @@ if(savedUser){
 </script>
 </body>
 </html>
-
