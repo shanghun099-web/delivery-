@@ -18,6 +18,7 @@
 --orange:#ff9800;--orange2:#ffb74d;
 --red:#ff4757;--teal:#00bcd4;--teal2:#5eead4;
 --blue:#3b82f6; --blue2:#60a5fa;
+--pink2:#ff80ab;
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
@@ -199,13 +200,13 @@ padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--ac
 
 /* ── 🌟 완벽 부활! 출입코드 UI ── */
 .cn-wrap { padding-bottom: 20px; }
-.cn-header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 16px; }
-.cn-title-area { flex: 1; min-width: 150px; display: flex; align-items: center; gap: 10px; }
-.cn-key-icon { background: var(--orange); color: #1a0f00; width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-.cn-title { font-size: 18px; font-weight: 900; color: var(--text); line-height: 1.2; }
-.cn-title-sub { font-size: 11px; color: var(--sub); margin-top: 3px; letter-spacing: -0.3px; }
-.cn-top-btns { display: flex; gap: 8px; flex-shrink: 0; }
-.cn-btn-pill { padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 900; border: none; cursor: pointer; transition: transform 0.1s; font-family: inherit; }
+.cn-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 16px; }
+.cn-title-area { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
+.cn-key-icon { background: var(--orange); color: #1a0f00; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.cn-title { font-size: 15px; font-weight: 900; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.5px; }
+.cn-title-sub { font-size: 11px; color: var(--sub); margin-top: 1px; letter-spacing: -0.3px; }
+.cn-top-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.cn-btn-pill { padding: 8px 10px; border-radius: 20px; font-size: 11px; font-weight: 900; border: none; cursor: pointer; transition: transform 0.1s; font-family: inherit; }
 .cn-btn-pill:active { transform: scale(0.95); }
 .cn-btn-pill.orange { background: var(--orange); color: #1a0f00; }
 .cn-btn-pill.teal { background: var(--teal); color: #001a14; }
@@ -520,6 +521,22 @@ function calcPay(w, qA, qB, qC){
   const gross = (a*(w.priceA||0)) + (b*(w.priceB||0)) + (c*(w.priceC||0));
   const net = Math.round(gross*(1-TAX));
   return {a, b, c, qty: a+b+c, gross, net};
+}
+
+// ══════════════════════════════════════════
+//  달력 입력 처리 추가 기능 (날짜 선택 시 실행)
+// ══════════════════════════════════════════
+function setAdminDate(val) {
+  if(!val) return;
+  adminInputDate = val;
+  adminInputData = {};
+  render();
+}
+function setMyDate(val) {
+  if(!val) return;
+  myInputDate = val;
+  myQtyA = ''; myQtyB = ''; myQtyC = '';
+  render();
 }
 
 // ══════════════════════════════════════════
@@ -923,7 +940,7 @@ function renderCodeNoteCore(workerTarget) {
     <div class="cn-header">
       <div class="cn-title-area">
         <div class="cn-key-icon">🔑</div>
-        <div>
+        <div style="min-width:0;">
           <div class="cn-title">${workerTarget.name}</div>
           <div class="cn-title-sub">출입코드 관리</div>
         </div>
@@ -1062,8 +1079,9 @@ async function syncCodesToDB(workerId, newCodes) {
     showToast('✅ 처리 완료'); render();
   } catch(e) { showToast('❌ 오류: ' + e.message); }
 }
+
 // ══════════════════════════════════════════
-//  관리자: 일별 입력
+//  관리자: 일별 입력 (+ 달력 기능 연동)
 // ══════════════════════════════════════════
 function renderAdminDaily(){
   if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
@@ -1076,11 +1094,14 @@ function renderAdminDaily(){
     <button class="input-subtab ${adminInputMode==='worker'?'active':''}" onclick="adminInputMode='worker';render()">👤 배달원별</button>
   </div>`;
   if(adminInputMode==='worker') return subTabs+renderAdminWorkerMode();
+  
+  // 날짜 입력 부분에 투명 <input type="date"> 덮어씌우기
   return subTabs+`
   <div class="date-nav">
     <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
-    <div style="text-align:center">
-      <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow})</div>
+    <div style="text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <input type="date" id="admin-date-picker" value="${adminInputDate}" style="position:absolute; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="setAdminDate(this.value)">
+      <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow}) ▾</div>
       <div class="date-nav-sub">${isEdit?'✏️ 수정 중':'새 기록'}</div>
     </div>
     <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
@@ -1333,6 +1354,9 @@ function renderWorkerDetail(){
   <div style="height:20px"></div>`;
 }
 
+// ══════════════════════════════════════════
+//  배달원: 오늘 입력 (+ 달력 기능 연동)
+// ══════════════════════════════════════════
 function renderMyInput(){
   const w=workers.find(x=>x.id===currentUser.workerId);
   if(!w) return `<div class="empty">⚠️ 배달원 정보를 찾을 수 없어요<br><span style="font-size:12px">관리자에게 문의하세요</span></div>`;
@@ -1344,6 +1368,7 @@ function renderMyInput(){
   const p=calcPay(w,qa,qb,qc);
   const dow=fmtDay(myInputDate);
 
+  // 날짜 선택 부분에 투명 input type="date" 적용
   return `
   <div class="my-input-header">
     <div class="my-input-name">안녕하세요, ${w.name}님 👋</div>
@@ -1351,8 +1376,9 @@ function renderMyInput(){
   </div>
   <div class="date-nav" style="margin-bottom:14px">
     <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(-1)">◀</button>
-    <div style="text-align:center">
-      <div class="date-nav-label">${fmtDate(myInputDate)} (${dow})</div>
+    <div style="text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+      <input type="date" id="my-date-picker" value="${myInputDate}" style="position:absolute; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="setMyDate(this.value)">
+      <div class="date-nav-label">${fmtDate(myInputDate)} (${dow}) ▾</div>
       <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
     </div>
     <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(1)">▶</button>
@@ -1730,9 +1756,8 @@ function updateCodeOrderFromDOM() {
 }
 
 // ══════════════════════════════════════════
-//  🌟 출입코드 UI 컨트롤 및 기능 (누락된 함수 복구)
+//  🌟 출입코드 UI 컨트롤 및 기능
 // ══════════════════════════════════════════
-
 function openCodeEdit(fid, sid, iid, mode) {
   codeEditMode = mode;
   codeEditTargetFolderId = fid;
