@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a1a2e">
 <title>📊 배송 관리자</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -17,13 +15,10 @@
 --green:#00d4aa;--green2:#00f5c4;
 --orange:#ff9800;--orange2:#ffb74d;
 --red:#ff4757;--teal:#00bcd4;--teal2:#5eead4;
---blue:#3b82f6; --blue2:#60a5fa;
---pink2:#ff80ab;
+--blue:#3b82f6;--blue2:#60a5fa;--pink2:#ff80ab;
 }
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;overflow:hidden}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto Sans KR",sans-serif;overflow:hidden}
 #app{display:flex;flex-direction:column;height:100vh;height:-webkit-fill-available}
-
-/* ── 로그인 ── */
 .login-wrap{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px}
 .login-wrap.hide{display:none}
 .login-logo{font-size:52px;margin-bottom:10px}
@@ -37,12 +32,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .btn-login{width:100%;padding:15px;border:none;border-radius:14px;font-size:16px;font-weight:900;cursor:pointer;font-family:inherit;background:linear-gradient(135deg,var(--accent),#8b83ff);color:#fff;box-shadow:0 4px 20px rgba(108,99,255,0.4);margin-top:8px;transition:transform 0.1s}
 .btn-login:active{transform:scale(0.97)}
 .login-err{font-size:12px;color:var(--red);text-align:center;margin-top:12px;font-weight:700;min-height:18px}
-
-/* ── 공통 헤더 ── */
 .header{padding:46px 18px 14px;flex-shrink:0;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
 .header.admin-mode{background:linear-gradient(135deg,#1a1a3e 0%,#0d0f2a 100%)}
 .header.worker-mode{background:linear-gradient(135deg,#0a1f1a 0%,#051510 100%)}
-.header::before{content:'';position:absolute;top:-40px;right:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%)}
+.header::before{content:"";position:absolute;top:-40px;right:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(108,99,255,0.12) 0%,transparent 70%)}
 .header-row{display:flex;align-items:flex-end;justify-content:space-between;position:relative;z-index:1}
 .header-label{font-size:10px;letter-spacing:3px;margin-bottom:3px;font-weight:500}
 .admin-mode .header-label{color:var(--accent3)}
@@ -57,30 +50,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .logout-btn{font-size:11px;padding:6px 10px;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:700;border:none}
 .admin-mode .logout-btn{background:rgba(108,99,255,0.1);color:var(--accent3)}
 .worker-mode .logout-btn{background:rgba(0,212,170,0.1);color:var(--teal2)}
-
-/* ── 요약바 & 탭 ── */
 .summary-bar{display:grid;gap:6px;padding:10px 14px;flex-shrink:0;background:var(--card2);border-bottom:1px solid var(--border)}
 .summary-bar.cols3{grid-template-columns:repeat(3,1fr)}
 .sum-item{text-align:center;padding:9px 4px;background:var(--card);border-radius:10px;border-top:2px solid var(--accent)}
-.sum-item.g{border-top-color:var(--green)}
-.sum-item.t{border-top-color:var(--teal)}
-.sum-item.o{border-top-color:var(--orange)}
+.sum-item.g{border-top-color:var(--green)}.sum-item.t{border-top-color:var(--teal)}.sum-item.o{border-top-color:var(--orange)}
 .sum-val{font-size:14px;font-weight:900;color:var(--accent3);line-height:1.2}
-.sum-item.g .sum-val{color:var(--green2)}
-.sum-item.t .sum-val{color:var(--teal2)}
-.sum-item.o .sum-val{color:var(--orange2)}
+.sum-item.g .sum-val{color:var(--green2)}.sum-item.t .sum-val{color:var(--teal2)}.sum-item.o .sum-val{color:var(--orange2)}
 .sum-lbl{font-size:9px;color:var(--sub);margin-top:3px}
-
-.tabs{display:flex;padding:10px 14px 0;gap:4px;flex-shrink:0;background:var(--card2);overflow-x:auto;}
+.tabs{display:flex;padding:10px 14px 0;gap:4px;flex-shrink:0;background:var(--card2);overflow-x:auto}
 .tab{flex:1;min-width:65px;padding:10px 0;border:none;font-size:11px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:inherit;border-radius:10px 10px 0 0;border-bottom:2px solid transparent;white-space:nowrap}
 .tab.active.admin{background:var(--card);color:var(--accent2);border-bottom-color:var(--accent)}
 .tab.active.worker{background:var(--card);color:var(--teal2);border-bottom-color:var(--teal)}
 .tab:not(.active){background:transparent;color:var(--sub)}
-
-/* ── 콘텐츠 영역 ── */
 .content{flex:1;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch;background:var(--card2)}
-
-/* ── 폼 버튼 공통 ── */
 .field{margin-bottom:12px}
 .field label{display:block;font-size:10px;color:var(--sub);font-weight:700;letter-spacing:0.5px;margin-bottom:5px}
 .field input,.field select,.field textarea{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:11px 13px;font-size:15px;color:var(--text);outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
@@ -91,12 +73,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .btn-primary.orange{background:linear-gradient(135deg,var(--orange),var(--orange2));box-shadow:0 4px 20px rgba(255,152,0,0.3);color:#1a0f00}
 .btn-primary:active{transform:scale(0.97)}
 .btn-secondary{width:100%;padding:12px;border:1.5px solid var(--border);border-radius:12px;font-size:13px;color:var(--sub);background:transparent;cursor:pointer;font-family:inherit;margin-bottom:8px}
-
-/* ── 배달원 카드 ── */
 .worker-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border-left:4px solid var(--accent);display:flex;align-items:center;gap:12px}
 .worker-avatar{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#fff;flex-shrink:0}
 .worker-avatar.admin-av{background:linear-gradient(135deg,var(--accent),#8b83ff)}
-.worker-avatar.worker-av{background:linear-gradient(135deg,var(--teal),var(--teal2))}
 .worker-info{flex:1;min-width:0}
 .worker-name{font-size:15px;font-weight:900}
 .worker-prices{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4}
@@ -104,44 +83,51 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .wbtn{padding:7px 10px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;width:34px;height:30px;display:flex;align-items:center;justify-content:center}
 .wbtn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .wbtn-del{background:rgba(255,71,87,0.12);color:var(--red)}
-
-/* ── 일별 입력 공통 ── */
-.date-nav{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:14px;border:1.5px solid var(--border)}
+.date-nav{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:10px;border:1.5px solid var(--border)}
 .date-nav-btn{background:transparent;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
 .date-nav-label{font-size:14px;font-weight:900;color:var(--text)}
 .date-nav-sub{font-size:10px;color:var(--sub);text-align:center;margin-top:2px}
+/* [NEW] 전날복사+달력 */
+.daily-action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.daily-action-btn{padding:10px 8px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;transition:transform 0.1s}
+.daily-action-btn:active{transform:scale(0.96)}
+.daily-action-btn.blue{color:var(--blue2);border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.08)}
+.daily-action-btn.purple{color:var(--accent2);border-color:rgba(108,99,255,0.3);background:rgba(108,99,255,0.08)}
+/* [NEW] 미입력 배지 */
+.no-input-badge{font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(107,114,156,0.18);color:var(--sub);margin-left:5px;font-weight:700}
 .daily-worker-row{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;border:1.5px solid var(--border);transition:border-color 0.2s}
 .daily-worker-row.has-data{border-color:rgba(108,99,255,0.4)}
+.daily-worker-row.no-data-today{opacity:0.62}
 .daily-row-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .daily-avatar{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#8b83ff);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;color:#fff;flex-shrink:0}
 .daily-name{font-size:14px;font-weight:700;flex:1}
 .daily-total-badge{font-size:12px;font-weight:900;color:var(--green2);background:rgba(0,212,170,0.1);padding:3px 9px;border-radius:20px}
-.daily-inputs{display:grid;grid-template-columns:repeat(3, 1fr);gap:6px}
+.daily-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .daily-field label{display:block;font-size:9px;color:var(--sub);font-weight:700;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .daily-field input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:9px;padding:10px 4px;font-size:20px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .daily-field input:focus{border-color:var(--accent);background:var(--card2)}
 .daily-field-sub{font-size:9px;color:var(--sub);text-align:center;margin-top:4px;min-height:14px;white-space:nowrap}
-
-/* ── 배달원 오늘 입력 ── */
 .my-input-header{background:linear-gradient(135deg,rgba(0,188,212,0.12),rgba(0,188,212,0.04));border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:16px;margin-bottom:14px}
 .my-input-name{font-size:18px;font-weight:900;color:var(--teal2);margin-bottom:4px}
 .my-input-sub{font-size:11px;color:var(--sub)}
-.my-qty-grid{display:grid;grid-template-columns:repeat(3, 1fr);gap:8px;margin-bottom:14px}
+.my-qty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .my-qty-box{background:var(--card);border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center}
 .my-qty-label{font-size:10px;font-weight:700;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.my-qty-label.a{color:var(--orange2)}
-.my-qty-label.b{color:var(--accent2)}
-.my-qty-label.c{color:var(--pink2)}
+.my-qty-label.a{color:var(--orange2)}.my-qty-label.b{color:var(--accent2)}.my-qty-label.c{color:var(--pink2)}
 .my-qty-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 4px;font-size:26px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .my-qty-input:focus{border-color:var(--teal)}
 .my-calc-box{background:linear-gradient(135deg,#0a1f1a,#061410);border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:14px;margin-bottom:14px}
 .my-calc-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
-.my-calc-lbl{color:var(--sub)}
-.my-calc-val{font-weight:700}
+.my-calc-lbl{color:var(--sub)}.my-calc-val{font-weight:700}
 .my-calc-sep{border:none;border-top:1px solid rgba(0,188,212,0.15);margin:8px 0}
 .my-calc-total{font-size:22px;font-weight:900;color:var(--teal2)}
-
-/* ── 기록 및 정산 ── */
+/* [NEW] 공지 배너 */
+.notice-banner{background:linear-gradient(135deg,#1a1000,#221a00);border:1.5px solid var(--orange);border-radius:14px;padding:13px 15px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;animation:fadeInDown 0.35s ease}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.notice-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.notice-text{font-size:13px;line-height:1.6;color:var(--orange2);flex:1}
+/* [NEW] 오프라인 배너 */
+.offline-bar{background:rgba(255,71,87,0.1);border:1.5px solid rgba(255,71,87,0.3);border-radius:10px;padding:8px 14px;font-size:11px;color:var(--red);text-align:center;margin-bottom:12px;font-weight:700}
 .rec-day-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid var(--border)}
 .rec-day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .rec-day-date{font-size:15px;font-weight:900}
@@ -154,6 +140,19 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .rec-btn{flex:1;padding:8px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 .rec-btn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .rec-btn-del{background:rgba(255,71,87,0.12);color:var(--red)}
+/* [NEW] 월별 그룹 */
+.month-group{margin-bottom:10px}
+.month-group-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--card);border-radius:12px;cursor:pointer;border:1.5px solid var(--border);transition:all 0.2s;user-select:none}
+.month-group.open .month-group-head{border-color:rgba(108,99,255,0.35);background:linear-gradient(135deg,rgba(108,99,255,0.1),var(--card))}
+.month-group-left{flex:1}
+.month-group-title{font-size:15px;font-weight:900;margin-bottom:2px}
+.month-group-stat{font-size:11px;color:var(--sub)}
+.month-group-right{display:flex;align-items:center;gap:10px}
+.month-group-total{font-size:13px;font-weight:900;color:var(--green2)}
+.month-arrow{font-size:12px;color:var(--sub);transition:transform 0.25s}
+.month-group.open .month-arrow{transform:rotate(180deg);color:var(--accent2)}
+.month-group-body{display:none;padding-top:6px}
+.month-group.open .month-group-body{display:block}
 .my-rec-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:8px;border-left:4px solid var(--teal)}
 .my-rec-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .my-rec-date{font-size:14px;font-weight:900;color:var(--teal2)}
@@ -168,114 +167,113 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Noto S
 .stat-summary{background:linear-gradient(135deg,#131625,#0f1120);border:1.5px solid rgba(108,99,255,0.25);border-radius:14px;padding:16px;margin-bottom:12px}
 .stat-summary.worker-stat{background:linear-gradient(135deg,#0a1f1a,#061410);border-color:rgba(0,188,212,0.25)}
 .stat-title{font-size:10px;letter-spacing:0.5px;margin-bottom:12px;font-weight:700}
-.stat-title.admin{color:var(--accent3)}
-.stat-title.worker{color:var(--teal2)}
+.stat-title.admin{color:var(--accent3)}.stat-title.worker{color:var(--teal2)}
 .stat-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;font-size:12px}
-.stat-row-lbl{color:var(--sub)}
-.stat-row-val{font-weight:700}
+.stat-row-lbl{color:var(--sub)}.stat-row-val{font-weight:700}
 .stat-sep{border:none;border-top:1px solid var(--border);margin:8px 0}
 .stat-total{font-size:22px;font-weight:900;color:var(--green2);margin-top:4px}
 .worker-stat-card{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer}
 .wsc-rank{font-size:22px;font-weight:900;color:var(--sub2);width:28px;text-align:center;flex-shrink:0}
 .wsc-avatar{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#8b83ff);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#fff;flex-shrink:0}
-.wsc-info{flex:1;min-width:0}
-.wsc-name{font-size:14px;font-weight:900}
-.wsc-pay{text-align:right}
-.wsc-gross{font-size:15px;font-weight:900;color:var(--accent3)}
+.wsc-info{flex:1;min-width:0}.wsc-name{font-size:14px;font-weight:900}
+.wsc-pay{text-align:right}.wsc-gross{font-size:15px;font-weight:900;color:var(--accent3)}
 .wsc-net{font-size:11px;color:var(--green2);margin-top:2px}
-.wsc-qty{font-size:10px;color:var(--sub);margin-top:1px}
 .back-btn{display:flex;align-items:center;gap:6px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:9px 14px;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;margin-bottom:14px;font-family:inherit}
 .detail-header{background:linear-gradient(135deg,rgba(108,99,255,0.15),rgba(108,99,255,0.05));border:1.5px solid rgba(108,99,255,0.2);border-radius:14px;padding:16px;margin-bottom:12px}
 .detail-day-row{background:var(--card);border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;gap:10px}
 .ddr-date{font-size:12px;font-weight:700;flex:1}
 .ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .ddr-net{font-size:10px;color:var(--green2);text-align:right}
-
-/* ── 배달원 선택 드롭다운 ── */
-.ws-wrap { position: relative; margin-bottom: 16px; }
-.ws-select { width: 100%; appearance: none; background: var(--card); border: 1.5px solid var(--border); border-radius: 16px;
-padding: 15px 48px 15px 18px; font-size: 15px; font-weight: 900; color: var(--accent3); cursor: pointer; outline: none; transition: all 0.2s; font-family: inherit;}
-.ws-select:focus { border-color: var(--accent); }
-.ws-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--sub); font-size: 12px; }
-
-/* ── 🌟 완벽 부활! 출입코드 UI ── */
-.cn-wrap { padding-bottom: 20px; }
-.cn-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 16px; }
-.cn-title-area { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; }
-.cn-key-icon { background: var(--orange); color: #1a0f00; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.cn-title { font-size: 15px; font-weight: 900; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: -0.5px; }
-.cn-title-sub { font-size: 11px; color: var(--sub); margin-top: 1px; letter-spacing: -0.3px; }
-.cn-top-btns { display: flex; gap: 6px; flex-shrink: 0; }
-.cn-btn-pill { padding: 8px 10px; border-radius: 20px; font-size: 11px; font-weight: 900; border: none; cursor: pointer; transition: transform 0.1s; font-family: inherit; }
-.cn-btn-pill:active { transform: scale(0.95); }
-.cn-btn-pill.orange { background: var(--orange); color: #1a0f00; }
-.cn-btn-pill.teal { background: var(--teal); color: #001a14; }
-
-.cn-search { width: 100%; padding: 14px 16px 14px 44px; background: var(--card) url('data:image/svg+xml;utf8,<svg fill="%236b729c" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>') no-repeat 16px center/20px;
-border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font-size: 14px; outline: none; margin-bottom: 16px; font-family: inherit; transition: border 0.2s; }
-.cn-search:focus { border-color: var(--orange); }
-.code-drag-handle { font-size: 18px; color: var(--sub2); padding: 0 8px; cursor: grab; display: flex; align-items: center; justify-content: center; touch-action: none; height: 100%; }
-
-.cn-region { background: var(--card); border-radius: 16px; margin-bottom: 12px; overflow: hidden; position: relative; }
-.cn-region::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 4px; background: var(--orange); border-radius: 0 4px 4px 0; }
-.cn-region-head { display: flex; align-items: center; padding: 14px 12px 14px 4px; cursor: pointer; user-select: none; }
-.cn-r-icon { background: rgba(255,152,0,0.15); color: var(--orange); width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-right: 12px; flex-shrink: 0; }
-.cn-r-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.cn-r-name { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 2px; }
-.cn-r-stat { font-size: 11px; color: var(--sub); }
-.cn-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.cn-circle-btn { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--border); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 14px; padding:0; line-height:1; }
-.cn-circle-btn.add { color: var(--orange); border-color: rgba(255,152,0,0.3); }
-.cn-circle-btn.edit { color: var(--orange); }
-.cn-circle-btn.del { color: var(--sub); }
-.cn-arrow { color: var(--sub); margin-left: 4px; font-size: 12px; transition: transform 0.2s; width: 20px; text-align: center; }
-.cn-region.open .cn-arrow { transform: rotate(180deg); color: var(--orange); }
-.cn-complexes { display: none; padding: 0 12px 16px 12px; }
-.cn-region.open > .cn-complexes { display: block; }
-
-.cn-complex { background: var(--bg); border-radius: 14px; margin-bottom: 8px; overflow: hidden; position: relative; }
-.cn-complex::before { content: ''; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; background: var(--blue); border-radius: 0 4px 4px 0; }
-.cn-comp-head { display: flex; align-items: center; padding: 12px 10px 12px 4px; cursor: pointer; user-select: none; }
-.cn-c-icon { background: rgba(59,130,246,0.15); color: var(--blue2); width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 10px; flex-shrink: 0; }
-.cn-c-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.cn-c-name { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
-.cn-c-stat { font-size: 10px; color: var(--sub); }
-.cn-circle-btn.c-add { color: var(--blue2); border-color: rgba(59,130,246,0.3); }
-.cn-circle-btn.c-edit { color: var(--blue2); }
-.cn-complex.open .cn-arrow { transform: rotate(180deg); color: var(--blue2); }
-.cn-items { display: none; padding: 0; }
-.cn-complex.open > .cn-items { display: block; }
-
-.cn-item { display: flex; align-items: center; padding: 12px 10px 12px 4px; border-top: 1px solid var(--border); background: var(--bg); cursor: pointer; }
-.cn-i-info { flex: 1; display: flex; justify-content: space-between; align-items: center; padding-left: 6px; }
-.cn-i-addr { font-size: 13px; font-weight: 700; color: var(--text); }
-.cn-i-code { font-size: 14px; font-weight: 900; color: var(--green2); letter-spacing: 0.5px; margin-right: 12px; }
-
-/* 통합/전달 라디오 버튼 */
-.radio-card input[type="radio"] { display: none !important; }
-.radio-card .rc-content { display: flex; align-items: center; gap: 12px; background: var(--card2); border: 1.5px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
-.radio-card .rc-icon { font-size: 22px; filter: grayscale(1); opacity: 0.5; transition: all 0.2s; }
-.radio-card .rc-title { font-size: 14px; font-weight: 900; color: var(--sub); transition: all 0.2s; margin-bottom: 2px; }
-.radio-card .rc-desc { font-size: 11px; color: var(--sub); line-height: 1.3; }
-.radio-card input[type="radio"]:checked + .rc-content { border-color: var(--teal); background: rgba(0, 188, 212, 0.08); }
-.radio-card input[type="radio"]:checked + .rc-content .rc-icon { filter: none; opacity: 1; }
-.radio-card input[type="radio"]:checked + .rc-content .rc-title { color: var(--teal2); }
-.radio-card.danger input[type="radio"]:checked + .rc-content { border-color: var(--red); background: rgba(255, 71, 87, 0.08); }
-.radio-card.danger input[type="radio"]:checked + .rc-content .rc-title { color: var(--red); }
-
-/* 모달/시트 공통 */
+/* [NEW] 요일별 통계 */
+.dow-row{margin-bottom:8px}
+.dow-row-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;align-items:center}
+.dow-row-day{color:var(--sub);font-weight:700}
+.dow-row-val{color:var(--text);font-weight:700;font-size:12px}
+.dow-bg{height:7px;background:var(--border);border-radius:4px;overflow:hidden}
+.dow-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.6s ease}
+/* [NEW] 정산 공유 버튼 */
+.share-btn{width:100%;padding:12px;border:1.5px solid rgba(0,188,212,0.3);border-radius:12px;font-size:13px;font-weight:700;color:var(--teal2);background:rgba(0,188,212,0.08);cursor:pointer;font-family:inherit;margin-bottom:10px;transition:transform 0.1s}
+.share-btn:active{transform:scale(0.97)}
+/* [NEW] 달력 시트 */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:10px;width:100%;box-sizing:border-box}
+.cal-day-lbl{text-align:center;font-size:9px;color:var(--sub);padding:4px 0;font-weight:700;min-width:0}
+.cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:12px;cursor:pointer;position:relative;transition:all 0.15s;font-weight:500;min-width:0;overflow:hidden}
+.cal-cell.today{background:rgba(108,99,255,0.2);color:var(--accent2);font-weight:900}
+.cal-cell.has-rec::after{content:"";position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:5px;height:5px;border-radius:50%;background:var(--green)}
+.cal-cell.selected{background:var(--accent)!important;color:#fff!important;font-weight:900}
+.cal-cell.empty{cursor:default;pointer-events:none}
+.cal-cell:not(.empty):not(.selected):active{transform:scale(0.82)}
+.ws-wrap{position:relative;margin-bottom:16px}
+.ws-select{width:100%;appearance:none;background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:15px 48px 15px 18px;font-size:15px;font-weight:900;color:var(--accent3);cursor:pointer;outline:none;transition:all 0.2s;font-family:inherit}
+.ws-select:focus{border-color:var(--accent)}
+.ws-icon{position:absolute;right:18px;top:50%;transform:translateY(-50%);pointer-events:none;color:var(--sub);font-size:12px}
+.cn-wrap{padding-bottom:20px}
+.cn-header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}
+.cn-title-area{flex:1;min-width:0;display:flex;align-items:center;gap:8px}
+.cn-key-icon{background:var(--orange);color:#1a0f00;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.cn-title{font-size:15px;font-weight:900;color:var(--text);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.5px}
+.cn-title-sub{font-size:11px;color:var(--sub);margin-top:1px}
+.cn-top-btns{display:flex;gap:6px;flex-shrink:0}
+.cn-btn-pill{padding:8px 10px;border-radius:20px;font-size:11px;font-weight:900;border:none;cursor:pointer;transition:transform 0.1s;font-family:inherit}
+.cn-btn-pill:active{transform:scale(0.95)}
+.cn-btn-pill.orange{background:var(--orange);color:#1a0f00}
+.cn-btn-pill.teal{background:var(--teal);color:#001a14}
+.cn-search{width:100%;padding:14px 16px 14px 44px;background:var(--card) url("data:image/svg+xml;utf8,<svg fill='%236b729c' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/></svg>") no-repeat 16px center/20px;border:1.5px solid var(--border);border-radius:16px;color:var(--text);font-size:14px;outline:none;margin-bottom:16px;font-family:inherit;transition:border 0.2s}
+.cn-search:focus{border-color:var(--orange)}
+.code-drag-handle{font-size:18px;color:var(--sub2);padding:0 8px;cursor:grab;display:flex;align-items:center;justify-content:center;touch-action:none;height:100%}
+.cn-region{background:var(--card);border-radius:16px;margin-bottom:12px;overflow:hidden;position:relative}
+.cn-region::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:4px;background:var(--orange);border-radius:0 4px 4px 0}
+.cn-region-head{display:flex;align-items:center;padding:14px 12px 14px 4px;cursor:pointer;user-select:none}
+.cn-r-icon{background:rgba(255,152,0,0.15);color:var(--orange);width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-right:12px;flex-shrink:0}
+.cn-r-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.cn-r-name{font-size:16px;font-weight:900;color:var(--text);margin-bottom:2px}
+.cn-r-stat{font-size:11px;color:var(--sub)}
+.cn-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cn-circle-btn{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:14px;padding:0;line-height:1}
+.cn-circle-btn.add{color:var(--orange);border-color:rgba(255,152,0,0.3)}
+.cn-circle-btn.edit{color:var(--orange)}.cn-circle-btn.del{color:var(--sub)}
+.cn-arrow{color:var(--sub);margin-left:4px;font-size:12px;transition:transform 0.2s;width:20px;text-align:center}
+.cn-region.open .cn-arrow{transform:rotate(180deg);color:var(--orange)}
+.cn-complexes{display:none;padding:0 12px 16px 12px}
+.cn-region.open>.cn-complexes{display:block}
+.cn-complex{background:var(--bg);border-radius:14px;margin-bottom:8px;overflow:hidden;position:relative}
+.cn-complex::before{content:"";position:absolute;left:0;top:10px;bottom:10px;width:3px;background:var(--blue);border-radius:0 4px 4px 0}
+.cn-comp-head{display:flex;align-items:center;padding:12px 10px 12px 4px;cursor:pointer;user-select:none}
+.cn-c-icon{background:rgba(59,130,246,0.15);color:var(--blue2);width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-right:10px;flex-shrink:0}
+.cn-c-info{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.cn-c-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.cn-c-stat{font-size:10px;color:var(--sub)}
+.cn-circle-btn.c-add{color:var(--blue2);border-color:rgba(59,130,246,0.3)}
+.cn-circle-btn.c-edit{color:var(--blue2)}
+.cn-complex.open .cn-arrow{transform:rotate(180deg);color:var(--blue2)}
+.cn-items{display:none;padding:0}
+.cn-complex.open>.cn-items{display:block}
+.cn-item{display:flex;align-items:center;padding:12px 10px 12px 4px;border-top:1px solid var(--border);background:var(--bg);cursor:pointer}
+.cn-i-info{flex:1;display:flex;justify-content:space-between;align-items:center;padding-left:6px}
+.cn-i-addr{font-size:13px;font-weight:700;color:var(--text)}
+.cn-i-code{font-size:14px;font-weight:900;color:var(--green2);letter-spacing:0.5px;margin-right:12px}
+.radio-card input[type="radio"]{display:none!important}
+.radio-card .rc-content{display:flex;align-items:center;gap:12px;background:var(--card2);border:1.5px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:all 0.2s}
+.radio-card .rc-icon{font-size:22px;filter:grayscale(1);opacity:0.5;transition:all 0.2s}
+.radio-card .rc-title{font-size:14px;font-weight:900;color:var(--sub);transition:all 0.2s;margin-bottom:2px}
+.radio-card .rc-desc{font-size:11px;color:var(--sub);line-height:1.3}
+.radio-card input[type="radio"]:checked+.rc-content{border-color:var(--teal);background:rgba(0,188,212,0.08)}
+.radio-card input[type="radio"]:checked+.rc-content .rc-icon{filter:none;opacity:1}
+.radio-card input[type="radio"]:checked+.rc-content .rc-title{color:var(--teal2)}
+.radio-card.danger input[type="radio"]:checked+.rc-content{border-color:var(--red);background:rgba(255,71,87,0.08)}
+.radio-card.danger input[type="radio"]:checked+.rc-content .rc-title{color:var(--red)}
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:3000;align-items:center;justify-content:center}
 .overlay.show{display:flex}
 .dialog{background:var(--card);border-radius:18px;padding:24px;width:290px;text-align:center;border:1px solid var(--border)}
 .dialog h3{font-size:16px;margin-bottom:8px}
 .dialog p{font-size:13px;color:var(--sub);margin-bottom:20px;line-height:1.5}
 .dialog-btns{display:flex;gap:10px}
-.dialog-btns button{flex:1;padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit; transition:opacity 0.2s}
+.dialog-btns button{flex:1;padding:13px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
 .dbtn-cancel{background:var(--card2);color:var(--sub)}
-
 .bsoverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:2000;align-items:flex-end;justify-content:center}
 .bsoverlay.show{display:flex}
-.bsheet{background:var(--card);border-radius:22px 22px 0 0;padding:22px 18px 36px;width:100%;max-width:500px;border-top:1px solid var(--border); max-height: 90vh; overflow-y: auto;}
+.bsheet{background:var(--card);border-radius:22px 22px 0 0;padding:22px 18px 36px;width:100%;max-width:500px;border-top:1px solid var(--border);max-height:90vh;overflow-y:auto}
+#cal-sheet .bsheet{padding:18px 10px 30px}
 .bs-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px}
 .bs-title{font-size:15px;font-weight:900;margin-bottom:4px}
 .bs-sub{font-size:11px;color:var(--sub);margin-bottom:18px}
@@ -301,9 +299,9 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 .input-subtab.active{background:var(--accent);border-color:var(--accent);color:#fff}
 </style>
 </head>
-<body>
-
-<div class="login-wrap" id="login-wrap">
+<!-- ======= 여기까지 파트1 끝 (</head> 까지) ======= --><body>
+<!-- 로그인 -->
+<div class="login-wrap" id="login-wrap" style="display: none;">
 <div class="login-logo">📊</div>
 <div class="login-title">배송 관리자</div>
 <div class="login-sub">DELIVERY MANAGER</div>
@@ -312,33 +310,149 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="lf"><label>비밀번호</label><input type="password" id="l-pw" placeholder="비밀번호 입력" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
 <button class="btn-login" onclick="doLogin()">🔐 로그인</button>
 <div class="login-err" id="l-err"></div>
-</div>
-</div>
+</div></div>
 
-<div id="app" style="display:none;flex-direction:column;height:100vh;height:-webkit-fill-available">
-<div class="header" id="main-header">
-<div class="header-row">
-<div>
-<div class="header-label" id="h-label">DELIVERY MANAGER</div>
-<div class="header-title" id="h-title">배송 관리자</div>
-<div class="header-date" id="h-date"></div>
-</div>
-<div class="header-actions">
-<button class="logout-btn" id="logout-btn" onclick="doLogout()">로그아웃</button>
-<div class="hbtn" onclick="openBackup()">💾</div>
-<div class="hbtn" id="btn-settings" onclick="openSettings()">⚙️</div>
-</div>
-</div>
+<div id="app" style="display: flex; flex-direction: column; height: -webkit-fill-available;">
+<div class="header admin-mode" id="main-header">
+  <div class="header-row">
+    <div>
+      <div class="header-label" id="h-label">📊 ADMIN</div>
+      <div class="header-title" id="h-title">배송 관리자</div>
+      <div class="header-date" id="h-date">2026년 4월 9일 목요일</div>
+    </div>
+    <div class="header-actions">
+      <button class="logout-btn" onclick="doLogout()">로그아웃</button>
+      <div class="hbtn" onclick="openBackup()">💾</div>
+      <div class="hbtn" id="btn-settings" onclick="openSettings()" style="display:flex">⚙️</div>
+    </div>
+  </div>
 </div>
 <div class="summary-bar cols3" id="summary-bar">
-<div class="sum-item"><div class="sum-val" id="s1">-</div><div class="sum-lbl" id="s1l">-</div></div>
-<div class="sum-item g"><div class="sum-val" id="s2">-</div><div class="sum-lbl" id="s2l">-</div></div>
-<div class="sum-item t"><div class="sum-val" id="s3">-</div><div class="sum-lbl" id="s3l">-</div></div>
+  <div class="sum-item"><div class="sum-val" id="s1">4명</div><div class="sum-lbl" id="s1l">등록 배달원</div></div>
+  <div class="sum-item g"><div class="sum-val" id="s2">4.6만원</div><div class="sum-lbl" id="s2l">이번 달 총액</div></div>
+  <div class="sum-item t"><div class="sum-val" id="s3">0건</div><div class="sum-lbl" id="s3l">오늘 총 배송</div></div>
 </div>
-<div class="tabs" id="tabs-wrap"></div>
-<div class="content" id="content"></div>
+<div class="tabs" id="tabs-wrap"><button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
+    <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
+    <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
+    <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
+    <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button></div>
+<div class="content" id="content"><div class="input-subtabs">
+    <button class="input-subtab active" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
+    <button class="input-subtab " onclick="adminInputMode='worker';render()">👤 배달원별</button>
+  </div>
+  <div class="date-nav">
+    <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
+    <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <input type="date" id="admin-date-picker" value="2026-04-09" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setAdminDate(this.value)">
+      <div class="date-nav-label">4월 9일 (목요일) ▾</div>
+      <div class="date-nav-sub">새 기록</div>
+    </div>
+    <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
+  </div>
+  <div style="margin-bottom:12px">
+    <button class="daily-action-btn purple" style="width:100%" onclick="openCalendarSheet()">📅 달력으로 날짜 선택</button>
+  </div>
+  <div class="daily-worker-row  no-data-today" id="dwr-19">
+      <div class="daily-row-top">
+        <div class="daily-avatar">사</div>
+        <div class="daily-name">사오정<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-19"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-19"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-19"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-20">
+      <div class="daily-row-top">
+        <div class="daily-avatar">저</div>
+        <div class="daily-name">저팔계<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-20"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-20"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-20"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-21">
+      <div class="daily-row-top">
+        <div class="daily-avatar">손</div>
+        <div class="daily-name">손오공<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-21"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-21"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-21"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-22">
+      <div class="daily-row-top">
+        <div class="daily-avatar">피</div>
+        <div class="daily-name">피카츄<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-22"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-22"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-22"></div>
+        </div>
+      </div>
+    </div>
+  <div style="height:8px"></div>
+  <button class="btn-primary green" onclick="saveAdminDaily()">💾 저장하기</button>
+  
+  <div style="height:20px"></div></div>
 </div>
 
+<!-- [수정] 배달원 시트 — ws-pw type=password -->
 <div class="bsoverlay" id="worker-sheet" onclick="if(event.target===this)closeWorkerSheet()">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -349,28 +463,28 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="field" style="margin-bottom:0"><label>담당 지역</label><input type="text" id="ws-region" placeholder="구리시 갈매동"></div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
-<div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1"></div>
-<div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="text" id="ws-pw" placeholder="1234"></div>
+<div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1" autocomplete="off"></div>
+<div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="password" id="ws-pw" placeholder="비밀번호 입력" autocomplete="new-password"></div>
 </div>
-<div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:6px;margin-bottom:16px">
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px">
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pa">🅰 단가</label><input type="number" id="ws-pa" inputmode="numeric"></div>
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pb">🅱 단가</label><input type="number" id="ws-pb" inputmode="numeric"></div>
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pc" style="color:var(--pink2)">🅲 단가</label><input type="number" id="ws-pc" inputmode="numeric"></div>
 </div>
 <button class="btn-primary" onclick="saveWorker()">💾 저장</button>
 <button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
-</div>
-</div>
+</div></div>
 
+<!-- 설정 시트 — [NEW] 공지 기능 포함 -->
 <div class="bsoverlay" id="settings-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
 <div class="bs-title">⚙️ 앱 설정</div>
-<div class="bs-sub">개인 설정 및 기기 설정을 변경합니다.</div>
-<div id="admin-settings-area" style="display:none; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border)">
-<div class="sec-title">👑 관리자 계정 변경</div>
-<div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id"></div>
-<div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw"></div>
+<div class="bs-sub">계정 및 표시 설정을 변경합니다</div>
+<div id="admin-settings-area" style="display:block;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+  <div class="sec-title">👑 관리자 계정 변경</div>
+  <div class="field"><label>새 관리자 아이디</label><input type="text" id="set-admin-id" autocomplete="off"></div>
+  <div class="field"><label>새 비밀번호</label><input type="password" id="set-admin-pw" autocomplete="new-password"></div>
 </div>
 <div class="sec-title">📝 화면에 표시할 물품 이름</div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px">
@@ -378,10 +492,17 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="field"><label style="color:var(--accent2)">🅱 B 이름</label><input type="text" id="set-name-b"></div>
 <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c"></div>
 </div>
+<div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
+  <div class="sec-title">📢 배달원 공지 메시지</div>
+  <div class="field">
+    <label>배달원 앱 상단에 표시됩니다 (비우면 숨김)</label>
+    <textarea id="set-notice" rows="3" placeholder="예: 오늘은 오네 배달 없습니다 📦" style="resize:none;line-height:1.6;font-size:13px"></textarea>
+  </div>
+</div>
 <button class="btn-primary" onclick="saveSettings()">💾 변경 저장</button>
-</div>
-</div>
+</div></div>
 
+<!-- 출입코드 편집 -->
 <div class="bsoverlay" id="code-edit-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -395,19 +516,23 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 </div>
 <button class="btn-primary orange" onclick="saveCodeEntry()">💾 저장</button>
 <button class="btn-secondary" onclick="document.getElementById('code-edit-sheet').classList.remove('show')">취소</button>
-</div>
-</div>
+</div></div>
 
+<!-- 스마트 일괄등록 -->
 <div class="bsoverlay" id="smart-bulk-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
 <div class="bs-title">📝 스마트 일괄등록</div>
 <div class="bs-sub">카톡이나 메모장의 텍스트를 붙여넣으세요!</div>
-<div class="field"><textarea id="sb-text" rows="8" placeholder="예시:&#10;삼성아파트&#10;101동&#10;101호 1234*&#10;102호 #5678" style="line-height:1.5; font-size:13px;"></textarea></div>
+<div class="field"><textarea id="sb-text" rows="8" placeholder="예시:
+삼성아파트
+101동
+101호 1234*
+102호 #5678" style="line-height:1.5;font-size:13px"></textarea></div>
 <button class="btn-primary teal" onclick="saveSmartBulk()">🚀 마법의 자동 정리 시작</button>
-</div>
-</div>
+</div></div>
 
+<!-- 코드 전달 -->
 <div class="bsoverlay" id="code-sync-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -415,306 +540,244 @@ border: 1.5px solid var(--border); border-radius: 16px; color: var(--text); font
 <div class="bs-sub">대상을 선택하고 코드를 복사하세요.</div>
 <div class="field"><label>📤 원본 (가져올 데이터)</label><select id="sync-source" class="ws-select"></select></div>
 <div class="field"><label>📥 대상 (기록을 받을 배달원)</label><select id="sync-target" class="ws-select"></select></div>
-<div class="field">
-<label>⚙️ 복사 방식 선택</label>
-<div style="display:flex; flex-direction:column; gap:8px; margin-top:6px;">
-<label class="radio-card">
-<input type="radio" name="sync-mode" value="merge" checked>
-<div class="rc-content"><div class="rc-icon">➕</div><div class="rc-text"><div class="rc-title">기존 항목에 추가 (병합)</div><div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div></div></div>
-</label>
-<label class="radio-card danger">
-<input type="radio" name="sync-mode" value="overwrite">
-<div class="rc-content"><div class="rc-icon">🗑️</div><div class="rc-text"><div class="rc-title">모두 지우고 덮어쓰기</div><div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div></div></div>
-</label>
-</div>
-</div>
+<div class="field"><label>⚙️ 복사 방식 선택</label>
+<div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+<label class="radio-card"><input type="radio" name="sync-mode" value="merge" checked="">
+<div class="rc-content"><div class="rc-icon">➕</div><div class="rc-text"><div class="rc-title">기존 항목에 추가 (병합)</div><div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div></div></div></label>
+<label class="radio-card danger"><input type="radio" name="sync-mode" value="overwrite">
+<div class="rc-content"><div class="rc-icon">🗑️</div><div class="rc-text"><div class="rc-title">모두 지우고 덮어쓰기</div><div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div></div></div></label>
+</div></div>
 <button class="btn-primary teal" style="margin-top:14px" onclick="executeCodeSync()">🚀 실행하기</button>
 <button class="btn-secondary" onclick="document.getElementById('code-sync-sheet').classList.remove('show')">닫기</button>
-</div>
-</div>
+</div></div>
 
-<div class="bsoverlay" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
+<!-- 백업 -->
+<div class="bsoverlay show" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
 <div class="bs-title">💾 데이터 백업 / 관리</div>
-<div class="bs-sub" id="backup-sub">-</div>
+<div class="bs-sub" id="backup-sub">배달원 4명 · 기록 5일 (서버 저장)</div>
 <div class="bk-grid">
 <button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업</span></button>
 <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
 </div>
-<button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
-<button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
-<button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()">📝 전체 코드 복사</button>
+<button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()" style="display: block;">📊 CSV 내보내기 (월별 정산표)</button>
+<button class="bk-row bk-reset" id="reset-btn" onclick="askReset()" style="display: block;">🗑 전체 초기화</button>
+<button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()" style="display: block;">📝 전체 코드 복사</button>
 <button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
-</div>
-</div>
+</div></div>
 
+<!-- [NEW] 달력 시트 -->
+<div class="bsoverlay" id="cal-sheet" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="bsheet">
+<div class="bs-handle"></div>
+<div class="bs-title">📅 날짜 선택</div>
+<div class="bs-sub">🟢 점 = 기록 있음. 날짜를 탭하면 이동합니다.</div>
+<div id="cal-sheet-content"></div>
+<button class="btn-secondary" style="margin-top:10px" onclick="document.getElementById('cal-sheet').classList.remove('show')">닫기</button>
+</div></div>
+
+<!-- 확인 다이얼로그 -->
 <div class="overlay" id="confirm-overlay">
 <div class="dialog">
 <h3 id="dlg-title">확인</h3>
 <p id="dlg-msg">진행하시겠습니까?</p>
-<div class="dialog-btns"><button class="dbtn-cancel" onclick="closeConfirm()">취소</button><button id="dlg-ok" style="color:#fff;" onclick="doConfirm()">실행</button></div>
-</div>
-</div>
+<div class="dialog-btns">
+<button class="dbtn-cancel" onclick="closeConfirm()">취소</button>
+<button id="dlg-ok" style="color:#fff" onclick="doConfirm()">실행</button>
+</div></div></div>
 
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
-<div class="toast" id="toast"></div>
-<script>
-// ══════════════════════════════════════════
-//  Supabase 연결
-// ══════════════════════════════════════════
-const SUPA_URL = 'https://vvivcdwmommvgvbpxwxk.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
-const db = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+<div class="toast" id="toast">📋 전체 코드 복사 완료!</div>
+<!-- ======= 여기까지 파트2 끝 (HTML body 마크업) ======= --><script>
+const SUPA_URL='https://vvivcdwmommvgvbpxwxk.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
+const db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
+const TAX=0.033;
+const DAYS=['일','월','화','수','목','금','토'];
+const CACHE_KEY='mgr-offline-cache';
+let currentUser=null,workers=[],dailyRecords=[],tab='',isLoading=false,isOffline=false,confirmAction=null,editWorkerId=null,noticeText='';
+let itemNames=JSON.parse(localStorage.getItem('mgr-item-names'))||{a:'오네',b:'오네 책',c:'딜리'};
+let adminInputDate=today(),adminInputData={},adminInputMode='date';
+let statPeriod='month',statYear=new Date().getFullYear(),statMonth=new Date().getMonth(),detailWorkerId=null;
+let adminSelectedCodeWorkerId='admin';
+let myTab='input',myInputDate=today(),myQtyA='',myQtyB='',myQtyC='';
+let myStatPeriod='month',myStatYear=new Date().getFullYear(),myStatMonth=new Date().getMonth();
+let codeSearchQuery='',codeEditMode='',codeEditTargetFolderId=null,codeEditTargetSubId=null,codeEditTargetItemId=null;
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
 
-// ══════════════════════════════════════════
-//  공통 상태 및 유틸리티
-// ══════════════════════════════════════════
-const TAX = 0.033;
-const DAYS = ['일','월','화','수','목','금','토'];
-let currentUser = null;
-let workers = [];      
-let dailyRecords = []; 
-let tab = '';
-let isLoading = false;
-let confirmAction = null;
-let editWorkerId = null;
+// [NEW] SHA-256 해싱
+async function hashPw(pw){
+  if(!pw) return '';
+  try{
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(pw));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){return pw;}
+}
+function isHashedPw(pw){return /^[a-f0-9]{64}$/.test(pw);}
 
-let itemNames = JSON.parse(localStorage.getItem('mgr-item-names')) || { a: '오네', b: '오네 책', c: '딜리' };
+// [NEW] 진동
+function vibrate(ms=80){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
 
-let adminInputDate = today();
-let adminInputData = {};
-let adminInputMode = 'date';
-let statPeriod = 'month', statYear = new Date().getFullYear(), statMonth = new Date().getMonth();
-let detailWorkerId = null;
-let adminSelectedCodeWorkerId = 'admin'; 
-
-let myTab = 'input';
-let myInputDate = today();
-let myQtyA = '', myQtyB = '', myQtyC = '';
-let myStatPeriod = 'month', myStatYear = new Date().getFullYear(), myStatMonth = new Date().getMonth();
-let codeSearchQuery = '';
-let codeEditMode = '', codeEditTargetFolderId = null, codeEditTargetSubId = null, codeEditTargetItemId = null;
-
-function today() {
-  const d = new Date();
-  const yy = d.getFullYear();
-  const mm = String(d.getMonth() + 1).padStart(2, '0');
-  const dd = String(d.getDate()).padStart(2, '0');
-  return `${yy}-${mm}-${dd}`;
+// 유틸
+function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+function won(n){return Number(n).toLocaleString()+'원';}
+function wonShort(n){return n>=10000?Math.round(n/1000)/10+'만원':won(n);}
+function fmtDate(s){const[y,m,d]=s.split('-');return `${Number(m)}월 ${Number(d)}일`;}
+function fmtDay(s){const[y,m,d]=s.split('-');return DAYS[new Date(y,m-1,d).getDay()]+'요일';}
+function av(name){return name?name[0]:'?';}
+function calcPay(w,qA,qB,qC){
+  const a=Number(qA)||0,b=Number(qB)||0,c=Number(qC)||0;
+  const gross=(a*(w.priceA||0))+(b*(w.priceB||0))+(c*(w.priceC||0));
+  return{a,b,c,qty:a+b+c,gross,net:Math.round(gross*(1-TAX))};
 }
 
-function won(n){ return Number(n).toLocaleString()+'원'; }
-function wonShort(n){ return n>=10000?Math.round(n/1000)/10+'만원':won(n); }
-function fmtDate(dateStr){
-  const [y,m,d] = dateStr.split('-');
-  return `${Number(m)}월 ${Number(d)}일`;
+// [NEW] 오프라인 캐시
+function cacheData(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),workers,dailyRecords}));}catch(e){}}
+function loadCachedData(){
+  try{const c=JSON.parse(localStorage.getItem(CACHE_KEY));if(c&&c.ts){workers=c.workers||[];dailyRecords=c.dailyRecords||[];return true;}}catch(e){}
+  return false;
 }
-function fmtDay(dateStr){
-  const [y,m,d] = dateStr.split('-');
-  const dateObj = new Date(y, m-1, d);
-  return DAYS[dateObj.getDay()]+'요일';
-}
-function av(name){ return name?name[0]:'?'; }
-function calcPay(w, qA, qB, qC){
-  const a=Number(qA)||0, b=Number(qB)||0, c=Number(qC)||0;
-  const gross = (a*(w.priceA||0)) + (b*(w.priceB||0)) + (c*(w.priceC||0));
-  const net = Math.round(gross*(1-TAX));
-  return {a, b, c, qty: a+b+c, gross, net};
-}
+window.addEventListener('online',()=>showToast('📡 온라인 연결됨'));
+window.addEventListener('offline',()=>showToast('⚠️ 오프라인 - 캐시 사용'));
 
-// ══════════════════════════════════════════
-//  달력 입력 처리 추가 기능 (날짜 선택 시 실행)
-// ══════════════════════════════════════════
-function setAdminDate(val) {
-  if(!val) return;
-  adminInputDate = val;
-  adminInputData = {};
-  render();
-}
-function setMyDate(val) {
-  if(!val) return;
-  myInputDate = val;
-  myQtyA = ''; myQtyB = ''; myQtyC = '';
-  render();
-}
+function setAdminDate(val){if(!val)return;adminInputDate=val;adminInputData={};render();}
+function setMyDate(val){if(!val)return;myInputDate=val;myQtyA='';myQtyB='';myQtyC='';render();}
 
-// ══════════════════════════════════════════
-//  🌟 완벽 방어 로그인 로직 & 로그아웃 초기화
-// ══════════════════════════════════════════
+// [수정] 로그인 — 해시 비밀번호 지원
 function doLogin(){
-  const id = document.getElementById('l-id').value.trim();
-  const pw = document.getElementById('l-pw').value;
-  const errEl = document.getElementById('l-err');
-  if(!id||!pw){ errEl.textContent='아이디와 비밀번호를 입력해주세요'; return; }
-
-  const adminAcc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || { id:'admin', pw:'admin1234', role:'admin', name:'관리자' };
-
-  if (id === adminAcc.id && pw === adminAcc.pw) {
-    currentUser = adminAcc;
-    finishLogin();
-  } else {
-    checkWorkerLogin(id, pw, errEl);
-  }
+  const id=document.getElementById('l-id').value.trim();
+  const pw=document.getElementById('l-pw').value;
+  const errEl=document.getElementById('l-err');
+  if(!id||!pw){errEl.textContent='아이디와 비밀번호를 입력해주세요';return;}
+  const adminAcc=JSON.parse(localStorage.getItem('mgr-admin-acc'))||{id:'admin',pw:'admin1234',role:'admin',name:'관리자'};
+  if(id===adminAcc.id&&pw===adminAcc.pw){currentUser=adminAcc;finishLogin();}
+  else checkWorkerLogin(id,pw,errEl);
 }
-
-async function checkWorkerLogin(id, pw, errEl) {
-  errEl.textContent = '확인 중...';
-  try {
-    const { data, error } = await db.from('workers').select('*').eq('login_id', id);
-    if (error || !data || data.length === 0) throw new Error('ID_NOT_FOUND');
-    
-    const workerData = data[data.length - 1];
-
-    const dbPw = String(workerData.login_pw || '').trim();
-    const inputPw = String(pw).trim();
-
-    if (dbPw !== inputPw) throw new Error('WRONG_PW');
-
-    currentUser = { id: workerData.login_id, role: 'worker', name: workerData.name, workerId: workerData.id };
-    finishLogin();
-  } catch(e) {
-    if(e.message === 'ID_NOT_FOUND') {
-      errEl.textContent='❌ 등록되지 않은 아이디입니다.';
-    } else if(e.message === 'WRONG_PW') {
-      errEl.textContent='❌ 비밀번호가 틀렸습니다.';
-    } else {
-      errEl.textContent='❌ 로그인 오류가 발생했습니다.';
+async function checkWorkerLogin(id,pw,errEl){
+  errEl.textContent='확인 중...';
+  if(id==='__system_notice__'){errEl.textContent='❌ 등록되지 않은 아이디입니다.';return;}
+  try{
+    const{data,error}=await db.from('workers').select('*').eq('login_id',id);
+    if(error||!data||data.length===0)throw new Error('ID_NOT_FOUND');
+    const wd=data[data.length-1];
+    const stored=String(wd.login_pw||'').trim();
+    const input=String(pw).trim();
+    let matched=false;
+    if(isHashedPw(stored)){matched=(stored===await hashPw(input));}
+    else{
+      matched=(stored===input);
+      if(matched&&input){await db.from('workers').update({login_pw:await hashPw(input)}).eq('id',wd.id);}
     }
+    if(!matched)throw new Error('WRONG_PW');
+    currentUser={id:wd.login_id,role:'worker',name:wd.name,workerId:wd.id};
+    finishLogin();
+  }catch(e){
+    if(e.message==='ID_NOT_FOUND')errEl.textContent='❌ 등록되지 않은 아이디입니다.';
+    else if(e.message==='WRONG_PW')errEl.textContent='❌ 비밀번호가 틀렸습니다.';
+    else errEl.textContent='❌ 로그인 오류가 발생했습니다.';
   }
 }
-
-function finishLogin() {
-  sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
-  document.getElementById('login-wrap').classList.add('hide');
-  document.getElementById('app').style.display = 'flex';
-  setupUI();
-  loadAll();
+function finishLogin(){
+  sessionStorage.setItem('mgr-user',JSON.stringify(currentUser));
+  document.getElementById('login-wrap').style.display='none';
+  document.getElementById('app').style.display='flex';
+  setupUI();loadAll();
 }
-
 function doLogout(){
-  currentUser = null;
-  workers = []; 
-  dailyRecords = []; 
-  document.getElementById('content').innerHTML = ''; 
-  
+  currentUser=null;workers=[];dailyRecords=[];
+  document.getElementById('content').innerHTML='';
   sessionStorage.removeItem('mgr-user');
-  document.getElementById('login-wrap').classList.remove('hide');
-  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-wrap').style.display='flex';
+  document.getElementById('app').style.display='none';
   document.getElementById('l-id').value='';
   document.getElementById('l-pw').value='';
   document.getElementById('l-err').textContent='';
 }
 
-// ══════════════════════════════════════════
-//  UI 설정
-// ══════════════════════════════════════════
 function setupUI(){
-  const isAdmin = currentUser.role === 'admin';
-  const header = document.getElementById('main-header');
-  header.className = 'header ' + (isAdmin?'admin-mode':'worker-mode');
-
-  document.getElementById('h-label').textContent = isAdmin ? '📊 ADMIN' : '🚗 DELIVERY';
-  document.getElementById('h-title').textContent = isAdmin ? '배송 관리자' : currentUser.name+'님';
-  document.getElementById('h-date').textContent = new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
-
-  const btnSettings = document.getElementById('btn-settings');
-  if (btnSettings) btnSettings.style.display = isAdmin ? 'flex' : 'none';
-
-  const tabsWrap = document.getElementById('tabs-wrap');
+  const isAdmin=currentUser.role==='admin';
+  const header=document.getElementById('main-header');
+  header.className='header '+(isAdmin?'admin-mode':'worker-mode');
+  document.getElementById('h-label').textContent=isAdmin?'📊 ADMIN':'🚗 DELIVERY';
+  document.getElementById('h-title').textContent=isAdmin?'배송 관리자':currentUser.name+'님';
+  document.getElementById('h-date').textContent=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'long',day:'numeric',weekday:'long'});
+  const bs=document.getElementById('btn-settings');
+  if(bs)bs.style.display=isAdmin?'flex':'none';
+  const tw=document.getElementById('tabs-wrap');
   if(isAdmin){
-    tab = 'daily';
-    tabsWrap.innerHTML = `
-    <button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
+    tab='daily';
+    tw.innerHTML=`<button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
     <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
     <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
     <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
     <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button>`;
-    
-    document.getElementById('csv-btn').style.display='block';
-    document.getElementById('reset-btn').style.display='block';
-    const _cpb = document.getElementById('copy-btn'); if(_cpb) _cpb.style.display='block';
-  } else {
-    myTab = 'input';
-    tabsWrap.innerHTML = `
-    <button class="tab active worker" id="tab-my-input" onclick="switchMyTab('input')">✏️ 오늘 입력</button>
+    ['csv-btn','reset-btn','copy-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='block';});
+  }else{
+    myTab='input';
+    tw.innerHTML=`<button class="tab active worker" id="tab-my-input" onclick="switchMyTab('input')">✏️ 오늘 입력</button>
     <button class="tab" id="tab-my-records" onclick="switchMyTab('records')">📋 내 기록</button>
     <button class="tab" id="tab-my-stats" onclick="switchMyTab('stats')">📊 통계</button>
     <button class="tab" id="tab-my-codes" onclick="switchMyTab('codes')">🔑 노트</button>`;
-    
-    document.getElementById('csv-btn').style.display='none';
-    document.getElementById('reset-btn').style.display='none';
-    const _cpb = document.getElementById('copy-btn'); if(_cpb) _cpb.style.display='none';
+    ['csv-btn','reset-btn','copy-btn'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
   }
 }
 
-// ══════════════════════════════════════════
-//  데이터 로드 및 마이그레이션
-// ══════════════════════════════════════════
+// [수정] 데이터 로드 — 공지 + 캐시 + __system__ 필터
 async function loadAll(){
-  isLoading=true; render();
-  try {
-    const {data:w,error:we}=await db.from('workers').select('*').order('id');
-    if(we) throw we;
-    
-    workers=(w||[]).map(x=> {
-      let codes = x.access_codes || [];
-      codes.forEach(c => {
-        if(c.items && !c.subs) {
-          c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 단지', items: c.items }];
-          delete c.items;
-        }
-        if(!c.subs) c.subs = [];
-        c.subs.forEach(s => { if(!s.items) s.items = []; });
+  isLoading=true;isOffline=false;render();
+  const _tout=(ms)=>new Promise((_,rej)=>setTimeout(()=>rej(new Error('TIMEOUT')),ms));
+  try{
+    const{data:w,error:we}=await Promise.race([db.from('workers').select('*').order('id'),_tout(10000)]);
+    if(we)throw we;
+    const noticeRow=(w||[]).find(x=>x.login_id==='__system_notice__');
+    noticeText=noticeRow?.region||'';
+    workers=(w||[]).filter(x=>x.login_id!=='__system_notice__'&&x.name!=='__SYSTEM__').map(x=>{
+      let codes=x.access_codes||[];
+      codes.forEach(c=>{
+        if(c.items&&!c.subs){c.subs=[{id:'s_'+Math.random().toString(36).substr(2,5),name:'기본 단지',items:c.items}];delete c.items;}
+        if(!c.subs)c.subs=[];
+        c.subs.forEach(s=>{if(!s.items)s.items=[];});
       });
-
-      return {
-        id:x.id, name:x.name,
-        priceA:x.price_a||0, priceB:x.price_b||0, priceC:x.price_c||0,
-        loginId:x.login_id||'', region: x.region||'', codes: codes
-      };
+      return{id:x.id,name:x.name,priceA:x.price_a||0,priceB:x.price_b||0,priceC:x.price_c||0,loginId:x.login_id||'',region:x.region||'',codes};
     });
-
-    const {data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
-    if(re) throw re;
+    const{data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
+    if(re)throw re;
     const map={};
     (r||[]).forEach(row=>{
       const d=row.work_date;
-      if(!map[d]) map[d]={date:d,data:{}};
+      if(!map[d])map[d]={date:d,data:{}};
       map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0)};
     });
     dailyRecords=Object.values(map).sort((a,b)=>b.date.localeCompare(a.date));
-  } catch(e){
+    cacheData();
+  }catch(e){
     console.error(e);
-    showToast('❌ 로드 실패: '+e.message);
+    if(loadCachedData()){isOffline=true;showToast('📡 오프라인 - 캐시 데이터로 표시 중');}
+    else showToast('❌ 로드 실패: '+e.message);
   }
-  isLoading=false;
-  updateSummary();
-  render();
+  isLoading=false;updateSummary();render();
 }
 
 function updateSummary(){
-  if(!currentUser) return;
-  const isAdmin = currentUser.role==='admin';
-  const m = today().slice(0,7);
+  if(!currentUser)return;
+  const isAdmin=currentUser.role==='admin';
+  const m=today().slice(0,7);
   if(isAdmin){
     document.getElementById('s1').textContent=workers.length+'명';
     document.getElementById('s1l').textContent='등록 배달원';
-    const mRecs=dailyRecords.filter(r=>r.date.startsWith(m));
     let mTotal=0;
-    mRecs.forEach(r=>Object.keys(r.data||{}).forEach(wid=>{
-      const w=workers.find(x=>x.id===Number(wid));
-      if(w) mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB,r.data[wid].qtyC).gross;
-    }));
+    dailyRecords.filter(r=>r.date.startsWith(m)).forEach(r=>
+      Object.keys(r.data||{}).forEach(wid=>{const w=workers.find(x=>x.id===Number(wid));if(w)mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB,r.data[wid].qtyC).gross;})
+    );
     document.getElementById('s2').textContent=wonShort(mTotal);
     document.getElementById('s2l').textContent='이번 달 총액';
     const tRec=dailyRecords.find(r=>r.date===today());
     let tQty=0;
-    if(tRec) Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0);});
+    if(tRec)Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0);});
     document.getElementById('s3').textContent=tQty.toLocaleString()+'건';
     document.getElementById('s3l').textContent='오늘 총 배송';
-  } else {
-    const w=workers.find(x=>x.id===currentUser.workerId);
+  }else{
     const mRecs=dailyRecords.filter(r=>r.date.startsWith(m)&&r.data?.[currentUser.workerId]);
     const mQty=mRecs.reduce((s,r)=>s+(Number(r.data[currentUser.workerId]?.qtyA)||0)+(Number(r.data[currentUser.workerId]?.qtyB)||0)+(Number(r.data[currentUser.workerId]?.qtyC)||0),0);
     const tRec=dailyRecords.find(r=>r.date===today());
@@ -730,91 +793,105 @@ function updateSummary(){
 }
 
 function switchTab(t){
-  tab=t; detailWorkerId=null;
-  ['daily','records','stats','workers', 'codes'].forEach(x=>{
-    const el=document.getElementById('tab-'+x);
-    if(el) el.className='tab'+(x===t?' active admin':'');
-  });
+  tab=t;detailWorkerId=null;
+  ['daily','records','stats','workers','codes'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.className='tab'+(x===t?' active admin':'');});
   render();
 }
 function switchMyTab(t){
   myTab=t;
-  ['my-input','my-records','my-stats', 'my-codes'].forEach(x=>{
-    const el=document.getElementById('tab-'+x);
-    if(el) el.className='tab'+(x.replace('my-','')===(t)?(' active worker'):'');
-  });
+  ['my-input','my-records','my-stats','my-codes'].forEach(x=>{const el=document.getElementById('tab-'+x);if(el)el.className='tab'+(x.replace('my-','')===(t)?(' active worker'):'');});
   render();
+}
+
+// 공지 배너
+function renderNoticeBanner(){
+  if(!noticeText||!noticeText.trim())return '';
+  const esc=noticeText.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  return `<div class="notice-banner"><div class="notice-icon">📢</div><div class="notice-text">${esc}</div></div>`;
+}
+function renderOfflineBanner(){
+  if(!isOffline)return '';
+  return `<div class="offline-bar">📡 오프라인 모드 — 캐시된 데이터를 표시하고 있습니다</div>`;
 }
 
 function render(){
   const c=document.getElementById('content');
-  if(!currentUser){ c.innerHTML=''; return; }
-  if(isLoading){ c.innerHTML=`<div class="loading"><div class="spinner"></div><div class="loading-txt">데이터 불러오는 중...</div></div>`; return; }
-
+  if(!currentUser){c.innerHTML='';return;}
+  if(isLoading){c.innerHTML=`<div class="loading"><div class="spinner"></div><div class="loading-txt">데이터 불러오는 중...</div></div>`;return;}
   if(currentUser.role==='admin'){
-    if(tab==='daily') c.innerHTML=renderAdminDaily();
-    else if(tab==='records') c.innerHTML=renderAdminRecords();
-    else if(tab==='stats') c.innerHTML=detailWorkerId?renderWorkerDetail():renderAdminStats();
-    else if(tab==='workers') c.innerHTML=renderAdminWorkers();
-    else if(tab==='codes') c.innerHTML=renderAdminCodes();
-    
-    if(tab==='daily') bindAdminDailyEvents();
-    if(tab==='codes') { bindCodeSearchEvent(); initSortableCodes(); } 
-  } else {
-    if(myTab==='input') c.innerHTML=renderMyInput();
-    else if(myTab==='records') c.innerHTML=renderMyRecords();
-    else if(myTab==='stats') c.innerHTML=renderMyStats();
-    else if(myTab==='codes') c.innerHTML=renderMyCodes();
-    
-    if(myTab==='input') bindMyInputEvents();
-    if(myTab==='codes') { bindCodeSearchEvent(); initSortableCodes(); }
+    if(tab==='daily')c.innerHTML=renderAdminDaily();
+    else if(tab==='records')c.innerHTML=renderAdminRecords();
+    else if(tab==='stats')c.innerHTML=detailWorkerId?renderWorkerDetail():renderAdminStats();
+    else if(tab==='workers')c.innerHTML=renderAdminWorkers();
+    else if(tab==='codes')c.innerHTML=renderAdminCodes();
+    if(tab==='daily')bindAdminDailyEvents();
+    if(tab==='codes'){bindCodeSearchEvent();initSortableCodes();}
+  }else{
+    const banner=renderNoticeBanner()+renderOfflineBanner();
+    if(myTab==='input')c.innerHTML=banner+renderMyInput();
+    else if(myTab==='records')c.innerHTML=banner+renderMyRecords();
+    else if(myTab==='stats')c.innerHTML=banner+renderMyStats();
+    else if(myTab==='codes')c.innerHTML=banner+renderMyCodes();
+    if(myTab==='input')bindMyInputEvents();
+    if(myTab==='codes'){bindCodeSearchEvent();initSortableCodes();}
   }
 }
 
-function openSettings() {
-  const isAdmin = currentUser.role === 'admin';
-  document.getElementById('admin-settings-area').style.display = isAdmin ? 'block' : 'none';
-  if(isAdmin) {
-    const acc = JSON.parse(localStorage.getItem('mgr-admin-acc')) || {id:'admin', pw:'admin1234'};
-    document.getElementById('set-admin-id').value = acc.id;
-    document.getElementById('set-admin-pw').value = acc.pw;
+// 설정
+function openSettings(){
+  const isAdmin=currentUser.role==='admin';
+  document.getElementById('admin-settings-area').style.display=isAdmin?'block':'none';
+  if(isAdmin){
+    const acc=JSON.parse(localStorage.getItem('mgr-admin-acc'))||{id:'admin',pw:'admin1234'};
+    document.getElementById('set-admin-id').value=acc.id;
+    document.getElementById('set-admin-pw').value=acc.pw;
   }
-  document.getElementById('set-name-a').value = itemNames.a;
-  document.getElementById('set-name-b').value = itemNames.b;
-  document.getElementById('set-name-c').value = itemNames.c;
+  document.getElementById('set-name-a').value=itemNames.a;
+  document.getElementById('set-name-b').value=itemNames.b;
+  document.getElementById('set-name-c').value=itemNames.c;
+  document.getElementById('set-notice').value=noticeText||'';
   document.getElementById('settings-sheet').classList.add('show');
 }
-
-function saveSettings() {
-  const isAdmin = currentUser.role === 'admin';
-  if(isAdmin) {
-    const id = document.getElementById('set-admin-id').value.trim();
-    const pw = document.getElementById('set-admin-pw').value.trim();
-    if(!id || !pw) { showToast('아이디와 비밀번호를 입력해주세요'); return; }
-    localStorage.setItem('mgr-admin-acc', JSON.stringify({id, pw, role:'admin', name:'관리자'}));
-    currentUser.id = id; currentUser.pw = pw;
-    sessionStorage.setItem('mgr-user', JSON.stringify(currentUser));
+async function saveSettings(){
+  const isAdmin=currentUser.role==='admin';
+  if(isAdmin){
+    const id=document.getElementById('set-admin-id').value.trim();
+    const pw=document.getElementById('set-admin-pw').value.trim();
+    if(!id||!pw){showToast('아이디와 비밀번호를 입력해주세요');return;}
+    localStorage.setItem('mgr-admin-acc',JSON.stringify({id,pw,role:'admin',name:'관리자'}));
+    currentUser.id=id;sessionStorage.setItem('mgr-user',JSON.stringify(currentUser));
   }
-  itemNames = { 
-    a: document.getElementById('set-name-a').value.trim() || '물품 A', 
-    b: document.getElementById('set-name-b').value.trim() || '물품 B', 
-    c: document.getElementById('set-name-c').value.trim() || '물품 C' 
+  itemNames={
+    a:document.getElementById('set-name-a').value.trim()||'물품 A',
+    b:document.getElementById('set-name-b').value.trim()||'물품 B',
+    c:document.getElementById('set-name-c').value.trim()||'물품 C'
   };
-  localStorage.setItem('mgr-item-names', JSON.stringify(itemNames));
+  localStorage.setItem('mgr-item-names',JSON.stringify(itemNames));
+  const nv=document.getElementById('set-notice').value||'';
+  await saveNoticeToDb(nv);
   showToast('✅ 설정이 저장되었습니다.');
   document.getElementById('settings-sheet').classList.remove('show');
   render();
 }
+// [NEW] 공지 DB 저장 (시스템 예약 row 활용)
+async function saveNoticeToDb(text){
+  try{
+    const{data:ex}=await db.from('workers').select('id').eq('login_id','__system_notice__').limit(1);
+    if(ex&&ex.length>0)await db.from('workers').update({region:text}).eq('id',ex[0].id);
+    else await db.from('workers').insert({login_id:'__system_notice__',name:'__SYSTEM__',region:text,price_a:0,price_b:0,price_c:0,access_codes:[]});
+    noticeText=text;
+  }catch(e){console.error('Notice save error:',e);}
+}
 
+// 배달원 관리
 function renderAdminWorkers(){
   const addBtn=`<button class="btn-primary" onclick="openWorkerSheet(null)" style="margin-bottom:16px">+ 배달원 추가</button>`;
-  if(!workers.length) return addBtn+`<div class="empty">👥 배달원이 없어요</div>`;
-  
+  if(!workers.length)return addBtn+`<div class="empty">👥 배달원이 없어요</div>`;
   return addBtn+workers.map(w=>`<div class="worker-card">
     <div class="worker-avatar admin-av">${av(w.name)}</div>
     <div class="worker-info">
-      <div class="worker-name">${w.name} ${w.region? `<span style="font-size:10px;font-weight:normal;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
-      <div class="worker-prices">🔑 ${w.loginId||'미설정'} <br> 🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div>
+      <div class="worker-name">${w.name}${w.region?` <span style="font-size:10px;font-weight:normal;color:var(--sub)">📍${w.region}</span>`:''}</div>
+      <div class="worker-prices">🔑 ${w.loginId||'미설정'}<br>🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()}</div>
     </div>
     <div class="worker-btns">
       <button class="wbtn wbtn-edit" onclick="openWorkerSheet(${w.id})">✏️</button>
@@ -822,14 +899,12 @@ function renderAdminWorkers(){
     </div>
   </div>`).join('')+'<div style="height:20px"></div>';
 }
-
 function openWorkerSheet(id){
   editWorkerId=id;
   document.getElementById('ws-title').textContent=id?'👤 배달원 수정':'👤 배달원 추가';
-  document.getElementById('lbl-ws-pa').textContent = `🅰 ${itemNames.a} 단가`;
-  document.getElementById('lbl-ws-pb').textContent = `🅱 ${itemNames.b} 단가`;
-  document.getElementById('lbl-ws-pc').textContent = `🅲 ${itemNames.c} 단가`;
-
+  document.getElementById('lbl-ws-pa').textContent=`🅰 ${itemNames.a} 단가`;
+  document.getElementById('lbl-ws-pb').textContent=`🅱 ${itemNames.b} 단가`;
+  document.getElementById('lbl-ws-pc').textContent=`🅲 ${itemNames.c} 단가`;
   const w=id?workers.find(x=>x.id===id):null;
   document.getElementById('ws-name').value=w?.name||'';
   document.getElementById('ws-region').value=w?.region||'';
@@ -841,8 +916,8 @@ function openWorkerSheet(id){
   document.getElementById('worker-sheet').classList.add('show');
   setTimeout(()=>document.getElementById('ws-name').focus(),300);
 }
-function closeWorkerSheet(){ document.getElementById('worker-sheet').classList.remove('show'); editWorkerId=null; }
-
+function closeWorkerSheet(){document.getElementById('worker-sheet').classList.remove('show');editWorkerId=null;}
+// [수정] 비밀번호 해싱 저장
 async function saveWorker(){
   const name=document.getElementById('ws-name').value.trim();
   const region=document.getElementById('ws-region').value.trim();
@@ -851,260 +926,61 @@ async function saveWorker(){
   const pa=Number(document.getElementById('ws-pa').value)||0;
   const pb=Number(document.getElementById('ws-pb').value)||0;
   const pc=Number(document.getElementById('ws-pc').value)||0;
-
-  if(!name){ showToast('⚠️ 이름을 입력해주세요'); return; }
-  
-  if(loginId) {
-    const exist = workers.find(w => w.loginId === loginId && w.id !== editWorkerId);
-    if(exist) { showToast('⚠️ 이미 사용 중인 아이디입니다! 다른 아이디를 써주세요.'); return; }
-  }
-
-  try {
+  if(!name){showToast('⚠️ 이름을 입력해주세요');return;}
+  if(loginId){const ex=workers.find(w=>w.loginId===loginId&&w.id!==editWorkerId);if(ex){showToast('⚠️ 이미 사용 중인 아이디입니다!');return;}}
+  try{
     if(editWorkerId){
-      const upd={name, region, price_a:pa, price_b:pb, price_c:pc};
-      if(loginId) upd.login_id=loginId;
-      if(pw) upd.login_pw=pw;
-      const {error}=await db.from('workers').update(upd).eq('id',editWorkerId);
-      if(error) throw error;
+      const upd={name,region,price_a:pa,price_b:pb,price_c:pc};
+      if(loginId)upd.login_id=loginId;
+      if(pw)upd.login_pw=await hashPw(pw);
+      const{error}=await db.from('workers').update(upd).eq('id',editWorkerId);
+      if(error)throw error;
       workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||w.loginId}:w);
       showToast('✅ 수정 완료');
-    } else {
-      const ins={name, region, price_a:pa, price_b:pb, price_c:pc};
-      if(loginId) ins.login_id=loginId;
-      if(pw) ins.login_pw=pw;
-      const {data,error}=await db.from('workers').insert(ins).select().single();
-      if(error) throw error;
-      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||'', codes:[]});
+    }else{
+      const ins={name,region,price_a:pa,price_b:pb,price_c:pc};
+      if(loginId)ins.login_id=loginId;
+      if(pw)ins.login_pw=await hashPw(pw);
+      const{data,error}=await db.from('workers').insert(ins).select().single();
+      if(error)throw error;
+      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,loginId:loginId||'',codes:[]});
       showToast('✅ 배달원 추가 완료');
     }
-    closeWorkerSheet(); updateSummary(); render();
-  } catch(e){ showToast('❌ 저장 실패: '+e.message); }
+    closeWorkerSheet();updateSummary();render();
+  }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
-
 function askDeleteWorker(id){
   const w=workers.find(x=>x.id===id);
   openConfirm('🗑 배달원 삭제',`${w?.name}님을 삭제할까요?`,'삭제',async()=>{
-    try{
-      await db.from('workers').delete().eq('id',id);
-      workers=workers.filter(x=>x.id!==id);
-      updateSummary(); render(); showToast('🗑 삭제됨');
-    }catch(e){ showToast('❌ '+e.message); }
+    try{await db.from('workers').delete().eq('id',id);workers=workers.filter(x=>x.id!==id);updateSummary();render();showToast('🗑 삭제됨');}
+    catch(e){showToast('❌ '+e.message);}
   });
 }
 
-function getCodeWorker(wid) {
-  if (wid === 'admin') {
-    let codes = [];
-    try { codes = JSON.parse(localStorage.getItem('mgr-admin-codes')) || []; } 
-    catch(e) { codes = []; }
-    
-    codes.forEach(c => { 
-      if(c.items && !c.subs) { 
-        c.subs = [{ id: 's_'+Math.random().toString(36).substr(2,5), name: '기본 단지', items: c.items }]; 
-        delete c.items; 
-      }
-      if(!c.subs) c.subs = [];
-      c.subs.forEach(s => { if(!s.items) s.items = []; });
-    });
-    return { id: 'admin', name: '👑 관리자 마스터 노트', codes: codes };
-  }
-  return workers.find(x => x.id == wid);
-}
-
-function renderCodeNoteCore(workerTarget) {
-  if(!workerTarget) return `<div class="empty">조회할 대상을 선택해주세요</div>`;
-  let codes = workerTarget.codes || [];
-
-  if(codeSearchQuery) {
-    const q = codeSearchQuery.toLowerCase();
-    let filtered = [];
-    codes.forEach(f => {
-      let fMatch = f.name.toLowerCase().includes(q);
-      let matchedSubs = [];
-      (f.subs || []).forEach(s => {
-        let sMatch = s.name.toLowerCase().includes(q);
-        let mItems = (s.items || []).filter(i => (i.addr||'').toLowerCase().includes(q) || (i.code||'').toLowerCase().includes(q));
-        if(fMatch || sMatch || mItems.length > 0) {
-          matchedSubs.push({ ...s, items: mItems.length > 0 ? mItems : (s.items || []) });
-        }
-      });
-      if(fMatch || matchedSubs.length > 0) {
-        filtered.push({ ...f, subs: matchedSubs });
-      }
-    });
-    codes = filtered;
-  }
-
-  let html = `
-  <div class="cn-wrap">
-    <div class="cn-header">
-      <div class="cn-title-area">
-        <div class="cn-key-icon">🔑</div>
-        <div style="min-width:0;">
-          <div class="cn-title">${workerTarget.name}</div>
-          <div class="cn-title-sub">출입코드 관리</div>
-        </div>
-      </div>
-      <div class="cn-top-btns">
-        <button class="cn-btn-pill orange" onclick="openCodeEdit(null, null, null, 'add-folder')">+ 지역 추가</button>
-        <button class="cn-btn-pill teal" onclick="openSmartBulkSheet()">📝 일괄등록</button>
-      </div>
-    </div>
-    
-    <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">
-  `;
-
-  if(!codes.length) {
-    html += `<div class="empty">${codeSearchQuery ? '검색 결과가 없습니다' : '등록된 출입코드가 없습니다.<br>상단 [+ 지역 추가] 또는 [일괄등록]을 눌러 추가하세요.'}</div>`;
-  } else {
-    html += `<div id="cn-folder-list">`;
-    html += codes.map(f => {
-      let totalItems = 0; 
-      (f.subs||[]).forEach(s => totalItems += (s.items||[]).length);
-      return `
-      <div class="cn-region ${codeSearchQuery ? 'open' : ''}" data-id="${f.id}">
-        <div class="cn-region-head" onclick="this.parentElement.classList.toggle('open')">
-          <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
-          <div class="cn-r-icon">🏢</div>
-          <div class="cn-r-info">
-            <div class="cn-r-name">${f.name}</div>
-            <div class="cn-r-stat">${(f.subs||[]).length}개 단지 · 총 ${totalItems}개</div>
-          </div>
-          <div class="cn-actions" onclick="event.stopPropagation()">
-            <button class="cn-circle-btn add" onclick="openCodeEdit('${f.id}', null, null, 'add-sub')">+</button>
-            <button class="cn-circle-btn edit" onclick="openCodeEdit('${f.id}', null, null, 'edit-folder')">✏️</button>
-            <button class="cn-circle-btn del" onclick="askDeleteCodeFolder('${f.id}')">🗑</button>
-          </div>
-          <div class="cn-arrow">▼</div>
-        </div>
-        <div class="cn-complexes">
-          ${(f.subs||[]).map(s => `
-          <div class="cn-complex ${codeSearchQuery ? 'open' : ''}" data-id="${s.id}">
-            <div class="cn-comp-head" onclick="this.parentElement.classList.toggle('open')">
-              <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
-              <div class="cn-c-icon">🏘️</div>
-              <div class="cn-c-info">
-                <div class="cn-c-name">${s.name}</div>
-                <div class="cn-c-stat">${(s.items||[]).length}개 주소</div>
-              </div>
-              <div class="cn-actions" onclick="event.stopPropagation()">
-                <button class="cn-circle-btn c-add" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'add-item')">+</button>
-                <button class="cn-circle-btn c-edit" onclick="openCodeEdit('${f.id}', '${s.id}', null, 'edit-sub')">✏️</button>
-                <button class="cn-circle-btn del" onclick="askDeleteCodeSub('${f.id}', '${s.id}')">🗑</button>
-              </div>
-              <div class="cn-arrow">▼</div>
-            </div>
-            <div class="cn-items">
-              ${(s.items||[]).map(i => `
-              <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code||''}');showToast('📋 복사 완료');">
-                <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
-                <div class="cn-i-info">
-                  <div class="cn-i-addr">${i.addr||''}</div>
-                  <div style="display:flex; align-items:center;">
-                    <div class="cn-i-code">${i.code||''}</div>
-                    <div class="cn-actions" onclick="event.stopPropagation()">
-                      <button class="cn-circle-btn c-edit" style="width:26px;height:26px;font-size:12px;border:none;" onclick="openCodeEdit('${f.id}', '${s.id}', '${i.id}', 'edit-item')">✏️</button>
-                      <button class="cn-circle-btn del" style="width:26px;height:26px;font-size:12px;border:none;" onclick="askDeleteCodeItem('${f.id}', '${s.id}', '${i.id}')">🗑</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              `).join('')}
-              ${(s.items||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">등록된 주소가 없습니다.</div>` : ''}
-            </div>
-          </div>
-          `).join('')}
-          ${(f.subs||[]).length === 0 ? `<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">단지가 없습니다. [+] 버튼을 눌러 단지를 추가하세요.</div>` : ''}
-        </div>
-      </div>
-      `}).join('');
-    html += `</div>`;
-  }
-  
-  html += `</div>`;
-  return html;
-}
-
-function bindCodeSearchEvent() {
-  const input = document.getElementById('code-search-input');
-  if(input) {
-    input.addEventListener('input', (e) => {
-      codeSearchQuery = e.target.value.trim();
-      render();
-      setTimeout(() => {
-        const newInp = document.getElementById('code-search-input');
-        if(newInp) { newInp.focus(); newInp.setSelectionRange(codeSearchQuery.length, codeSearchQuery.length); }
-      }, 10);
-    });
-  }
-}
-
-function renderAdminCodes(){
-  let selectHtml = `<div style="display:flex; gap:10px; margin-bottom:18px; align-items:center;">
-    <div class="ws-wrap" style="flex:1; margin-bottom:0;">
-      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value; codeSearchQuery=''; render()">
-        <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
-        <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 마스터 노트</option>
-        ${workers.map(w => `<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''} style="color:var(--text)">${w.name} ${w.region?`(${w.region})`:''}</option>`).join('')}
-      </select>
-      <div class="ws-icon">▼</div>
-    </div>
-    <button class="btn-primary" style="width:auto; margin:0; padding:0 18px; border-radius:16px; background:linear-gradient(135deg,#007a6a,#00bcd4); font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달</button>
-  </div>`;
-  const target = getCodeWorker(adminSelectedCodeWorkerId);
-  return selectHtml + (target ? renderCodeNoteCore(target) : '');
-}
-
-function renderMyCodes(){
-  const target = getCodeWorker(currentUser.workerId);
-  return renderCodeNoteCore(target);
-}
-
-function getActiveCodeWorkerId() {
-  return currentUser.role === 'admin' ? adminSelectedCodeWorkerId : currentUser.workerId;
-}
-
-async function syncCodesToDB(workerId, newCodes) {
-  showToast('저장 중...');
-  if (workerId === 'admin') {
-    localStorage.setItem('mgr-admin-codes', JSON.stringify(newCodes));
-    showToast('✅ 관리자 노트에 저장 완료');
-    render(); return;
-  }
-  try {
-    const {error} = await db.from('workers').update({access_codes: newCodes}).eq('id', workerId);
-    if(error) throw error;
-    const w = workers.find(x => x.id == workerId);
-    if(w) w.codes = newCodes;
-    showToast('✅ 처리 완료'); render();
-  } catch(e) { showToast('❌ 오류: ' + e.message); }
-}
-
-// ══════════════════════════════════════════
-//  관리자: 일별 입력 (+ 달력 기능 연동)
-// ══════════════════════════════════════════
+// [수정] 관리자 일별 입력 — 전날복사 + 달력 + 미입력 배지
 function renderAdminDaily(){
-  if(!workers.length) return `<div class="empty">👥 먼저 배달원을 등록해주세요<br><span style="font-size:12px">👥 배달원 탭에서 추가하세요</span></div>`;
+  if(!workers.length)return `<div class="empty">👥 먼저 배달원을 등록해주세요</div>`;
   const rec=dailyRecords.find(r=>r.date===adminInputDate);
   const isEdit=!!rec;
   const recData=rec?.data||{};
-  const dow=fmtDay(adminInputDate);
+  const[y,m,d]=adminInputDate.split('-').map(Number);
   const subTabs=`<div class="input-subtabs">
     <button class="input-subtab ${adminInputMode==='date'?'active':''}" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
     <button class="input-subtab ${adminInputMode==='worker'?'active':''}" onclick="adminInputMode='worker';render()">👤 배달원별</button>
   </div>`;
-  if(adminInputMode==='worker') return subTabs+renderAdminWorkerMode();
-  
-  // 날짜 입력 부분에 투명 <input type="date"> 덮어씌우기
+  if(adminInputMode==='worker')return subTabs+renderAdminWorkerMode();
   return subTabs+`
   <div class="date-nav">
     <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
-    <div style="text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-      <input type="date" id="admin-date-picker" value="${adminInputDate}" style="position:absolute; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="setAdminDate(this.value)">
-      <div class="date-nav-label">${fmtDate(adminInputDate)} (${dow}) ▾</div>
+    <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <input type="date" id="admin-date-picker" value="${adminInputDate}" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setAdminDate(this.value)">
+      <div class="date-nav-label">${fmtDate(adminInputDate)} (${fmtDay(adminInputDate)}) ▾</div>
       <div class="date-nav-sub">${isEdit?'✏️ 수정 중':'새 기록'}</div>
     </div>
     <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
+  </div>
+  <div style="margin-bottom:12px">
+    <button class="daily-action-btn purple" style="width:100%" onclick="openCalendarSheet()">📅 달력으로 날짜 선택</button>
   </div>
   ${workers.map(w=>{
     const prev=recData[w.id]||{};
@@ -1112,10 +988,11 @@ function renderAdminDaily(){
     const qb=adminInputData[w.id]?.qtyB??prev.qtyB??'';
     const qc=adminInputData[w.id]?.qtyC??prev.qtyC??'';
     const p=calcPay(w,qa,qb,qc);
-    return `<div class="daily-worker-row ${p.qty>0?'has-data':''}" id="dwr-${w.id}">
+    const hasAny=(Number(prev.qtyA)||0)+(Number(prev.qtyB)||0)+(Number(prev.qtyC)||0)>0||p.qty>0;
+    return `<div class="daily-worker-row ${p.qty>0?'has-data':''} ${!hasAny?'no-data-today':''}" id="dwr-${w.id}">
       <div class="daily-row-top">
         <div class="daily-avatar">${av(w.name)}</div>
-        <div class="daily-name">${w.name} ${w.region? `<span style="font-size:10px;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
+        <div class="daily-name">${w.name}${!hasAny?'<span class="no-input-badge">미입력</span>':''}${w.region?` <span style="font-size:10px;color:var(--sub)">📍${w.region}</span>`:''}</div>
         ${p.qty>0?`<div class="daily-total-badge">${won(p.gross)}</div>`:''}
       </div>
       <div class="daily-inputs">
@@ -1143,19 +1020,19 @@ function renderAdminDaily(){
   <div style="height:20px"></div>`;
 }
 
+
 function renderAdminWorkerMode(){
-  if(!workers.length) return `<div class="empty">배달원이 없어요</div>`;
+  if(!workers.length)return `<div class="empty">배달원이 없어요</div>`;
   return `<div class="sec-title">배달원 선택 후 날짜별 수량 수정</div>
   ${workers.map(w=>{
-    const mRec=dailyRecords.filter(r=>r.date.startsWith(today().slice(0,7))&&r.data?.[w.id]);
+    const m=today().slice(0,7);
+    const mRec=dailyRecords.filter(r=>r.date.startsWith(m)&&r.data?.[w.id]);
     const mQty=mRec.reduce((s,r)=>s+(Number(r.data[w.id]?.qtyA)||0)+(Number(r.data[w.id]?.qtyB)||0)+(Number(r.data[w.id]?.qtyC)||0),0);
     const mGross=mRec.reduce((s,r)=>s+calcPay(w,r.data[w.id]?.qtyA,r.data[w.id]?.qtyB,r.data[w.id]?.qtyC).gross,0);
     return `<div class="worker-card" style="cursor:pointer" onclick="adminInputMode='date';adminInputDate='${today()}';adminInputData={};render()">
       <div class="daily-avatar">${av(w.name)}</div>
-      <div style="flex:1">
-        <div style="font-size:14px;font-weight:900">${w.name} ${w.region? `<span style="font-size:10px;font-weight:normal;color:var(--sub);margin-left:4px">📍${w.region}</span>`:''}</div>
-        <div style="font-size:11px;color:var(--sub);margin-top:2px">이번 달 ${mQty.toLocaleString()}건 · ${won(mGross)}</div>
-      </div>
+      <div style="flex:1"><div style="font-size:14px;font-weight:900">${w.name}${w.region?` <span style="font-size:10px;color:var(--sub)">📍${w.region}</span>`:''}</div>
+      <div style="font-size:11px;color:var(--sub);margin-top:2px">이번 달 ${mQty.toLocaleString()}건 · ${won(mGross)}</div></div>
       <div style="font-size:12px;color:var(--sub)">탭하여 입력 ▶</div>
     </div>`;
   }).join('')}`;
@@ -1164,117 +1041,196 @@ function renderAdminWorkerMode(){
 function bindAdminDailyEvents(){
   workers.forEach(w=>{
     ['qa','qb','qc'].forEach(prefix=>{
-      const el=document.getElementById(`${prefix}-${w.id}`);
-      if(!el) return;
+      const el=document.getElementById(`${prefix}-${w.id}`);if(!el)return;
       el.addEventListener('input',()=>{
-        if(!adminInputData[w.id]) adminInputData[w.id]={qtyA:'',qtyB:'',qtyC:''};
-        if(prefix==='qa') adminInputData[w.id].qtyA=el.value;
-        else if(prefix==='qb') adminInputData[w.id].qtyB=el.value;
+        if(!adminInputData[w.id])adminInputData[w.id]={qtyA:'',qtyB:'',qtyC:''};
+        if(prefix==='qa')adminInputData[w.id].qtyA=el.value;
+        else if(prefix==='qb')adminInputData[w.id].qtyB=el.value;
         else adminInputData[w.id].qtyC=el.value;
         const qA=document.getElementById(`qa-${w.id}`)?.value||'';
         const qB=document.getElementById(`qb-${w.id}`)?.value||'';
         const qC=document.getElementById(`qc-${w.id}`)?.value||'';
         const p=calcPay(w,qA,qB,qC);
-
-        const subA=document.getElementById(`sub-a-${w.id}`);
-        const subB=document.getElementById(`sub-b-${w.id}`);
-        const subC=document.getElementById(`sub-c-${w.id}`);
-        if(subA) subA.textContent=qA?won(Number(qA)*(w.priceA||0)):'';
-        if(subB) subB.textContent=qB?won(Number(qB)*(w.priceB||0)):'';
-        if(subC) subC.textContent=qC?won(Number(qC)*(w.priceC||0)):'';
-
+        const sA=document.getElementById(`sub-a-${w.id}`);if(sA)sA.textContent=qA?won(Number(qA)*(w.priceA||0)):'';
+        const sB=document.getElementById(`sub-b-${w.id}`);if(sB)sB.textContent=qB?won(Number(qB)*(w.priceB||0)):'';
+        const sC=document.getElementById(`sub-c-${w.id}`);if(sC)sC.textContent=qC?won(Number(qC)*(w.priceC||0)):'';
         const row=document.getElementById(`dwr-${w.id}`);
-        if(row) row.classList.toggle('has-data',p.qty>0);
+        if(row){row.classList.toggle('has-data',p.qty>0);row.classList.toggle('no-data-today',p.qty===0);}
         const badge=document.querySelector(`#dwr-${w.id} .daily-total-badge`);
-        if(p.qty>0){
-          if(badge) badge.textContent=won(p.gross);
-          else{
-            const nm=document.querySelector(`#dwr-${w.id} .daily-name`);
-            if(nm){ const b=document.createElement('div'); b.className='daily-total-badge'; b.textContent=won(p.gross); nm.after(b); }
-          }
-        } else if(badge) badge.remove();
+        if(p.qty>0){if(badge)badge.textContent=won(p.gross);else{const nm=document.querySelector(`#dwr-${w.id} .daily-name`);if(nm){const b=document.createElement('div');b.className='daily-total-badge';b.textContent=won(p.gross);nm.after(b);}}}
+        else if(badge)badge.remove();
       });
     });
   });
 }
 
 function changeAdminDate(dir){
-  const [y, m, d] = adminInputDate.split('-').map(Number);
-  const dateObj = new Date(y, m - 1, d + dir);
-  const yy = dateObj.getFullYear();
-  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const dd = String(dateObj.getDate()).padStart(2, '0');
-  adminInputDate = `${yy}-${mm}-${dd}`;
-  adminInputData={}; render();
+  const[y,m,d]=adminInputDate.split('-').map(Number);
+  const dt=new Date(y,m-1,d+dir);
+  adminInputDate=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+  adminInputData={};render();
 }
-
 async function saveAdminDaily(){
   const data={};
   workers.forEach(w=>{
     const qa=document.getElementById(`qa-${w.id}`)?.value||'';
     const qb=document.getElementById(`qb-${w.id}`)?.value||'';
     const qc=document.getElementById(`qc-${w.id}`)?.value||'';
-    if(qa||qb||qc) data[w.id]={qtyA:qa,qtyB:qb,qtyC:qc};
+    if(qa||qb||qc)data[w.id]={qtyA:qa,qtyB:qb,qtyC:qc};
   });
-  if(!Object.keys(data).length){ showToast('⚠️ 수량을 입력해주세요'); return; }
+  if(!Object.keys(data).length){showToast('⚠️ 수량을 입력해주세요');return;}
   showToast('💾 저장 중...');
-  try {
+  try{
     await saveDailyToDB(adminInputDate,data);
     const idx=dailyRecords.findIndex(r=>r.date===adminInputDate);
-    if(idx>=0) dailyRecords[idx].data=data;
-    else dailyRecords.unshift({date:adminInputDate,data});
+    if(idx>=0)dailyRecords[idx].data=data;else dailyRecords.unshift({date:adminInputDate,data});
     dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-    adminInputData={}; updateSummary();
-    showToast('✅ 저장 완료!'); switchTab('records');
-  } catch(e){ showToast('❌ 저장 실패: '+e.message); }
+    cacheData();adminInputData={};updateSummary();vibrate();showToast('✅ 저장 완료!');switchTab('records');
+  }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
 
+// [NEW] 달력 시트
+function openCalendarSheet(){
+  const dt=new Date(adminInputDate+'T00:00:00');
+  calYear=dt.getFullYear();calMonth=dt.getMonth();
+  updateCalSheetContent();
+  document.getElementById('cal-sheet').classList.add('show');
+}
+function updateCalSheetContent(){
+  const recordDates=new Set(dailyRecords.map(r=>r.date));
+  const firstDay=new Date(calYear,calMonth,1).getDay();
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  const todayStr=today();
+  const dayLabels=['일','월','화','수','목','금','토'].map((l,i)=>`<div class="cal-day-lbl" style="${i===0?'color:var(--red)':i===6?'color:var(--blue2)':''}">${l}</div>`).join('');
+  let cells='';
+  for(let i=0;i<firstDay;i++)cells+=`<div class="cal-cell empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    let cls='cal-cell';
+    if(ds===todayStr)cls+=' today';
+    if(ds===adminInputDate)cls+=' selected';
+    if(recordDates.has(ds))cls+=' has-rec';
+    const dow=(firstDay+d-1)%7;
+    const clr=dow===0?'color:var(--red)':dow===6?'color:var(--blue2)':'';
+    const ca=(clr&&ds!==adminInputDate)?`style="${clr}"`:'';
+    cells+=`<div class="${cls}" ${ca} onclick="selectCalDate('${ds}')">${d}</div>`;
+  }
+  const nb='background:var(--card);border:1.5px solid var(--border);border-radius:10px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;color:var(--sub);font-family:inherit';
+  document.getElementById('cal-sheet-content').style.cssText='width:100%;overflow:hidden';document.getElementById('cal-sheet-content').innerHTML=`
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <button style="${nb}" onclick="calMonth--;if(calMonth<0){calMonth=11;calYear--;}updateCalSheetContent()">◀</button>
+      <div style="font-size:16px;font-weight:900">${calYear}년 ${calMonth+1}월</div>
+      <button style="${nb}" onclick="calMonth++;if(calMonth>11){calMonth=0;calYear++;}updateCalSheetContent()">▶</button>
+    </div>
+    <div class="cal-grid">${dayLabels}${cells}</div>
+    <div style="margin-top:12px;display:flex;gap:14px;font-size:10px;color:var(--sub);padding:0 4px">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block"></span> 기록 있음</span>
+      <span style="color:var(--accent2)">■ 오늘</span><span style="color:#fff">■ 선택됨</span>
+    </div>`;
+}
+function selectCalDate(ds){
+  adminInputDate=ds;adminInputData={};
+  document.getElementById('cal-sheet').classList.remove('show');render();
+}
+
+// [수정] 기록 탭 — 월별 그룹핑
 function renderAdminRecords(){
-  if(!dailyRecords.length) return `<div class="empty">📁 아직 기록이 없어요</div>`;
-  return dailyRecords.map(r=>{
-    let totalGross=0, rows='';
-    Object.entries(r.data||{}).forEach(([wid,d])=>{
-      const w=workers.find(x=>x.id===Number(wid)); if(!w) return;
-      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
-      totalGross+=p.gross;
-      if(p.qty>0) rows+=`<div class="rec-worker-row">
-        <div class="daily-avatar" style="width:28px;height:28px;border-radius:7px;font-size:12px">${av(w.name)}</div>
-        <div class="rec-worker-name">${w.name}</div>
-        <div class="rec-worker-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div>
-        <div class="rec-worker-pay">${won(p.gross)}</div>
+  if(!dailyRecords.length)return `<div class="empty">📁 아직 기록이 없어요</div>`;
+  const groups={};
+  dailyRecords.forEach(r=>{const ym=r.date.slice(0,7);if(!groups[ym])groups[ym]=[];groups[ym].push(r);});
+  const curYM=today().slice(0,7);
+  return Object.keys(groups).sort().reverse().map(ym=>{
+    const recs=groups[ym];
+    const[yr,mo]=ym.split('-');
+    let mGross=0;
+    recs.forEach(r=>Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(w)mGross+=calcPay(w,d.qtyA,d.qtyB,d.qtyC).gross;}));
+    const recHtml=recs.map(r=>{
+      let tGross=0,rows='';
+      Object.entries(r.data||{}).forEach(([wid,d])=>{
+        const w=workers.find(x=>x.id===Number(wid));if(!w)return;
+        const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);tGross+=p.gross;
+        if(p.qty>0)rows+=`<div class="rec-worker-row">
+          <div class="daily-avatar" style="width:28px;height:28px;border-radius:7px;font-size:12px">${av(w.name)}</div>
+          <div class="rec-worker-name">${w.name}</div>
+          <div class="rec-worker-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div>
+          <div class="rec-worker-pay">${won(p.gross)}</div>
+        </div>`;
+      });
+      return `<div class="rec-day-card">
+        <div class="rec-day-head">
+          <div class="rec-day-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div>
+          <div class="rec-day-total">${won(tGross)}</div>
+        </div>
+        <div>${rows||'<div style="font-size:12px;color:var(--sub2)">수량 없음</div>'}</div>
+        <div class="rec-btns">
+          <button class="rec-btn rec-btn-edit" onclick="adminInputDate='${r.date}';adminInputData={};switchTab('daily')">✏️ 수정</button>
+          <button class="rec-btn rec-btn-del" onclick="askDeleteRecord('${r.date}')">🗑 삭제</button>
+        </div>
       </div>`;
-    });
-    return `<div class="rec-day-card">
-      <div class="rec-day-head">
-        <div><div class="rec-day-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div></div>
-        <div class="rec-day-total">${won(totalGross)}</div>
+    }).join('');
+    return `<div class="month-group ${ym===curYM?'open':''}">
+      <div class="month-group-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="month-group-left">
+          <div class="month-group-title">${yr}년 ${Number(mo)}월</div>
+          <div class="month-group-stat">${recs.length}일 기록</div>
+        </div>
+        <div class="month-group-right">
+          <div class="month-group-total">${won(mGross)}</div>
+          <span class="month-arrow">▼</span>
+        </div>
       </div>
-      <div>${rows||'<div style="font-size:12px;color:var(--sub2)">수량 없음</div>'}</div>
-      <div class="rec-btns">
-        <button class="rec-btn rec-btn-edit" onclick="adminInputDate='${r.date}';adminInputData={};switchTab('daily')">✏️ 수정</button>
-        <button class="rec-btn rec-btn-del" onclick="askDeleteRecord('${r.date}')">🗑 삭제</button>
-      </div>
+      <div class="month-group-body">${recHtml}</div>
     </div>`;
   }).join('')+'<div style="height:20px"></div>';
 }
-
 function askDeleteRecord(date){
   openConfirm('🗑 기록 삭제',`${fmtDate(date)} 기록을 삭제할까요?`,'삭제',async()=>{
-    try{
-      await db.from('daily_records').delete().eq('work_date',date);
-      dailyRecords=dailyRecords.filter(r=>r.date!==date);
-      updateSummary(); render(); showToast('🗑 삭제됨');
-    }catch(e){ showToast('❌ '+e.message); }
+    try{await db.from('daily_records').delete().eq('work_date',date);dailyRecords=dailyRecords.filter(r=>r.date!==date);cacheData();updateSummary();render();showToast('🗑 삭제됨');}
+    catch(e){showToast('❌ '+e.message);}
   });
 }
 
+// [NEW] 요일별 통계
+function renderDowStats(filtered,workerId=null){
+  const dow=DAYS.map((label,i)=>({dayIdx:i,label:label+'요일',qty:0,count:0}));
+  filtered.forEach(r=>{
+    const[ry,rm,rd]=r.date.split('-').map(Number);
+    const di=new Date(ry,rm-1,rd).getDay();
+    if(workerId){
+      const d=r.data?.[workerId];if(!d)return;
+      const q=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0);
+      if(q>0){dow[di].qty+=q;dow[di].count++;}
+    }else{
+      let q=0;Object.values(r.data||{}).forEach(d=>{q+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0);});
+      if(q>0){dow[di].qty+=q;dow[di].count++;}
+    }
+  });
+  const maxAvg=Math.max(...dow.map(d=>d.count?d.qty/d.count:0),1);
+  return `<div class="stat-summary">
+    <div class="stat-title admin">📅 요일별 평균 배송량</div>
+    ${dow.map(d=>{
+      const avg=d.count?Math.round(d.qty/d.count):0;
+      const pct=Math.round(avg/maxAvg*100);
+      const isWe=d.dayIdx===0||d.dayIdx===6;
+      return `<div class="dow-row">
+        <div class="dow-row-top">
+          <span class="dow-row-day" style="${isWe?'color:var(--orange2)':''}">${d.label}</span>
+          <span class="dow-row-val">${avg>0?avg.toLocaleString()+'건':'—'} <span style="font-size:9px;color:var(--sub);font-weight:400">(${d.count}일)</span></span>
+        </div>
+        <div class="dow-bg"><div class="dow-fill" style="width:${pct}%"></div></div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// [수정] 정산 탭 — 요일 통계 포함
 function renderAdminStats(){
   const pBar=`<div class="period-tabs">
     <button class="period-tab ${statPeriod==='month'?'active':''}" onclick="statPeriod='month';render()">🗓 월별</button>
     <button class="period-tab ${statPeriod==='all'?'active':''}" onclick="statPeriod='all';render()">📊 전체</button>
   </div>`;
-  if(!dailyRecords.length||!workers.length) return pBar+`<div class="empty">📊 기록이 쌓이면 정산이 보여요!</div>`;
-  let filtered=[], navHtml='', title='';
+  if(!dailyRecords.length||!workers.length)return pBar+`<div class="empty">📊 기록이 쌓이면 정산이 보여요!</div>`;
+  let filtered=[],navHtml='',title='';
   if(statPeriod==='month'){
     const ym=`${statYear}-${String(statMonth+1).padStart(2,'0')}`;
     filtered=dailyRecords.filter(r=>r.date.startsWith(ym));
@@ -1284,21 +1240,16 @@ function renderAdminStats(){
       <div class="month-nav-title">${statYear}년 ${statMonth+1}월</div>
       <div class="month-nav-btn" onclick="statMonth++;if(statMonth>11){statMonth=0;statYear++;}render()">▶</div>
     </div>`;
-  } else { filtered=dailyRecords; title='전체 정산'; }
-  if(!filtered.length) return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
+  }else{filtered=dailyRecords;title='전체 정산';}
+  if(!filtered.length)return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
   const totals={};
-  workers.forEach(w=>{ totals[w.id]={w,qty:0,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0}; });
+  workers.forEach(w=>{totals[w.id]={w,qty:0,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0};});
   let gGross=0,gNet=0,gQty=0;
   filtered.forEach(r=>{
     Object.entries(r.data||{}).forEach(([wid,d])=>{
-      const w=workers.find(x=>x.id===Number(wid));
-      if(!w||!totals[w.id]) return;
+      const w=workers.find(x=>x.id===Number(wid));if(!w||!totals[w.id])return;
       const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
-      if(p.qty>0){
-        totals[w.id].qty+=p.qty; totals[w.id].qtyA+=p.a; totals[w.id].qtyB+=p.b; totals[w.id].qtyC+=p.c;
-        totals[w.id].gross+=p.gross; totals[w.id].net+=p.net; totals[w.id].days++;
-        gGross+=p.gross; gNet+=p.net; gQty+=p.qty;
-      }
+      if(p.qty>0){totals[w.id].qty+=p.qty;totals[w.id].qtyA+=p.a;totals[w.id].qtyB+=p.b;totals[w.id].qtyC+=p.c;totals[w.id].gross+=p.gross;totals[w.id].net+=p.net;totals[w.id].days++;gGross+=p.gross;gNet+=p.net;gQty+=p.qty;}
     });
   });
   const sorted=Object.values(totals).filter(x=>x.gross>0).sort((a,b)=>b.gross-a.gross);
@@ -1313,28 +1264,30 @@ function renderAdminStats(){
     <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 합계: ${won(gNet)}</div>
     <div style="font-size:10px;color:var(--red);margin-top:3px">세금(3.3%): -${won(gGross-gNet)}</div>
   </div>
+  ${filtered.length>=2?renderDowStats(filtered):''}
   <div class="sec-title">개인별 정산 <span style="font-weight:400;color:var(--sub2)">(탭하면 상세)</span></div>
   ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
     <div class="wsc-rank">${i+1}</div>
     <div class="wsc-avatar">${av(t.w.name)}</div>
-    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div class="wsc-detail">🅰${t.qtyA.toLocaleString()} · 🅱${t.qtyB.toLocaleString()} · 🅲${t.qtyC.toLocaleString()}</div></div>
+    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${t.qtyA} · 🅱${t.qtyB} · 🅲${t.qtyC}</div></div>
     <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
   </div>`).join('')}
   <div style="height:20px"></div>`;
 }
 
 function renderWorkerDetail(){
-  const w=workers.find(x=>x.id===detailWorkerId); if(!w) return '';
+  const w=workers.find(x=>x.id===detailWorkerId);if(!w)return '';
   const ym=statPeriod==='month'?`${statYear}-${String(statMonth+1).padStart(2,'0')}`:null;
   const filtered=ym?dailyRecords.filter(r=>r.date.startsWith(ym)):dailyRecords;
   const days=filtered.filter(r=>r.data?.[w.id]);
   let tG=0,tN=0,tA=0,tB=0,tC=0;
-  days.forEach(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC); tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c; });
+  days.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c;});
+  const pl=ym?`${statYear}년 ${statMonth+1}월`:'전체';
   return `<button class="back-btn" onclick="detailWorkerId=null;render()">◀ 목록으로</button>
   <div class="detail-header">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
       <div class="wsc-avatar" style="width:46px;height:46px;font-size:20px">${av(w.name)}</div>
-      <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰 ${(w.priceA||0).toLocaleString()} · 🅱 ${(w.priceB||0).toLocaleString()} · 🅲 ${(w.priceC||0).toLocaleString()}</div></div>
+      <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()}</div></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 지급액</div><div style="font-size:17px;font-weight:900;color:var(--accent3)">${won(tG)}</div></div>
@@ -1343,10 +1296,12 @@ function renderWorkerDetail(){
       <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">세금공제(3.3%)</div><div style="font-size:16px;font-weight:900;color:var(--red)">-${won(tG-tN)}</div></div>
     </div>
   </div>
+  <button class="share-btn" onclick="shareWorkerStats(${w.id},${statPeriod==='month'?statYear:0},${statPeriod==='month'?statMonth:-1})">📤 ${pl} 정산서 공유</button>
+  ${days.length>=2?renderDowStats(days,w.id):''}
   <div class="sec-title">일별 상세 (${days.length}일)</div>
-  ${days.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+  ${days.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
     return `<div class="detail-day-row">
-      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} 🅱${p.b} 🅲${p.c}</div></div>
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} 🅱${p.b} 🅲${p.c}</div></div>
       <div style="text-align:right"><div class="ddr-pay">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
     </div>`;
   }).join('')}
@@ -1354,48 +1309,49 @@ function renderWorkerDetail(){
   <div style="height:20px"></div>`;
 }
 
-// ══════════════════════════════════════════
-//  배달원: 오늘 입력 (+ 달력 기능 연동)
-// ══════════════════════════════════════════
+// [NEW] 정산서 공유
+function shareWorkerStats(workerId,year,month){
+  const w=workers.find(x=>x.id===workerId);if(!w)return;
+  let filtered,pl;
+  if(month>=0){
+    const ym=`${year}-${String(month+1).padStart(2,'0')}`;
+    filtered=dailyRecords.filter(r=>r.date.startsWith(ym)&&r.data?.[workerId]);
+    pl=`${year}년 ${month+1}월`;
+  }else{filtered=dailyRecords.filter(r=>r.data?.[workerId]);pl='전체';}
+  let tQ=0,tA=0,tB=0,tC=0,tG=0,tN=0;
+  filtered.forEach(r=>{const p=calcPay(w,r.data[workerId].qtyA,r.data[workerId].qtyB,r.data[workerId].qtyC);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tG+=p.gross;tN+=p.net;});
+  const text=`📊 ${pl} 배송 정산서\n─────────────\n👤 ${w.name}님\n\n🅰 ${itemNames.a}: ${tA.toLocaleString()}건\n🅱 ${itemNames.b}: ${tB.toLocaleString()}건\n🅲 ${itemNames.c}: ${tC.toLocaleString()}건\n📦 총 배송: ${tQ.toLocaleString()}건\n📅 배송일수: ${filtered.length}일\n─────────────\n💰 총 금액: ${won(tG)}\n📉 세금(3.3%): -${won(tG-tN)}\n✅ 실수령: ${won(tN)}`;
+  if(navigator.share)navigator.share({text}).catch(()=>{});
+  else navigator.clipboard.writeText(text).then(()=>showToast('📋 정산서 복사 완료')).catch(()=>showToast('❌ 복사 실패'));
+}
+
+// 배달원: 오늘 입력
 function renderMyInput(){
   const w=workers.find(x=>x.id===currentUser.workerId);
-  if(!w) return `<div class="empty">⚠️ 배달원 정보를 찾을 수 없어요<br><span style="font-size:12px">관리자에게 문의하세요</span></div>`;
+  if(!w)return `<div class="empty">⚠️ 배달원 정보를 찾을 수 없어요<br><span style="font-size:12px">관리자에게 문의하세요</span></div>`;
   const rec=dailyRecords.find(r=>r.date===myInputDate);
   const prev=rec?.data?.[w.id]||{};
   const qa=myQtyA!==''?myQtyA:(prev.qtyA||'');
   const qb=myQtyB!==''?myQtyB:(prev.qtyB||'');
   const qc=myQtyC!==''?myQtyC:(prev.qtyC||'');
   const p=calcPay(w,qa,qb,qc);
-  const dow=fmtDay(myInputDate);
-
-  // 날짜 선택 부분에 투명 input type="date" 적용
-  return `
-  <div class="my-input-header">
+  return `<div class="my-input-header">
     <div class="my-input-name">안녕하세요, ${w.name}님 👋</div>
     <div class="my-input-sub">오늘의 배송 수량을 입력해주세요</div>
   </div>
   <div class="date-nav" style="margin-bottom:14px">
     <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(-1)">◀</button>
-    <div style="text-align:center; position:relative; flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-      <input type="date" id="my-date-picker" value="${myInputDate}" style="position:absolute; width:100%; height:100%; opacity:0; cursor:pointer;" onchange="setMyDate(this.value)">
-      <div class="date-nav-label">${fmtDate(myInputDate)} (${dow}) ▾</div>
+    <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <input type="date" id="my-date-picker" value="${myInputDate}" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setMyDate(this.value)">
+      <div class="date-nav-label">${fmtDate(myInputDate)} (${fmtDay(myInputDate)}) ▾</div>
       <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
     </div>
     <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';changeMyDate(1)">▶</button>
   </div>
   <div class="my-qty-grid">
-    <div class="my-qty-box">
-      <div class="my-qty-label a">🅰 ${itemNames.a}</div>
-      <input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0">
-    </div>
-    <div class="my-qty-box">
-      <div class="my-qty-label b">🅱 ${itemNames.b}</div>
-      <input class="my-qty-input" type="number" id="my-qb" value="${qb}" placeholder="0" inputmode="numeric" min="0">
-    </div>
-    <div class="my-qty-box">
-      <div class="my-qty-label c">🅲 ${itemNames.c}</div>
-      <input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0">
-    </div>
+    <div class="my-qty-box"><div class="my-qty-label a">🅰 ${itemNames.a}</div><input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0"></div>
+    <div class="my-qty-box"><div class="my-qty-label b">🅱 ${itemNames.b}</div><input class="my-qty-input" type="number" id="my-qb" value="${qb}" placeholder="0" inputmode="numeric" min="0"></div>
+    <div class="my-qty-box"><div class="my-qty-label c">🅲 ${itemNames.c}</div><input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0"></div>
   </div>
   ${p.qty>0?`<div class="my-calc-box">
     <div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div>
@@ -1407,579 +1363,448 @@ function renderMyInput(){
   <button class="btn-primary teal" onclick="saveMyRecord()">💾 저장하기</button>
   <div style="height:20px"></div>`;
 }
-
 function bindMyInputEvents(){
-  const w=workers.find(x=>x.id===currentUser.workerId); if(!w) return;
-  const updateCalc = () => {
+  const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return;
+  const upd=()=>{
     myQtyA=document.getElementById('my-qa')?.value||'';
     myQtyB=document.getElementById('my-qb')?.value||'';
     myQtyC=document.getElementById('my-qc')?.value||'';
-    const p=calcPay(w,myQtyA,myQtyB,myQtyC);
-    refreshMyCalc(p);
+    refreshMyCalc(calcPay(w,myQtyA,myQtyB,myQtyC));
   };
-  document.getElementById('my-qa')?.addEventListener('input', updateCalc);
-  document.getElementById('my-qb')?.addEventListener('input', updateCalc);
-  document.getElementById('my-qc')?.addEventListener('input', updateCalc);
+  document.getElementById('my-qa')?.addEventListener('input',upd);
+  document.getElementById('my-qb')?.addEventListener('input',upd);
+  document.getElementById('my-qc')?.addEventListener('input',upd);
 }
-
 function refreshMyCalc(p){
   const box=document.querySelector('.my-calc-box');
   if(p.qty>0){
     if(box){
       box.querySelector('.my-calc-total').textContent=won(p.gross);
-      const rows=box.querySelectorAll('.my-calc-val');
-      if(rows[0]) rows[0].textContent=p.qty.toLocaleString()+'건';
-      box.querySelector('[style*="teal2"]').textContent=`실수령 (3.3% 공제): ${won(p.net)}`;
-    } else {
+      const rows=box.querySelectorAll('.my-calc-val');if(rows[0])rows[0].textContent=p.qty.toLocaleString()+'건';
+      const netEl=box.querySelector('[style*="teal2"]');if(netEl)netEl.textContent=`실수령 (3.3% 공제): ${won(p.net)}`;
+    }else{
       const btn=document.querySelector('.btn-primary.teal');
-      if(btn){
-        const div=document.createElement('div');
-        div.className='my-calc-box';
-        div.innerHTML=`<div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div>
-        <hr class="my-calc-sep">
-        <div style="font-size:10px;color:var(--sub);margin-bottom:4px">예상 수령액</div>
-        <div class="my-calc-total">${won(p.gross)}</div>
-        <div style="font-size:11px;color:var(--teal2);margin-top:4px">실수령 (3.3% 공제): ${won(p.net)}</div>`;
-        btn.before(div);
-      }
+      if(btn){const div=document.createElement('div');div.className='my-calc-box';div.innerHTML=`<div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div><hr class="my-calc-sep"><div style="font-size:10px;color:var(--sub);margin-bottom:4px">예상 수령액</div><div class="my-calc-total">${won(p.gross)}</div><div style="font-size:11px;color:var(--teal2);margin-top:4px">실수령 (3.3% 공제): ${won(p.net)}</div>`;btn.before(div);}
     }
-  } else if(box) box.remove();
+  }else if(box)box.remove();
 }
-
 function changeMyDate(dir){
-  const [y, m, d] = myInputDate.split('-').map(Number);
-  const dateObj = new Date(y, m - 1, d + dir);
-  const yy = dateObj.getFullYear();
-  const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const dd = String(dateObj.getDate()).padStart(2, '0');
-  myInputDate = `${yy}-${mm}-${dd}`;
-  render();
+  const[y,m,d]=myInputDate.split('-').map(Number);
+  const dt=new Date(y,m-1,d+dir);
+  myInputDate=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;render();
 }
-
 async function saveMyRecord(){
-  const w=workers.find(x=>x.id===currentUser.workerId); if(!w) return;
+  const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return;
   const qa=document.getElementById('my-qa')?.value||myQtyA||'';
   const qb=document.getElementById('my-qb')?.value||myQtyB||'';
   const qc=document.getElementById('my-qc')?.value||myQtyC||'';
-  if(!qa&&!qb&&!qc){ showToast('⚠️ 수량을 입력해주세요'); return; }
+  if(!qa&&!qb&&!qc){showToast('⚠️ 수량을 입력해주세요');return;}
   showToast('💾 저장 중...');
-  try {
-    const {error}=await db.from('daily_records').upsert({
-      work_date:myInputDate, worker_id:w.id,
-      qty_a:Number(qa)||0, qty_b:Number(qb)||0, qty_c:Number(qc)||0
-    },{onConflict:'work_date,worker_id'});
-    if(error) throw error;
-    
+  try{
+    const{error}=await db.from('daily_records').upsert({work_date:myInputDate,worker_id:w.id,qty_a:Number(qa)||0,qty_b:Number(qb)||0,qty_c:Number(qc)||0},{onConflict:'work_date,worker_id'});
+    if(error)throw error;
     const idx=dailyRecords.findIndex(r=>r.date===myInputDate);
     const entry={qtyA:qa,qtyB:qb,qtyC:qc};
-    if(idx>=0){ dailyRecords[idx].data[w.id]=entry; }
-    else { dailyRecords.unshift({date:myInputDate,data:{[w.id]:entry}}); }
+    if(idx>=0)dailyRecords[idx].data[w.id]=entry;else dailyRecords.unshift({date:myInputDate,data:{[w.id]:entry}});
     dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-
-    myQtyA=''; myQtyB=''; myQtyC='';
-    updateSummary();
-    showToast('✅ 저장 완료!');
-    switchMyTab('records');
-  } catch(e){ showToast('❌ 저장 실패: '+e.message); }
+    cacheData();myQtyA='';myQtyB='';myQtyC='';updateSummary();vibrate();showToast('✅ 저장 완료!');switchMyTab('records');
+  }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
 
+// [수정] 배달원 기록 — 월별 그룹핑
 function renderMyRecords(){
-  const w=workers.find(x=>x.id===currentUser.workerId);
-  if(!w) return `<div class="empty">배달원 정보 없음</div>`;
+  const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return `<div class="empty">배달원 정보 없음</div>`;
   const myRecs=dailyRecords.filter(r=>r.data?.[w.id]);
-  if(!myRecs.length) return `<div class="empty">📋 아직 기록이 없어요</div>`;
-  return myRecs.map(r=>{
-    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
-    return `<div class="my-rec-card">
-      <div class="my-rec-head">
-        <div class="my-rec-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div>
-        <div class="my-rec-pay">${won(p.gross)}</div>
+  if(!myRecs.length)return `<div class="empty">📋 아직 기록이 없어요</div>`;
+  const groups={};myRecs.forEach(r=>{const ym=r.date.slice(0,7);if(!groups[ym])groups[ym]=[];groups[ym].push(r);});
+  const curYM=today().slice(0,7);
+  return Object.keys(groups).sort().reverse().map(ym=>{
+    const recs=groups[ym];const[yr,mo]=ym.split('-');
+    let mG=0;recs.forEach(r=>{mG+=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC).gross;});
+    const recHtml=recs.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+      return `<div class="my-rec-card">
+        <div class="my-rec-head"><div class="my-rec-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="my-rec-pay">${won(p.gross)}</div></div>
+        <div style="font-size:12px;color:var(--sub)">🅰${p.a} · 🅱${p.b} · 🅲${p.c} · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
+      </div>`;
+    }).join('');
+    return `<div class="month-group ${ym===curYM?'open':''}">
+      <div class="month-group-head" onclick="this.parentElement.classList.toggle('open')">
+        <div class="month-group-left"><div class="month-group-title">${yr}년 ${Number(mo)}월</div><div class="month-group-stat">${recs.length}일 기록</div></div>
+        <div class="month-group-right"><div class="month-group-total">${won(mG)}</div><span class="month-arrow">▼</span></div>
       </div>
-      <div class="my-rec-detail">🅰 ${p.a} · 🅱 ${p.b} · 🅲 ${p.c} · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
+      <div class="month-group-body">${recHtml}</div>
     </div>`;
   }).join('')+'<div style="height:20px"></div>';
 }
 
+// [수정] 배달원 통계 — 정산서 공유 + 요일 통계
 function renderMyStats(){
-  const w=workers.find(x=>x.id===currentUser.workerId);
-  if(!w) return `<div class="empty">배달원 정보 없음</div>`;
+  const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return `<div class="empty">배달원 정보 없음</div>`;
   const pBar=`<div class="period-tabs">
     <button class="period-tab ${myStatPeriod==='month'?'active worker-tab':''}" onclick="myStatPeriod='month';render()">🗓 이번 달</button>
     <button class="period-tab ${myStatPeriod==='all'?'active worker-tab':''}" onclick="myStatPeriod='all';render()">📊 전체</button>
   </div>`;
-  let filtered=[], navHtml='', title='';
+  let filtered=[],navHtml='',title='';
   if(myStatPeriod==='month'){
     const ym=`${myStatYear}-${String(myStatMonth+1).padStart(2,'0')}`;
-    filtered=dailyRecords.filter(r=>r.date.startsWith(ym)&&r.data?.[w.id]);
-    title=`${myStatYear}년 ${myStatMonth+1}월`;
+    filtered=dailyRecords.filter(r=>r.date.startsWith(ym)&&r.data?.[w.id]);title=`${myStatYear}년 ${myStatMonth+1}월`;
     navHtml=`<div class="month-nav">
       <div class="month-nav-btn" onclick="myStatMonth--;if(myStatMonth<0){myStatMonth=11;myStatYear--;}render()">◀</div>
       <div class="month-nav-title">${myStatYear}년 ${myStatMonth+1}월</div>
       <div class="month-nav-btn" onclick="myStatMonth++;if(myStatMonth>11){myStatMonth=0;myStatYear++;}render()">▶</div>
     </div>`;
-  } else {
-    filtered=dailyRecords.filter(r=>r.data?.[w.id]);
-    title='전체';
-  }
-  if(!filtered.length) return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
-  let tQty=0,tQtyA=0,tQtyB=0,tQtyC=0,tGross=0,tNet=0;
-  filtered.forEach(r=>{
-    const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
-    tQty+=p.qty; tQtyA+=p.a; tQtyB+=p.b; tQtyC+=p.c; tGross+=p.gross; tNet+=p.net;
-  });
-  const avgQty=filtered.length?Math.round(tQty/filtered.length):0;
+  }else{filtered=dailyRecords.filter(r=>r.data?.[w.id]);title='전체';}
+  if(!filtered.length)return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
+  let tQ=0,tA=0,tB=0,tC=0,tG=0,tN=0;
+  filtered.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tG+=p.gross;tN+=p.net;});
   return pBar+navHtml+`
+  <button class="share-btn" onclick="shareWorkerStats(${w.id},${myStatPeriod==='month'?myStatYear:0},${myStatPeriod==='month'?myStatMonth:-1})">📤 ${title} 정산서 공유</button>
   <div class="stat-summary worker-stat">
     <div class="stat-title worker">📊 ${title} 내 통계</div>
     <div class="stat-row"><span class="stat-row-lbl">📅 배송일수</span><span class="stat-row-val">${filtered.length}일</span></div>
-    <div class="stat-row"><span class="stat-row-lbl">🅰 ${itemNames.a}</span><span class="stat-row-val">${tQtyA.toLocaleString()}건</span></div>
-    <div class="stat-row"><span class="stat-row-lbl">🅱 ${itemNames.b}</span><span class="stat-row-val">${tQtyB.toLocaleString()}건</span></div>
-    <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tQtyC.toLocaleString()}건</span></div>
-    <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQty.toLocaleString()}건</span></div>
-    <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${avgQty.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅰 ${itemNames.a}</span><span class="stat-row-val">${tA.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅱 ${itemNames.b}</span><span class="stat-row-val">${tB.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tC.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQ.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${filtered.length?Math.round(tQ/filtered.length).toLocaleString():0}건</span></div>
     <hr class="stat-sep">
     <div class="stat-title worker" style="margin-bottom:6px">💰 예상 수령액</div>
-    <div class="stat-total" style="color:var(--teal2)">${won(tGross)}</div>
-    <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 (3.3% 공제): ${won(tNet)}</div>
-    <div style="font-size:10px;color:var(--red);margin-top:3px">세금 공제액: -${won(tGross-tNet)}</div>
+    <div class="stat-total" style="color:var(--teal2)">${won(tG)}</div>
+    <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 (3.3% 공제): ${won(tN)}</div>
+    <div style="font-size:10px;color:var(--red);margin-top:3px">세금 공제액: -${won(tG-tN)}</div>
   </div>
+  ${filtered.length>=2?renderDowStats(filtered,w.id):''}
   <div class="sec-title">일별 내역 (${filtered.length}일)</div>
-  ${filtered.map(r=>{ const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
+  ${filtered.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC);
     return `<div class="detail-day-row">
-      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="ddr-qty">🅰${p.a} · 🅱${p.b} · 🅲${p.c}</div></div>
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} · 🅱${p.b} · 🅲${p.c}</div></div>
       <div style="text-align:right"><div class="ddr-pay" style="color:var(--teal2)">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
     </div>`;
   }).join('')}
   <div style="height:20px"></div>`;
 }
 
-async function saveDailyToDB(date, data){
-  const {error:de}=await db.from('daily_records').delete().eq('work_date',date);
-  if(de) throw de;
-  const rows=Object.entries(data)
-    .filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0)
-    .map(([wid,d])=>({
-      work_date:date, worker_id:Number(wid),
-      qty_a:Number(d.qtyA)||0, qty_b:Number(d.qtyB)||0, qty_c:Number(d.qtyC)||0
-    }));
-  if(rows.length>0){
-    const {error:ie}=await db.from('daily_records').insert(rows);
-    if(ie) throw ie;
-  }
+async function saveDailyToDB(date,data){
+  const{error:de}=await db.from('daily_records').delete().eq('work_date',date);if(de)throw de;
+  const rows=Object.entries(data).filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0)
+    .map(([wid,d])=>({work_date:date,worker_id:Number(wid),qty_a:Number(d.qtyA)||0,qty_b:Number(d.qtyB)||0,qty_c:Number(d.qtyC)||0}));
+  if(rows.length>0){const{error:ie}=await db.from('daily_records').insert(rows);if(ie)throw ie;}
 }
 
+// 출입코드 관련
+function getCodeWorker(wid){
+  if(wid==='admin'){
+    let codes=[];try{codes=JSON.parse(localStorage.getItem('mgr-admin-codes'))||[];}catch(e){codes=[];}
+    codes.forEach(c=>{if(c.items&&!c.subs){c.subs=[{id:'s_'+Math.random().toString(36).substr(2,5),name:'기본 단지',items:c.items}];delete c.items;}if(!c.subs)c.subs=[];c.subs.forEach(s=>{if(!s.items)s.items=[];});});
+    return{id:'admin',name:'👑 관리자 마스터 노트',codes};
+  }
+  return workers.find(x=>x.id==wid);
+}
+function getActiveCodeWorkerId(){return currentUser.role==='admin'?adminSelectedCodeWorkerId:currentUser.workerId;}
+
+async function syncCodesToDB(wid,newCodes){
+  showToast('저장 중...');
+  if(wid==='admin'){localStorage.setItem('mgr-admin-codes',JSON.stringify(newCodes));showToast('✅ 저장 완료');render();return;}
+  try{
+    const{error}=await db.from('workers').update({access_codes:newCodes}).eq('id',wid);
+    if(error)throw error;
+    const w=workers.find(x=>x.id==wid);if(w)w.codes=newCodes;
+    showToast('✅ 처리 완료');render();
+  }catch(e){showToast('❌ 오류: '+e.message);}
+}
+
+function renderCodeNoteCore(wt){
+  if(!wt)return `<div class="empty">조회할 대상을 선택해주세요</div>`;
+  let codes=wt.codes||[];
+  if(codeSearchQuery){
+    const q=codeSearchQuery.toLowerCase();
+    const filtered=[];
+    codes.forEach(f=>{
+      const fM=f.name.toLowerCase().includes(q);
+      const mSubs=[];
+      (f.subs||[]).forEach(s=>{
+        const sM=s.name.toLowerCase().includes(q);
+        const mItems=(s.items||[]).filter(i=>(i.addr||'').toLowerCase().includes(q)||(i.code||'').toLowerCase().includes(q));
+        if(fM||sM||mItems.length>0)mSubs.push({...s,items:mItems.length>0?mItems:(s.items||[])});
+      });
+      if(fM||mSubs.length>0)filtered.push({...f,subs:mSubs});
+    });
+    codes=filtered;
+  }
+  let html=`<div class="cn-wrap">
+    <div class="cn-header">
+      <div class="cn-title-area">
+        <div class="cn-key-icon">🔑</div>
+        <div style="min-width:0"><div class="cn-title">${wt.name}</div><div class="cn-title-sub">출입코드 관리</div></div>
+      </div>
+      <div class="cn-top-btns">
+        <button class="cn-btn-pill orange" onclick="openCodeEdit(null,null,null,'add-folder')">+ 지역 추가</button>
+        <button class="cn-btn-pill teal" onclick="openSmartBulkSheet()">📝 일괄등록</button>
+      </div>
+    </div>
+    <input type="text" class="cn-search" id="code-search-input" value="${codeSearchQuery}" placeholder="주소, 단지, 코드 검색...">`;
+  if(!codes.length){html+=`<div class="empty">${codeSearchQuery?'검색 결과가 없습니다':'등록된 출입코드가 없습니다.<br>상단 [+ 지역 추가] 또는 [일괄등록]을 눌러 추가하세요.'}</div>`;}
+  else{
+    html+=`<div id="cn-folder-list">`;
+    html+=codes.map(f=>{
+      let tot=0;(f.subs||[]).forEach(s=>tot+=(s.items||[]).length);
+      return `<div class="cn-region ${codeSearchQuery?'open':''}" data-id="${f.id}">
+        <div class="cn-region-head" onclick="this.parentElement.classList.toggle('open')">
+          <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
+          <div class="cn-r-icon">🏢</div>
+          <div class="cn-r-info"><div class="cn-r-name">${f.name}</div><div class="cn-r-stat">${(f.subs||[]).length}개 단지 · 총 ${tot}개</div></div>
+          <div class="cn-actions" onclick="event.stopPropagation()">
+            <button class="cn-circle-btn add" onclick="openCodeEdit('${f.id}',null,null,'add-sub')">+</button>
+            <button class="cn-circle-btn edit" onclick="openCodeEdit('${f.id}',null,null,'edit-folder')">✏️</button>
+            <button class="cn-circle-btn del" onclick="askDeleteCodeFolder('${f.id}')">🗑</button>
+          </div>
+          <div class="cn-arrow">▼</div>
+        </div>
+        <div class="cn-complexes">
+          ${(f.subs||[]).map(s=>`
+          <div class="cn-complex ${codeSearchQuery?'open':''}" data-id="${s.id}">
+            <div class="cn-comp-head" onclick="this.parentElement.classList.toggle('open')">
+              <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
+              <div class="cn-c-icon">🏘️</div>
+              <div class="cn-c-info"><div class="cn-c-name">${s.name}</div><div class="cn-c-stat">${(s.items||[]).length}개 주소</div></div>
+              <div class="cn-actions" onclick="event.stopPropagation()">
+                <button class="cn-circle-btn c-add" onclick="openCodeEdit('${f.id}','${s.id}',null,'add-item')">+</button>
+                <button class="cn-circle-btn c-edit" onclick="openCodeEdit('${f.id}','${s.id}',null,'edit-sub')">✏️</button>
+                <button class="cn-circle-btn del" onclick="askDeleteCodeSub('${f.id}','${s.id}')">🗑</button>
+              </div>
+              <div class="cn-arrow">▼</div>
+            </div>
+            <div class="cn-items">
+              ${(s.items||[]).map(i=>`
+              <div class="cn-item" data-id="${i.id}" onclick="navigator.clipboard.writeText('${i.code||''}');showToast('📋 복사 완료');">
+                <div class="code-drag-handle" onclick="event.stopPropagation()">⋮</div>
+                <div class="cn-i-info">
+                  <div class="cn-i-addr">${i.addr||''}</div>
+                  <div style="display:flex;align-items:center;">
+                    <div class="cn-i-code">${i.code||''}</div>
+                    <div class="cn-actions" onclick="event.stopPropagation()">
+                      <button class="cn-circle-btn c-edit" style="width:26px;height:26px;font-size:12px;border:none;" onclick="openCodeEdit('${f.id}','${s.id}','${i.id}','edit-item')">✏️</button>
+                      <button class="cn-circle-btn del" style="width:26px;height:26px;font-size:12px;border:none;" onclick="askDeleteCodeItem('${f.id}','${s.id}','${i.id}')">🗑</button>
+                    </div>
+                  </div>
+                </div>
+              </div>`).join('')}
+              ${(s.items||[]).length===0?`<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">등록된 주소가 없습니다.</div>`:''}
+            </div>
+          </div>`).join('')}
+          ${(f.subs||[]).length===0?`<div style="padding:16px;text-align:center;font-size:11px;color:var(--sub)">단지가 없습니다.</div>`:''}
+        </div>
+      </div>`;
+    }).join('');
+    html+=`</div>`;
+  }
+  html+=`</div>`;return html;
+}
+
+function bindCodeSearchEvent(){
+  const inp=document.getElementById('code-search-input');
+  if(inp){inp.addEventListener('input',e=>{codeSearchQuery=e.target.value.trim();render();setTimeout(()=>{const ni=document.getElementById('code-search-input');if(ni){ni.focus();ni.setSelectionRange(codeSearchQuery.length,codeSearchQuery.length);}},10);});}
+}
+
+function renderAdminCodes(){
+  const sel=`<div style="display:flex;gap:10px;margin-bottom:18px;align-items:center;">
+    <div class="ws-wrap" style="flex:1;margin-bottom:0;">
+      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value;codeSearchQuery='';render()">
+        <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
+        <option value="admin" ${adminSelectedCodeWorkerId=='admin'?'selected':''} style="color:var(--orange2)">👑 관리자 마스터 노트</option>
+        ${workers.map(w=>`<option value="${w.id}" ${adminSelectedCodeWorkerId==w.id?'selected':''}>${w.name}${w.region?` (${w.region})`:''}</option>`).join('')}
+      </select>
+      <div class="ws-icon">▼</div>
+    </div>
+    <button class="btn-primary" style="width:auto;margin:0;padding:0 18px;border-radius:16px;background:linear-gradient(135deg,#007a6a,#00bcd4);font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달</button>
+  </div>`;
+  const target=getCodeWorker(adminSelectedCodeWorkerId);
+  return sel+(target?renderCodeNoteCore(target):'');
+}
+function renderMyCodes(){return renderCodeNoteCore(getCodeWorker(currentUser.workerId));}
+
+function openCodeEdit(fid,sid,iid,mode){
+  codeEditMode=mode;codeEditTargetFolderId=fid;codeEditTargetSubId=sid;codeEditTargetItemId=iid;
+  const ef=document.getElementById('ce-folder-fields');
+  const es=document.getElementById('ce-sub-fields');
+  const ei=document.getElementById('ce-item-fields');
+  ef.style.display='none';es.style.display='none';ei.style.display='none';
+  ['ce-fname','ce-sname','ce-iaddr','ce-icode'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  const tt=document.getElementById('ce-title');
+  const ts=document.getElementById('ce-sub');
+  const wid=getActiveCodeWorkerId();
+  const w=getCodeWorker(wid);
+  const codes=w?w.codes||[]:[];
+  if(mode==='add-folder'){tt.textContent='지역 추가';ts.textContent='새로운 대그룹을 만듭니다.';ef.style.display='block';}
+  else if(mode==='edit-folder'){tt.textContent='지역 수정';ts.textContent='이름을 변경합니다.';ef.style.display='block';const f=codes.find(x=>x.id===fid);if(f)document.getElementById('ce-fname').value=f.name;}
+  else if(mode==='add-sub'){tt.textContent='단지 추가';ts.textContent='지역 내 소그룹을 만듭니다.';es.style.display='block';}
+  else if(mode==='edit-sub'){tt.textContent='단지 수정';ts.textContent='단지 이름을 변경합니다.';es.style.display='block';const f=codes.find(x=>x.id===fid);if(f){const s=(f.subs||[]).find(x=>x.id===sid);if(s)document.getElementById('ce-sname').value=s.name;}}
+  else if(mode==='add-item'){tt.textContent='코드 추가';ts.textContent='상세 주소와 출입코드를 입력하세요.';ei.style.display='block';}
+  else if(mode==='edit-item'){tt.textContent='코드 수정';ts.textContent='주소와 코드를 변경합니다.';ei.style.display='block';const f=codes.find(x=>x.id===fid);if(f){const s=(f.subs||[]).find(x=>x.id===sid);if(s){const i=(s.items||[]).find(x=>x.id===iid);if(i){document.getElementById('ce-iaddr').value=i.addr;document.getElementById('ce-icode').value=i.code;}}}}
+  document.getElementById('code-edit-sheet').classList.add('show');
+}
+function saveCodeEntry(){
+  const wid=getActiveCodeWorkerId();
+  const w=getCodeWorker(wid);if(!w)return;
+  let codes=w.codes?JSON.parse(JSON.stringify(w.codes)):[];
+  if(codeEditMode.includes('folder')){
+    const v=document.getElementById('ce-fname').value.trim();if(!v){showToast('지역명을 입력하세요');return;}
+    if(codeEditMode==='add-folder')codes.push({id:'f_'+Math.random().toString(36).substr(2,6),name:v,subs:[]});
+    else codes.find(x=>x.id===codeEditTargetFolderId).name=v;
+  }else if(codeEditMode.includes('sub')){
+    const v=document.getElementById('ce-sname').value.trim();if(!v){showToast('단지명을 입력하세요');return;}
+    const f=codes.find(x=>x.id===codeEditTargetFolderId);if(!f.subs)f.subs=[];
+    if(codeEditMode==='add-sub')f.subs.push({id:'s_'+Math.random().toString(36).substr(2,6),name:v,items:[]});
+    else f.subs.find(x=>x.id===codeEditTargetSubId).name=v;
+  }else if(codeEditMode.includes('item')){
+    const addr=document.getElementById('ce-iaddr').value.trim();
+    const code=document.getElementById('ce-icode').value.trim();
+    if(!addr&&!code){showToast('주소나 코드를 입력하세요');return;}
+    const f=codes.find(x=>x.id===codeEditTargetFolderId);
+    const s=(f.subs||[]).find(x=>x.id===codeEditTargetSubId);if(!s.items)s.items=[];
+    if(codeEditMode==='add-item')s.items.push({id:'i_'+Math.random().toString(36).substr(2,6),addr,code});
+    else{const i=s.items.find(x=>x.id===codeEditTargetItemId);i.addr=addr;i.code=code;}
+  }
+  document.getElementById('code-edit-sheet').classList.remove('show');
+  syncCodesToDB(wid,codes);
+}
+function askDeleteCodeFolder(fid){openConfirm('🗑 지역 삭제','이 지역과 하위의 모든 단지/코드가 삭제됩니다.','삭제',()=>{const wid=getActiveCodeWorkerId();const w=getCodeWorker(wid);syncCodesToDB(wid,(w.codes||[]).filter(x=>x.id!==fid));});}
+function askDeleteCodeSub(fid,sid){openConfirm('🗑 단지 삭제','이 단지와 포함된 모든 코드가 삭제됩니다.','삭제',()=>{const wid=getActiveCodeWorkerId();const w=getCodeWorker(wid);let codes=JSON.parse(JSON.stringify(w.codes||[]));const f=codes.find(x=>x.id===fid);if(f)f.subs=(f.subs||[]).filter(x=>x.id!==sid);syncCodesToDB(wid,codes);});}
+function askDeleteCodeItem(fid,sid,iid){openConfirm('🗑 코드 삭제','이 코드를 삭제하시겠습니까?','삭제',()=>{const wid=getActiveCodeWorkerId();const w=getCodeWorker(wid);let codes=JSON.parse(JSON.stringify(w.codes||[]));const f=codes.find(x=>x.id===fid);if(f){const s=(f.subs||[]).find(x=>x.id===sid);if(s)s.items=(s.items||[]).filter(x=>x.id!==iid);}syncCodesToDB(wid,codes);});}
+function openSmartBulkSheet(){document.getElementById('sb-text').value='';document.getElementById('smart-bulk-sheet').classList.add('show');}
+function saveSmartBulk(){
+  const text=document.getElementById('sb-text').value.trim();if(!text){showToast('텍스트를 입력해주세요.');return;}
+  const wid=getActiveCodeWorkerId();const w=getCodeWorker(wid);if(!w)return;
+  let codes=w.codes?JSON.parse(JSON.stringify(w.codes)):[];
+  const lines=text.split('\n').map(l=>l.trim()).filter(l=>l);if(!lines.length)return;
+  const regionName=lines[0];
+  const subName=lines.length>1&&!lines[1].match(/[0-9]+.*[\*#]/)?lines[1]:'일괄등록 단지';
+  const nf={id:'f_'+Math.random().toString(36).substr(2,6),name:regionName,subs:[]};
+  const ns={id:'s_'+Math.random().toString(36).substr(2,6),name:subName,items:[]};
+  const start=lines[1]===subName?2:1;
+  for(let i=start;i<lines.length;i++){const pts=lines[i].split(' ');const code=pts.pop();const addr=pts.join(' ');ns.items.push({id:'i_'+Math.random().toString(36).substr(2,6),addr:addr||'상세주소',code});}
+  nf.subs.push(ns);codes.push(nf);
+  document.getElementById('smart-bulk-sheet').classList.remove('show');
+  syncCodesToDB(wid,codes);showToast('🚀 마법처럼 정리되었습니다!');
+}
+function openCodeSyncSheet(){
+  const ss=document.getElementById('sync-source');const st=document.getElementById('sync-target');
+  let opts=`<option value="admin">👑 관리자 마스터 노트</option>`;
+  workers.forEach(w=>{opts+=`<option value="${w.id}">👤 ${w.name}</option>`;});
+  ss.innerHTML=opts;st.innerHTML=opts;
+  ss.value='admin';if(workers.length>0)st.value=workers[0].id;
+  document.getElementById('code-sync-sheet').classList.add('show');
+}
+function executeCodeSync(){
+  const srcId=document.getElementById('sync-source').value;
+  const tgtId=document.getElementById('sync-target').value;
+  const mode=document.querySelector('input[name="sync-mode"]:checked').value;
+  if(srcId===tgtId){showToast('원본과 대상이 동일합니다.');return;}
+  const sw=getCodeWorker(srcId);const tw=getCodeWorker(tgtId);if(!sw||!tw)return;
+  const ri=f=>f.map(x=>({...x,id:'f_'+Math.random().toString(36).substr(2,6),subs:(x.subs||[]).map(s=>({...s,id:'s_'+Math.random().toString(36).substr(2,6),items:(s.items||[]).map(i=>({...i,id:'i_'+Math.random().toString(36).substr(2,6)}))}))}) );
+  const cp=ri(sw.codes?JSON.parse(JSON.stringify(sw.codes)):[]);
+  const tc=tw.codes?JSON.parse(JSON.stringify(tw.codes)):[];
+  const final=mode==='overwrite'?cp:[...tc,...cp];
+  document.getElementById('code-sync-sheet').classList.remove('show');
+  syncCodesToDB(tgtId,final);showToast('🔄 코드가 성공적으로 전달되었습니다!');
+}
+function initSortableCodes(){
+  if(typeof Sortable==='undefined')return;
+  const opts={handle:'.code-drag-handle',animation:150,delay:200,delayOnTouchOnly:true,onEnd:updateCodeOrderFromDOM};
+  const fl=document.getElementById('cn-folder-list');if(fl)new Sortable(fl,{...opts});
+  document.querySelectorAll('.cn-complexes').forEach(l=>new Sortable(l,{group:'subs',...opts}));
+  document.querySelectorAll('.cn-items').forEach(l=>new Sortable(l,{group:'items',...opts}));
+}
+function updateCodeOrderFromDOM(){
+  const wid=getActiveCodeWorkerId();const w=getCodeWorker(wid);if(!w)return;
+  const allFolders=w.codes||[];const allSubs=[],allItems=[];
+  allFolders.forEach(f=>{(f.subs||[]).forEach(s=>{allSubs.push(s);(s.items||[]).forEach(i=>allItems.push(i));});});
+  const newCodes=[];
+  document.querySelectorAll('#cn-folder-list > .cn-region').forEach(fEl=>{
+    const fId=fEl.getAttribute('data-id');const of2=allFolders.find(x=>x.id===fId);
+    if(of2){const nf={...of2,subs:[]};
+      fEl.querySelectorAll('.cn-complexes > .cn-complex').forEach(sEl=>{
+        const sId=sEl.getAttribute('data-id');const os=allSubs.find(x=>x.id===sId);
+        if(os){const ns={...os,items:[]};sEl.querySelectorAll('.cn-items > .cn-item').forEach(iEl=>{const iId=iEl.getAttribute('data-id');const oi=allItems.find(x=>x.id===iId);if(oi)ns.items.push(oi);});nf.subs.push(ns);}
+      });
+      newCodes.push(nf);}
+  });
+  syncCodesToDB(wid,newCodes);
+}
+
+// 백업
 function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
-  const okBtn = document.getElementById('dlg-ok');
-  okBtn.textContent=btnLabel;
-  okBtn.style.background = isDanger ? 'var(--red)' : 'var(--teal)';
-  confirmAction=action;
-  document.getElementById('confirm-overlay').classList.add('show');
+  const ok=document.getElementById('dlg-ok');ok.textContent=btnLabel;ok.style.background=isDanger?'var(--red)':'var(--teal)';
+  confirmAction=action;document.getElementById('confirm-overlay').classList.add('show');
 }
-function closeConfirm(){ document.getElementById('confirm-overlay').classList.remove('show'); confirmAction=null; }
-function doConfirm(){ if(confirmAction) confirmAction(); closeConfirm(); }
-
+function closeConfirm(){document.getElementById('confirm-overlay').classList.remove('show');confirmAction=null;}
+function doConfirm(){if(confirmAction)confirmAction();closeConfirm();}
 function openBackup(){
   document.getElementById('backup-sub').textContent=`배달원 ${workers.length}명 · 기록 ${dailyRecords.length}일 (서버 저장)`;
   document.getElementById('backup-sheet').classList.add('show');
 }
 function exportData(){
-  const blob=new Blob([JSON.stringify({version:'mgr-v5',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download=`배송관리_백업_${today()}.json`; a.click();
-  URL.revokeObjectURL(url);
-  document.getElementById('backup-sheet').classList.remove('show');
-  showToast('📤 백업 완료!');
+  const blob=new Blob([JSON.stringify({version:'mgr-v6',exportDate:new Date().toISOString(),workers,dailyRecords},null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`배송관리_백업_${today()}.json`;a.click();URL.revokeObjectURL(url);
+  document.getElementById('backup-sheet').classList.remove('show');showToast('📤 백업 완료!');
 }
 async function importData(e){
-  const file=e.target.files[0]; if(!file) return;
+  const file=e.target.files[0];if(!file)return;
   const reader=new FileReader();
   reader.onload=async function(ev){
     try{
-      const data=JSON.parse(ev.target.result);
-      showToast('📥 복원 중...');
+      const data=JSON.parse(ev.target.result);showToast('📥 복원 중...');
       const existIds=new Set(workers.map(x=>x.id));
-      for(const w of (data.workers||[])){
-        if(!existIds.has(w.id)){
-          const {data:d,error}=await db.from('workers').insert({
-            name:w.name, price_a:w.priceA, price_b:w.priceB, price_c:w.priceC||0,
-            region:w.region||'', access_codes:w.codes||[]
-          }).select().single();
-          if(!error) workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,loginId:'',codes:w.codes||[]});
-        }
-      }
-      const existDates=new Set(dailyRecords.map(x=>x.date));
-      let n=0;
-      for(const r of (data.dailyRecords||[])){
-        if(!existDates.has(r.date)){ await saveDailyToDB(r.date,r.data); dailyRecords.unshift({date:r.date,data:r.data}); n++; }
-      }
-      dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-      document.getElementById('backup-sheet').classList.remove('show');
-      updateSummary(); render();
-      showToast(`✅ 복원 완료! ${n}일`);
-    }catch(err){ showToast('❌ 복원 실패: '+err.message); }
+      for(const w of(data.workers||[])){if(!existIds.has(w.id)){const{data:d,error}=await db.from('workers').insert({name:w.name,price_a:w.priceA,price_b:w.priceB,price_c:w.priceC||0,region:w.region||'',access_codes:w.codes||[]}).select().single();if(!error)workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,loginId:'',codes:w.codes||[]});}}
+      const existDates=new Set(dailyRecords.map(x=>x.date));let n=0;
+      for(const r of(data.dailyRecords||[])){if(!existDates.has(r.date)){await saveDailyToDB(r.date,r.data);dailyRecords.unshift({date:r.date,data:r.data});n++;}}
+      dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));cacheData();
+      document.getElementById('backup-sheet').classList.remove('show');updateSummary();render();showToast(`✅ 복원 완료! ${n}일`);
+    }catch(err){showToast('❌ 복원 실패: '+err.message);}
   };
-  reader.readAsText(file); e.target.value='';
+  reader.readAsText(file);e.target.value='';
 }
 function exportCSV(){
-  if(!dailyRecords.length||!workers.length){ showToast('⚠️ 내보낼 기록이 없어요'); return; }
+  if(!dailyRecords.length||!workers.length){showToast('⚠️ 내보낼 기록이 없어요');return;}
   const months={};
-  dailyRecords.forEach(r=>{
-    const ym=r.date.slice(0,7);
-    if(!months[ym]) months[ym]={};
-    Object.entries(r.data||{}).forEach(([wid,d])=>{
-      const w=workers.find(x=>x.id===Number(wid)); if(!w) return;
-      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);
-      if(!months[ym][w.id]) months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0};
-      months[ym][w.id].qtyA+=p.a; months[ym][w.id].qtyB+=p.b; months[ym][w.id].qtyC+=p.c;
-      months[ym][w.id].gross+=p.gross; months[ym][w.id].net+=p.net; months[ym][w.id].days++;
-    });
-  });
+  dailyRecords.forEach(r=>{const ym=r.date.slice(0,7);if(!months[ym])months[ym]={};Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(!w)return;const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC);if(!months[ym][w.id])months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,qtyC:0,gross:0,net:0,days:0};months[ym][w.id].qtyA+=p.a;months[ym][w.id].qtyB+=p.b;months[ym][w.id].qtyC+=p.c;months[ym][w.id].gross+=p.gross;months[ym][w.id].net+=p.net;months[ym][w.id].days++;});});
   const rows=[`월,이름,${itemNames.a},${itemNames.b},${itemNames.c},총건수,총금액,실수령,세금공제,배송일수`];
-  Object.keys(months).sort().forEach(ym=>{
-    Object.values(months[ym]).forEach(t=>{
-      rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyC},${t.qtyA+t.qtyB+t.qtyC},${t.gross},${t.net},${t.gross-t.net},${t.days}`);
-    });
-  });
+  Object.keys(months).sort().forEach(ym=>{Object.values(months[ym]).forEach(t=>{rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyC},${t.qtyA+t.qtyB+t.qtyC},${t.gross},${t.net},${t.gross-t.net},${t.days}`);});});
   const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download=`배송정산_${today()}.csv`; a.click();
-  URL.revokeObjectURL(url);
-  document.getElementById('backup-sheet').classList.remove('show');
-  showToast('📊 CSV 내보내기 완료!');
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`배송정산_${today()}.csv`;a.click();URL.revokeObjectURL(url);
+  document.getElementById('backup-sheet').classList.remove('show');showToast('📊 CSV 내보내기 완료!');
 }
 function askReset(){
   document.getElementById('backup-sheet').classList.remove('show');
   openConfirm('⚠️ 전체 초기화',`배달원 ${workers.length}명 · 기록 ${dailyRecords.length}일\n서버에서 모두 삭제됩니다.`,'초기화',async()=>{
-    try{
-      await db.from('daily_records').delete().neq('id',0);
-      await db.from('workers').delete().neq('id',0);
-      workers=[]; dailyRecords=[];
-      updateSummary(); render(); showToast('🗑 초기화 완료');
-    }catch(e){ showToast('❌ '+e.message); }
+    try{await db.from('daily_records').delete().neq('id',0);await db.from('workers').delete().neq('id',0);workers=[];dailyRecords=[];updateSummary();render();showToast('🗑 초기화 완료');}
+    catch(e){showToast('❌ '+e.message);}
   });
 }
 function copyCode(){
-  const openEls=document.querySelectorAll('.bsoverlay.show');
-  openEls.forEach(el=>el.classList.remove('show'));
   const code=document.documentElement.outerHTML;
-  openEls.forEach(el=>el.classList.add('show'));
-  navigator.clipboard.writeText(code).then(()=>{
-    document.getElementById('backup-sheet').classList.remove('show');
-    showToast('📋 전체 코드 복사 완료!');
-  }).catch(()=>{
-    const ta=document.createElement('textarea'); ta.value=code; ta.style.cssText='position:fixed;opacity:0';
-    document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); showToast('📋 전체 코드 복사 완료!'); }
-    catch(e){ showToast('❌ 복사 실패'); }
-    document.body.removeChild(ta);
-    document.getElementById('backup-sheet').classList.remove('show');
-  });
+  navigator.clipboard.writeText(code).then(()=>{document.getElementById('backup-sheet').classList.remove('show');showToast('📋 전체 코드 복사 완료!');}).catch(()=>{const ta=document.createElement('textarea');ta.value=code;ta.style.cssText='position:fixed;opacity:0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');showToast('📋 전체 코드 복사 완료!');}catch(e){showToast('❌ 복사 실패');}document.body.removeChild(ta);document.getElementById('backup-sheet').classList.remove('show');});
 }
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-function initSortableCodes() {
-  if (typeof Sortable === 'undefined') return;
-
-  const dragOptions = {
-    handle: '.code-drag-handle',
-    animation: 150,
-    delay: 200,             
-    delayOnTouchOnly: true, 
-    onEnd: updateCodeOrderFromDOM
-  };
-
-  const folderList = document.getElementById('cn-folder-list');
-  if (folderList) {
-    new Sortable(folderList, { ...dragOptions });
-  }
-
-  document.querySelectorAll('.cn-complexes').forEach(list => {
-    new Sortable(list, { group: 'subs', ...dragOptions });
-  });
-
-  document.querySelectorAll('.cn-items').forEach(list => {
-    new Sortable(list, { group: 'items', ...dragOptions });
-  });
-}
-
-function updateCodeOrderFromDOM() {
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  if (!w) return;
-
-  const allFolders = w.codes || [];
-  const allSubs = [];
-  const allItems = [];
-  allFolders.forEach(f => {
-    (f.subs || []).forEach(s => {
-      allSubs.push(s);
-      (s.items || []).forEach(i => allItems.push(i));
-    });
-  });
-
-  const newCodes = [];
-  const folderEls = document.querySelectorAll('#cn-folder-list > .cn-region');
-  
-  folderEls.forEach(fEl => {
-    const fId = fEl.getAttribute('data-id');
-    const oldFolder = allFolders.find(x => x.id === fId);
-    if (oldFolder) {
-      const newFolder = { ...oldFolder, subs: [] };
-      const subEls = fEl.querySelectorAll('.cn-complexes > .cn-complex');
-      
-      subEls.forEach(sEl => {
-        const sId = sEl.getAttribute('data-id');
-        const oldSub = allSubs.find(x => x.id === sId);
-        if (oldSub) {
-          const newSub = { ...oldSub, items: [] };
-          const itemEls = sEl.querySelectorAll('.cn-items > .cn-item');
-          
-          itemEls.forEach(iEl => {
-            const iId = iEl.getAttribute('data-id');
-            const itemObj = allItems.find(x => x.id === iId);
-            if (itemObj) newSub.items.push(itemObj);
-          });
-          newFolder.subs.push(newSub);
-        }
-      });
-      newCodes.push(newFolder);
-    }
-  });
-
-  syncCodesToDB(wid, newCodes);
-}
-
-// ══════════════════════════════════════════
-//  🌟 출입코드 UI 컨트롤 및 기능
-// ══════════════════════════════════════════
-function openCodeEdit(fid, sid, iid, mode) {
-  codeEditMode = mode;
-  codeEditTargetFolderId = fid;
-  codeEditTargetSubId = sid;
-  codeEditTargetItemId = iid;
-  
-  const elFolder = document.getElementById('ce-folder-fields');
-  const elSub = document.getElementById('ce-sub-fields');
-  const elItem = document.getElementById('ce-item-fields');
-  
-  elFolder.style.display = 'none'; elSub.style.display = 'none'; elItem.style.display = 'none';
-  document.getElementById('ce-fname').value = '';
-  document.getElementById('ce-sname').value = '';
-  document.getElementById('ce-iaddr').value = '';
-  document.getElementById('ce-icode').value = '';
-
-  const tTitle = document.getElementById('ce-title');
-  const tSub = document.getElementById('ce-sub');
-
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  let codes = w ? w.codes || [] : [];
-
-  if (mode === 'add-folder') { tTitle.textContent='지역 추가'; tSub.textContent='새로운 대그룹을 만듭니다.'; elFolder.style.display='block'; }
-  else if (mode === 'edit-folder') { 
-    tTitle.textContent='지역 수정'; tSub.textContent='이름을 변경합니다.'; elFolder.style.display='block';
-    const f = codes.find(x=>x.id===fid); if(f) document.getElementById('ce-fname').value = f.name;
-  }
-  else if (mode === 'add-sub') { tTitle.textContent='단지 추가'; tSub.textContent='지역 내 소그룹을 만듭니다.'; elSub.style.display='block'; }
-  else if (mode === 'edit-sub') {
-    tTitle.textContent='단지 수정'; tSub.textContent='단지 이름을 변경합니다.'; elSub.style.display='block';
-    const f = codes.find(x=>x.id===fid);
-    if(f) { const s = (f.subs||[]).find(x=>x.id===sid); if(s) document.getElementById('ce-sname').value = s.name; }
-  }
-  else if (mode === 'add-item') { tTitle.textContent='코드 추가'; tSub.textContent='상세 주소와 출입코드를 입력하세요.'; elItem.style.display='block'; }
-  else if (mode === 'edit-item') {
-    tTitle.textContent='코드 수정'; tSub.textContent='주소와 코드를 변경합니다.'; elItem.style.display='block';
-    const f = codes.find(x=>x.id===fid);
-    if(f) {
-      const s = (f.subs||[]).find(x=>x.id===sid);
-      if(s) { const i = (s.items||[]).find(x=>x.id===iid); if(i) { document.getElementById('ce-iaddr').value = i.addr; document.getElementById('ce-icode').value = i.code; } }
-    }
-  }
-  
-  document.getElementById('code-edit-sheet').classList.add('show');
-}
-
-function saveCodeEntry() {
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  if(!w) return;
-  let codes = w.codes ? JSON.parse(JSON.stringify(w.codes)) : [];
-
-  if (codeEditMode.includes('folder')) {
-    const v = document.getElementById('ce-fname').value.trim();
-    if(!v) { showToast('지역명을 입력하세요'); return; }
-    if(codeEditMode==='add-folder') codes.push({ id:'f_'+Math.random().toString(36).substr(2,6), name:v, subs:[] });
-    else codes.find(x=>x.id===codeEditTargetFolderId).name = v;
-  } 
-  else if (codeEditMode.includes('sub')) {
-    const v = document.getElementById('ce-sname').value.trim();
-    if(!v) { showToast('단지명을 입력하세요'); return; }
-    const f = codes.find(x=>x.id===codeEditTargetFolderId);
-    if(!f.subs) f.subs = [];
-    if(codeEditMode==='add-sub') f.subs.push({ id:'s_'+Math.random().toString(36).substr(2,6), name:v, items:[] });
-    else f.subs.find(x=>x.id===codeEditTargetSubId).name = v;
-  }
-  else if (codeEditMode.includes('item')) {
-    const addr = document.getElementById('ce-iaddr').value.trim();
-    const code = document.getElementById('ce-icode').value.trim();
-    if(!addr && !code) { showToast('주소나 코드를 입력하세요'); return; }
-    const f = codes.find(x=>x.id===codeEditTargetFolderId);
-    const s = (f.subs||[]).find(x=>x.id===codeEditTargetSubId);
-    if(!s.items) s.items = [];
-    if(codeEditMode==='add-item') s.items.push({ id:'i_'+Math.random().toString(36).substr(2,6), addr, code });
-    else {
-      const i = s.items.find(x=>x.id===codeEditTargetItemId);
-      i.addr = addr; i.code = code;
-    }
-  }
-
-  document.getElementById('code-edit-sheet').classList.remove('show');
-  syncCodesToDB(wid, codes);
-}
-
-function askDeleteCodeFolder(fid) {
-  openConfirm('🗑 지역 삭제', '이 지역과 하위의 모든 단지/코드가 삭제됩니다.', '삭제', () => {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    let codes = w.codes.filter(x => x.id !== fid);
-    syncCodesToDB(wid, codes);
-  });
-}
-
-function askDeleteCodeSub(fid, sid) {
-  openConfirm('🗑 단지 삭제', '이 단지와 포함된 모든 코드가 삭제됩니다.', '삭제', () => {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    let codes = JSON.parse(JSON.stringify(w.codes));
-    const f = codes.find(x => x.id === fid);
-    if(f) f.subs = (f.subs||[]).filter(x => x.id !== sid);
-    syncCodesToDB(wid, codes);
-  });
-}
-
-function askDeleteCodeItem(fid, sid, iid) {
-  openConfirm('🗑 코드 삭제', '이 코드를 삭제하시겠습니까?', '삭제', () => {
-    const wid = getActiveCodeWorkerId();
-    const w = getCodeWorker(wid);
-    let codes = JSON.parse(JSON.stringify(w.codes));
-    const f = codes.find(x => x.id === fid);
-    if(f) {
-      const s = (f.subs||[]).find(x => x.id === sid);
-      if(s) s.items = (s.items||[]).filter(x => x.id !== iid);
-    }
-    syncCodesToDB(wid, codes);
-  });
-}
-
-function openSmartBulkSheet() {
-  document.getElementById('sb-text').value = '';
-  document.getElementById('smart-bulk-sheet').classList.add('show');
-}
-
-function saveSmartBulk() {
-  const text = document.getElementById('sb-text').value.trim();
-  if(!text) { showToast('텍스트를 입력해주세요.'); return; }
-
-  const wid = getActiveCodeWorkerId();
-  const w = getCodeWorker(wid);
-  if(!w) return;
-  
-  let codes = w.codes ? JSON.parse(JSON.stringify(w.codes)) : [];
-  let lines = text.split('\n').map(l => l.trim()).filter(l => l);
-  
-  if(lines.length === 0) return;
-
-  // 첫 줄을 지역명, 둘째 줄을 단지명으로 자동 분리
-  let regionName = lines[0];
-  let subName = lines.length > 1 && !lines[1].match(/[0-9]+.*[\*#]/) ? lines[1] : '일괄등록 단지';
-  
-  let newFolder = { id: 'f_'+Math.random().toString(36).substr(2,6), name: regionName, subs: [] };
-  let newSub = { id: 's_'+Math.random().toString(36).substr(2,6), name: subName, items: [] };
-
-  let startIndex = lines[1] === subName ? 2 : 1;
-  for(let i = startIndex; i < lines.length; i++) {
-    let line = lines[i];
-    let parts = line.split(' ');
-    let code = parts.pop(); // 맨 마지막 단어를 코드로 인식
-    let addr = parts.join(' ');
-    newSub.items.push({ id:'i_'+Math.random().toString(36).substr(2,6), addr: addr||'상세주소', code: code });
-  }
-
-  newFolder.subs.push(newSub);
-  codes.push(newFolder);
-
-  document.getElementById('smart-bulk-sheet').classList.remove('show');
-  syncCodesToDB(wid, codes);
-  showToast('🚀 마법처럼 정리되었습니다!');
-}
-
-function openCodeSyncSheet() {
-  const srcSel = document.getElementById('sync-source');
-  const tgtSel = document.getElementById('sync-target');
-  
-  let options = `<option value="admin">👑 관리자 마스터 노트</option>`;
-  workers.forEach(w => { options += `<option value="${w.id}">👤 ${w.name}</option>`; });
-  
-  srcSel.innerHTML = options;
-  tgtSel.innerHTML = options;
-  
-  srcSel.value = 'admin';
-  if(workers.length > 0) tgtSel.value = workers[0].id;
-
-  document.getElementById('code-sync-sheet').classList.add('show');
-}
-
-function executeCodeSync() {
-  const srcId = document.getElementById('sync-source').value;
-  const tgtId = document.getElementById('sync-target').value;
-  const mode = document.querySelector('input[name="sync-mode"]:checked').value;
-  
-  if(srcId === tgtId) { showToast('원본과 대상이 동일합니다.'); return; }
-  
-  const srcW = getCodeWorker(srcId);
-  const tgtW = getCodeWorker(tgtId);
-  if(!srcW || !tgtW) return;
-
-  let srcCodes = srcW.codes ? JSON.parse(JSON.stringify(srcW.codes)) : [];
-  let tgtCodes = tgtW.codes ? JSON.parse(JSON.stringify(tgtW.codes)) : [];
-
-  // ID 충돌 방지를 위해 복사본의 고유 ID 새로 발급
-  const regenerateIds = (folders) => {
-    return folders.map(f => ({
-      ...f, id: 'f_'+Math.random().toString(36).substr(2,6),
-      subs: (f.subs||[]).map(s => ({
-        ...s, id: 's_'+Math.random().toString(36).substr(2,6),
-        items: (s.items||[]).map(i => ({ ...i, id: 'i_'+Math.random().toString(36).substr(2,6) }))
-      }))
-    }));
-  };
-
-  let codesToCopy = regenerateIds(srcCodes);
-  let finalCodes = mode === 'overwrite' ? codesToCopy : [...tgtCodes, ...codesToCopy];
-  
-  document.getElementById('code-sync-sheet').classList.remove('show');
-  syncCodesToDB(tgtId, finalCodes);
-  showToast('🔄 코드가 성공적으로 전달되었습니다!');
-}
-
-const savedUser=sessionStorage.getItem('mgr-user');
-if(savedUser){
+// 세션 복원
+const sv=sessionStorage.getItem('mgr-user');
+if(sv){
   try{
-    currentUser=JSON.parse(savedUser);
-    document.getElementById('login-wrap').classList.add('hide');
+    currentUser=JSON.parse(sv);
+    document.getElementById('login-wrap').style.display='none';
     document.getElementById('app').style.display='flex';
-    setupUI();
-    loadAll();
-  }catch(e){ sessionStorage.removeItem('mgr-user'); }
-} else {
+    setupUI();loadAll();
+  }catch(e){
+    sessionStorage.removeItem('mgr-user');
+    document.getElementById('login-wrap').style.display='flex';
+  }
+}else{
+  document.getElementById('login-wrap').style.display='flex';
   setTimeout(()=>document.getElementById('l-id').focus(),300);
 }
 </script>
-</body>
-</html>
+
+</body></html>
