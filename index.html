@@ -332,33 +332,124 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
   <div class="sum-item g"><div class="sum-val" id="s2">4.6만원</div><div class="sum-lbl" id="s2l">이번 달 총액</div></div>
   <div class="sum-item t"><div class="sum-val" id="s3">0건</div><div class="sum-lbl" id="s3l">오늘 총 배송</div></div>
 </div>
-<div class="tabs" id="tabs-wrap"><button class="tab" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
+<div class="tabs" id="tabs-wrap"><button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
     <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
     <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
     <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
-    <button class="tab active admin" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button></div>
-<div class="content" id="content"><div style="display:flex;gap:10px;margin-bottom:18px;align-items:center;">
-    <div class="ws-wrap" style="flex:1;margin-bottom:0;">
-      <select id="admin-code-worker-sel" class="ws-select" onchange="adminSelectedCodeWorkerId=this.value;codeSearchQuery='';render()">
-        <option value="" style="color:var(--sub)">👤 조회할 대상을 선택하세요</option>
-        <option value="admin" selected="" style="color:var(--orange2)">👑 관리자 마스터 노트</option>
-        <option value="19">사오정</option><option value="20">저팔계</option><option value="21">손오공</option><option value="22">피카츄</option>
-      </select>
-      <div class="ws-icon">▼</div>
+    <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button></div>
+<div class="content" id="content"><div class="input-subtabs">
+    <button class="input-subtab active" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
+    <button class="input-subtab " onclick="adminInputMode='worker';render()">👤 배달원별</button>
+  </div>
+  <div class="date-nav">
+    <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
+    <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <input type="date" id="admin-date-picker" value="2026-04-09" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setAdminDate(this.value)">
+      <div class="date-nav-label">4월 9일 (목요일) ▾</div>
+      <div class="date-nav-sub">새 기록</div>
     </div>
-    <button class="btn-primary" style="width:auto;margin:0;padding:0 18px;border-radius:16px;background:linear-gradient(135deg,#007a6a,#00bcd4);font-size:13px;" onclick="openCodeSyncSheet()">🔄 전달</button>
-  </div><div class="cn-wrap">
-    <div class="cn-header">
-      <div class="cn-title-area">
-        <div class="cn-key-icon">🔑</div>
-        <div style="min-width:0"><div class="cn-title">👑 관리자 마스터 노트</div><div class="cn-title-sub">출입코드 관리</div></div>
+    <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
+  </div>
+  <div style="margin-bottom:12px">
+    <button class="daily-action-btn purple" style="width:100%" onclick="openCalendarSheet()">📅 달력으로 날짜 선택</button>
+  </div>
+  <div class="daily-worker-row  no-data-today" id="dwr-19">
+      <div class="daily-row-top">
+        <div class="daily-avatar">사</div>
+        <div class="daily-name">사오정<span class="no-input-badge">미입력</span></div>
+        
       </div>
-      <div class="cn-top-btns">
-        <button class="cn-btn-pill orange" onclick="openCodeEdit(null,null,null,'add-folder')">+ 지역 추가</button>
-        <button class="cn-btn-pill teal" onclick="openSmartBulkSheet()">📝 일괄등록</button>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-19"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-19"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-19" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-19"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-20">
+      <div class="daily-row-top">
+        <div class="daily-avatar">저</div>
+        <div class="daily-name">저팔계<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-20"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-20"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-20" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-20"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-21">
+      <div class="daily-row-top">
+        <div class="daily-avatar">손</div>
+        <div class="daily-name">손오공<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-21"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-21"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-21" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-21"></div>
+        </div>
+      </div>
+    </div><div class="daily-worker-row  no-data-today" id="dwr-22">
+      <div class="daily-row-top">
+        <div class="daily-avatar">피</div>
+        <div class="daily-name">피카츄<span class="no-input-badge">미입력</span></div>
+        
+      </div>
+      <div class="daily-inputs">
+        <div class="daily-field">
+          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
+          <input type="number" id="qa-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-a-22"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
+          <input type="number" id="qb-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-b-22"></div>
+        </div>
+        <div class="daily-field">
+          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
+          <input type="number" id="qc-22" value="" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-c-22"></div>
+        </div>
       </div>
     </div>
-    <input type="text" class="cn-search" id="code-search-input" value="" placeholder="주소, 단지, 코드 검색..."><div class="empty">등록된 출입코드가 없습니다.<br>상단 [+ 지역 추가] 또는 [일괄등록]을 눌러 추가하세요.</div></div></div>
+  <div style="height:8px"></div>
+  <button class="btn-primary green" onclick="saveAdminDaily()">💾 저장하기</button>
+  
+  <div style="height:20px"></div></div>
 </div>
 
 <!-- [수정] 배달원 시트 — ws-pw type=password -->
@@ -499,6 +590,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
 <div class="toast" id="toast"></div>
 <!-- ======= 여기까지 파트2 끝 (HTML body 마크업) ======= --><script>
+// 페이지 로드 즉시 모든 시트/오버레이 강제 닫기
+(function(){
+  var els = document.querySelectorAll('.bsoverlay,.overlay');
+  for(var i=0;i<els.length;i++){
+    els[i].classList.remove('show');
+    els[i].style.display='';
+  }
+})();
+
 const SUPA_URL='https://vvivcdwmommvgvbpxwxk.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ2aXZjZHdtb21tdmd2YnB4d3hrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQxMTY1MzcsImV4cCI6MjA4OTY5MjUzN30.bjHhtHjO0kmb6lKu9cyZea8n1lYz9IoMuXFD2CKz9oE';
 const db=window.supabase.createClient(SUPA_URL,SUPA_KEY);
@@ -1708,6 +1808,8 @@ try{
       document.getElementById('login-wrap').style.display='none';
       document.getElementById('app').style.display='flex';
       setupUI();loadAll();
+      // 세션 복원 후 모든 시트 닫기 보장
+      document.querySelectorAll('.bsoverlay,.overlay').forEach(el=>{el.classList.remove('show');});
     }else{
       throw new Error('invalid session');
     }
