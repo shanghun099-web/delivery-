@@ -1,29 +1,12 @@
+<!DOCTYPE html>
 <html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#1a1a2e">
 <title>📊 배송 관리자</title>
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=3">
-    <link rel="apple-touch-icon" href="icon-192.png?v=3">
-
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { background:#0f172a; color:#f8fafc; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }
-        .container { width:100%; max-width:600px; }
-        .card { background:#1e293b; padding:24px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.3); }
-        h2 { margin-bottom:20px; font-size: 1.25rem; color: #e2e8f0; }
-        .input-group { margin-bottom: 15px; }
-        input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; margin-bottom: 10px; }
-        .status { background:#0f172a; border:1px solid #334155; padding:16px; border-radius:10px; min-height:100px; margin-bottom:20px; white-space:pre-wrap; font-size: 0.9rem; color: #cbd5e1; }
-        .success { color: #4ade80; }
-        .error { color: #f87171; }
-        button { width:100%; padding:14px; border:none; border-radius:10px; background:#2563eb; color:white; cursor:pointer; font-weight: bold; transition: .2s; }
-        button:hover { background:#1d4ed8; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-    </style>
-</head>
-<body>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" href="icon-192.png?v=3">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -107,13 +90,11 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .date-nav-btn{background:transparent;border:none;color:var(--sub);font-size:20px;cursor:pointer;padding:2px 8px;line-height:1}
 .date-nav-label{font-size:14px;font-weight:900;color:var(--text)}
 .date-nav-sub{font-size:10px;color:var(--sub);text-align:center;margin-top:2px}
-/* [NEW] 전날복사+달력 */
 .daily-action-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .daily-action-btn{padding:10px 8px;border-radius:10px;font-size:12px;font-weight:700;border:1.5px solid;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;transition:transform 0.1s}
 .daily-action-btn:active{transform:scale(0.96)}
 .daily-action-btn.blue{color:var(--blue2);border-color:rgba(59,130,246,0.3);background:rgba(59,130,246,0.08)}
 .daily-action-btn.purple{color:var(--accent2);border-color:rgba(108,99,255,0.3);background:rgba(108,99,255,0.08)}
-/* [NEW] 미입력 배지 */
 .no-input-badge{font-size:9px;padding:2px 7px;border-radius:8px;background:rgba(107,114,156,0.18);color:var(--sub);margin-left:5px;font-weight:700}
 .daily-worker-row{background:var(--card);border-radius:14px;padding:13px 14px;margin-bottom:8px;border:1.5px solid var(--border);transition:border-color 0.2s}
 .daily-worker-row.has-data{border-color:rgba(108,99,255,0.4)}
@@ -141,12 +122,10 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .my-calc-lbl{color:var(--sub)}.my-calc-val{font-weight:700}
 .my-calc-sep{border:none;border-top:1px solid rgba(0,188,212,0.15);margin:8px 0}
 .my-calc-total{font-size:22px;font-weight:900;color:var(--teal2)}
-/* [NEW] 공지 배너 */
 .notice-banner{background:linear-gradient(135deg,#1a1000,#221a00);border:1.5px solid var(--orange);border-radius:14px;padding:13px 15px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px;animation:fadeInDown 0.35s ease}
 @keyframes fadeInDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
 .notice-icon{font-size:20px;flex-shrink:0;margin-top:1px}
 .notice-text{font-size:13px;line-height:1.6;color:var(--orange2);flex:1}
-/* [NEW] 오프라인 배너 */
 .offline-bar{background:rgba(255,71,87,0.1);border:1.5px solid rgba(255,71,87,0.3);border-radius:10px;padding:8px 14px;font-size:11px;color:var(--red);text-align:center;margin-bottom:12px;font-weight:700}
 .rec-day-card{background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px;border:1.5px solid var(--border)}
 .rec-day-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
@@ -160,7 +139,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .rec-btn{flex:1;padding:8px;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit}
 .rec-btn-edit{background:rgba(108,99,255,0.15);color:var(--accent2)}
 .rec-btn-del{background:rgba(255,71,87,0.12);color:var(--red)}
-/* [NEW] 월별 그룹 */
 .month-group{margin-bottom:10px}
 .month-group-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--card);border-radius:12px;cursor:pointer;border:1.5px solid var(--border);transition:all 0.2s;user-select:none}
 .month-group.open .month-group-head{border-color:rgba(108,99,255,0.35);background:linear-gradient(135deg,rgba(108,99,255,0.1),var(--card))}
@@ -204,17 +182,14 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .ddr-date{font-size:12px;font-weight:700;flex:1}
 .ddr-pay{font-size:13px;font-weight:900;color:var(--accent3)}
 .ddr-net{font-size:10px;color:var(--green2);text-align:right}
-/* [NEW] 요일별 통계 */
 .dow-row{margin-bottom:8px}
 .dow-row-top{display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px;align-items:center}
 .dow-row-day{color:var(--sub);font-weight:700}
 .dow-row-val{color:var(--text);font-weight:700;font-size:12px}
 .dow-bg{height:7px;background:var(--border);border-radius:4px;overflow:hidden}
 .dow-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width 0.6s ease}
-/* [NEW] 정산 공유 버튼 */
 .share-btn{width:100%;padding:12px;border:1.5px solid rgba(0,188,212,0.3);border-radius:12px;font-size:13px;font-weight:700;color:var(--teal2);background:rgba(0,188,212,0.08);cursor:pointer;font-family:inherit;margin-bottom:10px;transition:transform 0.1s}
 .share-btn:active{transform:scale(0.97)}
-/* [NEW] 달력 시트 */
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:10px;width:100%;box-sizing:border-box}
 .cal-day-lbl{text-align:center;font-size:9px;color:var(--sub);padding:4px 0;font-weight:700;min-width:0}
 .cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:7px;font-size:12px;cursor:pointer;position:relative;transition:all 0.15s;font-weight:500;min-width:0;overflow:hidden}
@@ -319,7 +294,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .input-subtab.active{background:var(--accent);border-color:var(--accent);color:#fff}
 </style>
 </head>
-<!-- ======= 여기까지 파트1 끝 (</head> 까지) ======= --><body>
+<body>
 <!-- 로그인 -->
 <div class="login-wrap" id="login-wrap" style="display: none;">
 <div class="login-logo">📊</div>
@@ -332,13 +307,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <div class="login-err" id="l-err"></div>
 </div></div>
 
-<div id="app" style="display: flex; flex-direction: column; height: -webkit-fill-available;">
+<div id="app" style="display: none;">
 <div class="header admin-mode" id="main-header">
   <div class="header-row">
     <div>
       <div class="header-label" id="h-label">📊 ADMIN</div>
       <div class="header-title" id="h-title">배송 관리자</div>
-      <div class="header-date" id="h-date">2026년 4월 9일 목요일</div>
+      <div class="header-date" id="h-date"></div>
     </div>
     <div class="header-actions">
       <button class="logout-btn" onclick="doLogout()">로그아웃</button>
@@ -348,131 +323,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
   </div>
 </div>
 <div class="summary-bar cols3" id="summary-bar">
-  <div class="sum-item"><div class="sum-val" id="s1">4명</div><div class="sum-lbl" id="s1l">등록 배달원</div></div>
-  <div class="sum-item g"><div class="sum-val" id="s2">4.6만원</div><div class="sum-lbl" id="s2l">이번 달 총액</div></div>
-  <div class="sum-item t"><div class="sum-val" id="s3">0건</div><div class="sum-lbl" id="s3l">오늘 총 배송</div></div>
+  <div class="sum-item"><div class="sum-val" id="s1">-</div><div class="sum-lbl" id="s1l">-</div></div>
+  <div class="sum-item g"><div class="sum-val" id="s2">-</div><div class="sum-lbl" id="s2l">-</div></div>
+  <div class="sum-item t"><div class="sum-val" id="s3">-</div><div class="sum-lbl" id="s3l">-</div></div>
 </div>
-<div class="tabs" id="tabs-wrap"><button class="tab active admin" id="tab-daily" onclick="switchTab('daily')">📋 일별입력</button>
-    <button class="tab" id="tab-records" onclick="switchTab('records')">📁 기록</button>
-    <button class="tab" id="tab-stats" onclick="switchTab('stats')">📊 정산</button>
-    <button class="tab" id="tab-workers" onclick="switchTab('workers')">👥 배달원</button>
-    <button class="tab" id="tab-codes" onclick="switchTab('codes')">🔑 출입코드</button></div>
-<div class="content" id="content"><div class="input-subtabs">
-    <button class="input-subtab active" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
-    <button class="input-subtab " onclick="adminInputMode='worker';render()">👤 배달원별</button>
-  </div>
-  <div class="date-nav">
-    <button class="date-nav-btn" onclick="changeAdminDate(-1)">◀</button>
-    <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-      <input type="date" id="admin-date-picker" value="2026-04-09" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setAdminDate(this.value)">
-      <div class="date-nav-label">4월 9일 (목요일) ▾</div>
-      <div class="date-nav-sub">새 기록</div>
-    </div>
-    <button class="date-nav-btn" onclick="changeAdminDate(1)">▶</button>
-  </div>
-  <div style="margin-bottom:12px">
-    <button class="daily-action-btn purple" style="width:100%" onclick="openCalendarSheet()">📅 달력으로 날짜 선택</button>
-  </div>
-  <div class="daily-worker-row  no-data-today" id="dwr-19">
-      <div class="daily-row-top">
-        <div class="daily-avatar">사</div>
-        <div class="daily-name">사오정<span class="no-input-badge">미입력</span></div>
-        
-      </div>
-      <div class="daily-inputs">
-        <div class="daily-field">
-          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
-          <input type="number" id="qa-19" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-a-19"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
-          <input type="number" id="qb-19" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-b-19"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
-          <input type="number" id="qc-19" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-c-19"></div>
-        </div>
-      </div>
-    </div><div class="daily-worker-row  no-data-today" id="dwr-20">
-      <div class="daily-row-top">
-        <div class="daily-avatar">저</div>
-        <div class="daily-name">저팔계<span class="no-input-badge">미입력</span></div>
-        
-      </div>
-      <div class="daily-inputs">
-        <div class="daily-field">
-          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
-          <input type="number" id="qa-20" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-a-20"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
-          <input type="number" id="qb-20" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-b-20"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
-          <input type="number" id="qc-20" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-c-20"></div>
-        </div>
-      </div>
-    </div><div class="daily-worker-row  no-data-today" id="dwr-21">
-      <div class="daily-row-top">
-        <div class="daily-avatar">손</div>
-        <div class="daily-name">손오공<span class="no-input-badge">미입력</span></div>
-        
-      </div>
-      <div class="daily-inputs">
-        <div class="daily-field">
-          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
-          <input type="number" id="qa-21" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-a-21"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
-          <input type="number" id="qb-21" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-b-21"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
-          <input type="number" id="qc-21" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-c-21"></div>
-        </div>
-      </div>
-    </div><div class="daily-worker-row  no-data-today" id="dwr-22">
-      <div class="daily-row-top">
-        <div class="daily-avatar">피</div>
-        <div class="daily-name">피카츄<span class="no-input-badge">미입력</span></div>
-        
-      </div>
-      <div class="daily-inputs">
-        <div class="daily-field">
-          <label style="color:var(--orange2)">🅰 오네 (1,400원)</label>
-          <input type="number" id="qa-22" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-a-22"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--accent2)">🅱 오네 책 (1,200원)</label>
-          <input type="number" id="qb-22" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-b-22"></div>
-        </div>
-        <div class="daily-field">
-          <label style="color:var(--pink2)">🅲 딜리 (1,200원)</label>
-          <input type="number" id="qc-22" value="" placeholder="0" inputmode="numeric" min="0">
-          <div class="daily-field-sub" id="sub-c-22"></div>
-        </div>
-      </div>
-    </div>
-  <div style="height:8px"></div>
-  <button class="btn-primary green" onclick="saveAdminDaily()">💾 저장하기</button>
-  
-  <div style="height:20px"></div></div>
+<div class="tabs" id="tabs-wrap"></div>
+<div class="content" id="content"></div>
 </div>
 
-<!-- [수정] 배달원 시트 — ws-pw type=password -->
+<!-- 배달원 시트 -->
 <div class="bsoverlay" id="worker-sheet" onclick="if(event.target===this)closeWorkerSheet()">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -484,7 +343,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
 <div class="field" style="margin-bottom:0"><label>로그인 아이디</label><input type="text" id="ws-id" placeholder="worker1" autocomplete="off"></div>
-<div class="field" style="margin-bottom:0"><label>비밀번호</label><input type="password" id="ws-pw" placeholder="비밀번호 입력" autocomplete="new-password"></div>
+<div class="field" style="margin-bottom:0"><label>비밀번호 <span id="ws-pw-hint" style="color:var(--orange2);font-weight:900">*</span></label><input type="password" id="ws-pw" placeholder="신규는 필수" autocomplete="new-password"></div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:16px">
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pa">🅰 단가</label><input type="number" id="ws-pa" inputmode="numeric"></div>
@@ -495,7 +354,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
 </div></div>
 
-<!-- 설정 시트 — [NEW] 공지 기능 포함 -->
+<!-- 설정 시트 -->
 <div class="bsoverlay" id="settings-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -562,7 +421,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <div class="field"><label>📥 대상 (기록을 받을 배달원)</label><select id="sync-target" class="ws-select"></select></div>
 <div class="field"><label>⚙️ 복사 방식 선택</label>
 <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
-<label class="radio-card"><input type="radio" name="sync-mode" value="merge" checked="">
+<label class="radio-card"><input type="radio" name="sync-mode" value="merge" checked>
 <div class="rc-content"><div class="rc-icon">➕</div><div class="rc-text"><div class="rc-title">기존 항목에 추가 (병합)</div><div class="rc-desc">대상의 기존 코드를 유지하며 새 코드를 덧붙입니다.</div></div></div></label>
 <label class="radio-card danger"><input type="radio" name="sync-mode" value="overwrite">
 <div class="rc-content"><div class="rc-icon">🗑️</div><div class="rc-text"><div class="rc-title">모두 지우고 덮어쓰기</div><div class="rc-desc">대상의 기존 코드를 완전히 삭제하고 새로 씁니다.</div></div></div></label>
@@ -572,22 +431,22 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 </div></div>
 
 <!-- 백업 -->
-<div class="bsoverlay show" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
+<div class="bsoverlay" id="backup-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
 <div class="bs-title">💾 데이터 백업 / 관리</div>
-<div class="bs-sub" id="backup-sub">배달원 4명 · 기록 5일 (서버 저장)</div>
+<div class="bs-sub" id="backup-sub">서버 저장</div>
 <div class="bk-grid">
 <button class="bk-btn bk-export" onclick="exportData()">📤 JSON 저장<br><span style="font-size:10px;opacity:0.8">전체 백업</span></button>
 <button class="bk-btn bk-import" onclick="document.getElementById('import-file').click()">📥 불러오기<br><span style="font-size:10px;opacity:0.8">전체 복원</span></button>
 </div>
-<button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()" style="display: block;">📊 CSV 내보내기 (월별 정산표)</button>
-<button class="bk-row bk-reset" id="reset-btn" onclick="askReset()" style="display: block;">🗑 전체 초기화</button>
-<button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()" style="display: block;">📝 전체 코드 복사</button>
+<button class="bk-row bk-csv" id="csv-btn" onclick="exportCSV()">📊 CSV 내보내기 (월별 정산표)</button>
+<button class="bk-row bk-reset" id="reset-btn" onclick="askReset()">🗑 전체 초기화</button>
+<button class="bk-row bk-copy" id="copy-btn" onclick="copyCode()">📝 전체 코드 복사</button>
 <button class="bk-row bk-close" onclick="document.getElementById('backup-sheet').classList.remove('show')">닫기</button>
 </div></div>
 
-<!-- [NEW] 달력 시트 -->
+<!-- 달력 시트 -->
 <div class="bsoverlay" id="cal-sheet" onclick="if(event.target===this)this.classList.remove('show')">
 <div class="bsheet">
 <div class="bs-handle"></div>
@@ -609,7 +468,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 
 <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
 <div class="toast" id="toast"></div>
-<!-- ======= 여기까지 파트2 끝 (HTML body 마크업) ======= --><script>
+
+<script>
 // 페이지 로드 즉시 모든 시트/오버레이 강제 닫기
 (function(){
   var els = document.querySelectorAll('.bsoverlay,.overlay');
@@ -635,7 +495,7 @@ let myStatPeriod='month',myStatYear=new Date().getFullYear(),myStatMonth=new Dat
 let codeSearchQuery='',codeEditMode='',codeEditTargetFolderId=null,codeEditTargetSubId=null,codeEditTargetItemId=null;
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
 
-// [NEW] SHA-256 해싱
+// SHA-256 해싱
 async function hashPw(pw){
   if(!pw) return '';
   try{
@@ -645,10 +505,8 @@ async function hashPw(pw){
 }
 function isHashedPw(pw){return /^[a-f0-9]{64}$/.test(pw);}
 
-// [NEW] 진동
 function vibrate(ms=80){try{if(navigator.vibrate)navigator.vibrate(ms);}catch(e){}}
 
-// 유틸
 function today(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
 function won(n){return Number(n).toLocaleString()+'원';}
 function wonShort(n){return n>=10000?Math.round(n/1000)/10+'만원':won(n);}
@@ -661,7 +519,6 @@ function calcPay(w,qA,qB,qC){
   return{a,b,c,qty:a+b+c,gross,net:Math.round(gross*(1-TAX))};
 }
 
-// [NEW] 오프라인 캐시
 function cacheData(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),workers,dailyRecords}));}catch(e){}}
 function loadCachedData(){
   try{const c=JSON.parse(localStorage.getItem(CACHE_KEY));if(c&&c.ts){workers=c.workers||[];dailyRecords=c.dailyRecords||[];return true;}}catch(e){}
@@ -673,23 +530,28 @@ window.addEventListener('offline',()=>showToast('⚠️ 오프라인 - 캐시 �
 function setAdminDate(val){if(!val)return;adminInputDate=val;adminInputData={};render();}
 function setMyDate(val){if(!val)return;myInputDate=val;myQtyA='';myQtyB='';myQtyC='';render();}
 
-// [수정] 로그인 — 해시 비밀번호 지원
+// [수정 1] 로그인 — 비밀번호 trim 추가
 function doLogin(){
   const id=document.getElementById('l-id').value.trim();
-  const pw=document.getElementById('l-pw').value;
+  const pw=document.getElementById('l-pw').value.trim();  // ← .trim() 추가
   const errEl=document.getElementById('l-err');
   if(!id||!pw){errEl.textContent='아이디와 비밀번호를 입력해주세요';return;}
   const adminAcc=JSON.parse(localStorage.getItem('mgr-admin-acc'))||{id:'admin',pw:'admin1234',role:'admin',name:'관리자'};
   if(id===adminAcc.id&&pw===adminAcc.pw){currentUser=adminAcc;finishLogin();}
   else checkWorkerLogin(id,pw,errEl);
 }
+
+// [수정 3] 워커 로그인 — 시스템 row 제외 + 빈 비번 가드
 async function checkWorkerLogin(id,pw,errEl){
   errEl.textContent='확인 중...';
   if(id==='__system_notice__'){errEl.textContent='❌ 등록되지 않은 아이디입니다.';return;}
   try{
     const{data,error}=await db.from('workers').select('*').eq('login_id',id);
     if(error||!data||data.length===0)throw new Error('ID_NOT_FOUND');
-    const wd=data[data.length-1];
+    const valid=data.filter(x=>x.login_id!=='__system_notice__'&&x.name!=='__SYSTEM__');
+    if(valid.length===0)throw new Error('ID_NOT_FOUND');
+    const wd=valid[valid.length-1];
+    if(!wd.login_pw||String(wd.login_pw).trim()===''){throw new Error('NO_PW_SET');}
     const stored=String(wd.login_pw||'').trim();
     const input=String(pw).trim();
     let matched=false;
@@ -704,21 +566,27 @@ async function checkWorkerLogin(id,pw,errEl){
   }catch(e){
     if(e.message==='ID_NOT_FOUND')errEl.textContent='❌ 등록되지 않은 아이디입니다.';
     else if(e.message==='WRONG_PW')errEl.textContent='❌ 비밀번호가 틀렸습니다.';
-    else errEl.textContent='❌ 로그인 오류가 발생했습니다.';
+    else if(e.message==='NO_PW_SET')errEl.textContent='❌ 비밀번호가 설정되지 않은 계정입니다. 관리자에게 문의하세요.';
+    else errEl.textContent='❌ 로그인 오류: '+e.message;
   }
 }
+
+// [수정 5] 로그인 성공 후 입력 필드 초기화
 function finishLogin(){
   sessionStorage.setItem('mgr-user',JSON.stringify(currentUser));
   document.getElementById('login-wrap').style.display='none';
   document.getElementById('app').style.display='flex';
+  document.getElementById('l-pw').value='';
+  document.getElementById('l-err').textContent='';
   setupUI();loadAll();
 }
+
 function doLogout(){
   currentUser=null;workers=[];dailyRecords=[];
   document.getElementById('content').innerHTML='';
   sessionStorage.removeItem('mgr-user');
-  document.getElementById('login-wrap').style.display='flex';
   document.getElementById('app').style.display='none';
+  document.getElementById('login-wrap').style.display='flex';
   document.getElementById('l-id').value='';
   document.getElementById('l-pw').value='';
   document.getElementById('l-err').textContent='';
@@ -752,7 +620,6 @@ function setupUI(){
   }
 }
 
-// [수정] 데이터 로드 — 공지 + 캐시 + __system__ 필터
 async function loadAll(){
   isLoading=true;isOffline=false;render();
   const _tout=(ms)=>new Promise((_,rej)=>setTimeout(()=>rej(new Error('TIMEOUT')),ms));
@@ -832,7 +699,6 @@ function switchMyTab(t){
   render();
 }
 
-// 공지 배너
 function renderNoticeBanner(){
   if(!noticeText||!noticeText.trim())return '';
   const esc=noticeText.trim().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
@@ -866,7 +732,6 @@ function render(){
   }
 }
 
-// 설정
 function openSettings(){
   const isAdmin=currentUser.role==='admin';
   document.getElementById('admin-settings-area').style.display=isAdmin?'block':'none';
@@ -902,7 +767,6 @@ async function saveSettings(){
   document.getElementById('settings-sheet').classList.remove('show');
   render();
 }
-// [NEW] 공지 DB 저장 (시스템 예약 row 활용)
 async function saveNoticeToDb(text){
   try{
     const{data:ex}=await db.from('workers').select('id').eq('login_id','__system_notice__').limit(1);
@@ -912,7 +776,6 @@ async function saveNoticeToDb(text){
   }catch(e){console.error('Notice save error:',e);}
 }
 
-// 배달원 관리
 function renderAdminWorkers(){
   const addBtn=`<button class="btn-primary" onclick="openWorkerSheet(null)" style="margin-bottom:16px">+ 배달원 추가</button>`;
   if(!workers.length)return addBtn+`<div class="empty">👥 배달원이 없어요</div>`;
@@ -939,6 +802,9 @@ function openWorkerSheet(id){
   document.getElementById('ws-region').value=w?.region||'';
   document.getElementById('ws-id').value=w?.loginId||'';
   document.getElementById('ws-pw').value='';
+  document.getElementById('ws-pw').placeholder=id?'(변경 시에만 입력)':'신규는 필수';
+  const hint=document.getElementById('ws-pw-hint');
+  if(hint)hint.style.display=id?'none':'inline';
   document.getElementById('ws-pa').value=w?.priceA||'';
   document.getElementById('ws-pb').value=w?.priceB||'';
   document.getElementById('ws-pc').value=w?.priceC||'';
@@ -946,7 +812,8 @@ function openWorkerSheet(id){
   setTimeout(()=>document.getElementById('ws-name').focus(),300);
 }
 function closeWorkerSheet(){document.getElementById('worker-sheet').classList.remove('show');editWorkerId=null;}
-// [수정] 비밀번호 해싱 저장
+
+// [수정 2] 워커 저장 — 신규 등록 시 비밀번호 필수
 async function saveWorker(){
   const name=document.getElementById('ws-name').value.trim();
   const region=document.getElementById('ws-region').value.trim();
@@ -956,6 +823,10 @@ async function saveWorker(){
   const pb=Number(document.getElementById('ws-pb').value)||0;
   const pc=Number(document.getElementById('ws-pc').value)||0;
   if(!name){showToast('⚠️ 이름을 입력해주세요');return;}
+  // [수정 2] 신규 등록 시 로그인 아이디가 있으면 비밀번호 필수
+  if(!editWorkerId && loginId && !pw){
+    showToast('⚠️ 신규 등록 시 비밀번호는 필수입니다');return;
+  }
   if(loginId){const ex=workers.find(w=>w.loginId===loginId&&w.id!==editWorkerId);if(ex){showToast('⚠️ 이미 사용 중인 아이디입니다!');return;}}
   try{
     if(editWorkerId){
@@ -986,13 +857,11 @@ function askDeleteWorker(id){
   });
 }
 
-// [수정] 관리자 일별 입력 — 전날복사 + 달력 + 미입력 배지
 function renderAdminDaily(){
   if(!workers.length)return `<div class="empty">👥 먼저 배달원을 등록해주세요</div>`;
   const rec=dailyRecords.find(r=>r.date===adminInputDate);
   const isEdit=!!rec;
   const recData=rec?.data||{};
-  const[y,m,d]=adminInputDate.split('-').map(Number);
   const subTabs=`<div class="input-subtabs">
     <button class="input-subtab ${adminInputMode==='date'?'active':''}" onclick="adminInputMode='date';adminInputData={};render()">📅 날짜별</button>
     <button class="input-subtab ${adminInputMode==='worker'?'active':''}" onclick="adminInputMode='worker';render()">👤 배달원별</button>
@@ -1048,7 +917,6 @@ function renderAdminDaily(){
   ${isEdit?`<button class="btn-secondary" onclick="askDeleteRecord('${adminInputDate}')">🗑 이 날 기록 삭제</button>`:''}
   <div style="height:20px"></div>`;
 }
-
 
 function renderAdminWorkerMode(){
   if(!workers.length)return `<div class="empty">배달원이 없어요</div>`;
@@ -1118,7 +986,6 @@ async function saveAdminDaily(){
   }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
 
-// [NEW] 달력 시트
 function openCalendarSheet(){
   const dt=new Date(adminInputDate+'T00:00:00');
   calYear=dt.getFullYear();calMonth=dt.getMonth();
@@ -1162,7 +1029,6 @@ function selectCalDate(ds){
   document.getElementById('cal-sheet').classList.remove('show');render();
 }
 
-// [수정] 기록 탭 — 월별 그룹핑
 function renderAdminRecords(){
   if(!dailyRecords.length)return `<div class="empty">📁 아직 기록이 없어요</div>`;
   const groups={};
@@ -1219,7 +1085,6 @@ function askDeleteRecord(date){
   });
 }
 
-// [NEW] 요일별 통계
 function renderDowStats(filtered,workerId=null){
   const dow=DAYS.map((label,i)=>({dayIdx:i,label:label+'요일',qty:0,count:0}));
   filtered.forEach(r=>{
@@ -1252,7 +1117,6 @@ function renderDowStats(filtered,workerId=null){
   </div>`;
 }
 
-// [수정] 정산 탭 — 요일 통계 포함
 function renderAdminStats(){
   const pBar=`<div class="period-tabs">
     <button class="period-tab ${statPeriod==='month'?'active':''}" onclick="statPeriod='month';render()">🗓 월별</button>
@@ -1338,7 +1202,6 @@ function renderWorkerDetail(){
   <div style="height:20px"></div>`;
 }
 
-// [NEW] 정산서 공유
 function shareWorkerStats(workerId,year,month){
   const w=workers.find(x=>x.id===workerId);if(!w)return;
   let filtered,pl;
@@ -1354,7 +1217,6 @@ function shareWorkerStats(workerId,year,month){
   else navigator.clipboard.writeText(text).then(()=>showToast('📋 정산서 복사 완료')).catch(()=>showToast('❌ 복사 실패'));
 }
 
-// 배달원: 오늘 입력
 function renderMyInput(){
   const w=workers.find(x=>x.id===currentUser.workerId);
   if(!w)return `<div class="empty">⚠️ 배달원 정보를 찾을 수 없어요<br><span style="font-size:12px">관리자에게 문의하세요</span></div>`;
@@ -1440,7 +1302,6 @@ async function saveMyRecord(){
   }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
 
-// [수정] 배달원 기록 — 월별 그룹핑
 function renderMyRecords(){
   const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return `<div class="empty">배달원 정보 없음</div>`;
   const myRecs=dailyRecords.filter(r=>r.data?.[w.id]);
@@ -1466,7 +1327,6 @@ function renderMyRecords(){
   }).join('')+'<div style="height:20px"></div>';
 }
 
-// [수정] 배달원 통계 — 정산서 공유 + 요일 통계
 function renderMyStats(){
   const w=workers.find(x=>x.id===currentUser.workerId);if(!w)return `<div class="empty">배달원 정보 없음</div>`;
   const pBar=`<div class="period-tabs">
@@ -1520,7 +1380,6 @@ async function saveDailyToDB(date,data){
   if(rows.length>0){const{error:ie}=await db.from('daily_records').insert(rows);if(ie)throw ie;}
 }
 
-// 출입코드 관련
 function getCodeWorker(wid){
   if(wid==='admin'){
     let codes=[];try{codes=JSON.parse(localStorage.getItem('mgr-admin-codes'))||[];}catch(e){codes=[];}
@@ -1761,7 +1620,6 @@ function updateCodeOrderFromDOM(){
   syncCodesToDB(wid,newCodes);
 }
 
-// 백업
 function openConfirm(title,msg,btnLabel,action,isDanger=true){
   document.getElementById('dlg-title').textContent=title;
   document.getElementById('dlg-msg').textContent=msg;
@@ -1818,8 +1676,7 @@ function copyCode(){
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
-// 세션 복원
-// 세션 복원 (stale 세션 방어)
+// [수정 4] 세션 복원 — #app도 함께 숨기기
 try{
   const sv=sessionStorage.getItem('mgr-user');
   if(sv){
@@ -1828,20 +1685,20 @@ try{
       document.getElementById('login-wrap').style.display='none';
       document.getElementById('app').style.display='flex';
       setupUI();loadAll();
-      // 세션 복원 후 모든 시트 닫기 보장
       document.querySelectorAll('.bsoverlay,.overlay').forEach(el=>{el.classList.remove('show');});
     }else{
       throw new Error('invalid session');
     }
   }else{
+    document.getElementById('app').style.display='none';        // ← 추가
     document.getElementById('login-wrap').style.display='flex';
     setTimeout(()=>{try{document.getElementById('l-id').focus();}catch(e){}},300);
   }
 }catch(e){
   sessionStorage.removeItem('mgr-user');
   currentUser=null;
+  document.getElementById('app').style.display='none';          // ← 추가
   document.getElementById('login-wrap').style.display='flex';
 }
 </script>
-
 </body></html>
