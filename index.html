@@ -594,7 +594,8 @@ async function checkWorkerLogin(id,pw,errEl){
     if(isHashedPw(stored)){matched=(stored===await hashPw(input));}
     else{
       matched=(stored===input);
-      if(matched&&input){await db.from('workers').update({login_pw:await hashPw(input)}).eq('id',wd.id);}
+      // 평문 비번을 해시로 마이그레이션 — 로그인 진행을 막지 않도록 뒤에서 처리(await 없음)
+      if(matched&&input){hashPw(input).then(h=>db.from('workers').update({login_pw:h}).eq('id',wd.id)).catch(()=>{});}
     }
     if(!matched)throw new Error('WRONG_PW');
     currentUser={id:wd.login_id,role:'worker',name:wd.name,workerId:wd.id};
@@ -657,11 +658,24 @@ function setupUI(){
 }
 
 async function loadAll(){
-  isLoading=true;isOffline=false;render();
+  isOffline=false;
+  // 캐시가 있으면 즉시 화면에 먼저 표시 (로그인 체감 속도 개선)
+  const hadCache=loadCachedData();
+  if(hadCache){isLoading=false;updateSummary();render();}
+  else{isLoading=true;render();}
   const _tout=(ms)=>new Promise((_,rej)=>setTimeout(()=>rej(new Error('TIMEOUT')),ms));
   try{
-    const{data:w,error:we}=await Promise.race([db.from('workers').select('*').order('id'),_tout(10000)]);
-    if(we)throw we;
+    // workers · daily_records 를 동시에 요청 (순차 대기 제거)
+    const[wRes,rRes]=await Promise.race([
+      Promise.all([
+        db.from('workers').select('*').order('id'),
+        db.from('daily_records').select('*').order('work_date',{ascending:false})
+      ]),
+      _tout(10000)
+    ]);
+    if(wRes.error)throw wRes.error;
+    if(rRes.error)throw rRes.error;
+    const w=wRes.data, r=rRes.data;
     const noticeRow=(w||[]).find(x=>x.login_id==='__system_notice__');
     noticeText=noticeRow?.region||'';
     workers=(w||[]).filter(x=>x.login_id!=='__system_notice__'&&x.name!=='__SYSTEM__').map(x=>{
@@ -673,8 +687,6 @@ async function loadAll(){
       });
       return{id:x.id,name:x.name,priceA:x.price_a||0,priceB:x.price_b||0,priceC:x.price_c||0,priceD:x.price_d||0,priceE:x.price_e||0,priceF:x.price_f||0,loginId:x.login_id||'',region:x.region||'',codes};
     });
-    const{data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
-    if(re)throw re;
     const map={};
     (r||[]).forEach(row=>{
       const d=row.work_date;
@@ -682,10 +694,11 @@ async function loadAll(){
       map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0),qtyD:String(row.qty_d||0),qtyE:String(row.qty_e||0),qtyF:String(row.qty_f||0)};
     });
     dailyRecords=Object.values(map).sort((a,b)=>b.date.localeCompare(a.date));
-    cacheData();
+    isOffline=false;cacheData();
   }catch(e){
     console.error(e);
-    if(loadCachedData()){isOffline=true;showToast('📡 오프라인 - 캐시 데이터로 표시 중');}
+    if(hadCache){/* 이미 캐시로 표시 중 - 조용히 유지 */}
+    else if(loadCachedData()){isOffline=true;showToast('📡 오프라인 - 캐시 데이터로 표시 중');}
     else showToast('❌ 로드 실패: '+e.message);
   }
   isLoading=false;updateSummary();render();
