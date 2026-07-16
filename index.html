@@ -114,7 +114,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .my-qty-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .my-qty-box{background:var(--card);border-radius:14px;padding:14px 8px;border:1.5px solid var(--border);text-align:center}
 .my-qty-label{font-size:10px;font-weight:700;margin-bottom:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.my-qty-label.a{color:var(--orange2)}.my-qty-label.b{color:var(--accent2)}.my-qty-label.c{color:var(--pink2)}.my-qty-label.d{color:var(--teal2)}.my-qty-label.e{color:var(--blue2)}
+.my-qty-label.a{color:var(--orange2)}.my-qty-label.b{color:var(--accent2)}.my-qty-label.c{color:var(--pink2)}.my-qty-label.d{color:var(--teal2)}.my-qty-label.e{color:var(--blue2)}.my-qty-label.f{color:var(--green2)}
 .my-qty-input{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 4px;font-size:26px;font-weight:900;color:var(--text);text-align:center;outline:none;font-family:inherit;-webkit-appearance:none;transition:border 0.2s}
 .my-qty-input:focus{border-color:var(--teal)}
 .my-calc-box{background:linear-gradient(135deg,#0a1f1a,#061410);border:1.5px solid rgba(0,188,212,0.2);border-radius:14px;padding:14px;margin-bottom:14px}
@@ -351,6 +351,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pc" style="color:var(--pink2)">🅲 단가</label><input type="number" id="ws-pc" inputmode="numeric"></div>
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pd" style="color:var(--teal2)">🅳 단가</label><input type="number" id="ws-pd" inputmode="numeric"></div>
 <div class="field" style="margin-bottom:0"><label id="lbl-ws-pe" style="color:var(--blue2)">🅴 단가</label><input type="number" id="ws-pe" inputmode="numeric"></div>
+<div class="field" style="margin-bottom:0"><label id="lbl-ws-pf" style="color:var(--green2)">🅵 단가</label><input type="number" id="ws-pf" inputmode="numeric"></div>
 </div>
 <button class="btn-primary" onclick="saveWorker()">💾 저장</button>
 <button class="btn-secondary" onclick="closeWorkerSheet()">취소</button>
@@ -374,6 +375,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 <div class="field"><label style="color:var(--pink2)">🅲 C 이름</label><input type="text" id="set-name-c"></div>
 <div class="field"><label style="color:var(--teal2)">🅳 D 이름</label><input type="text" id="set-name-d"></div>
 <div class="field"><label style="color:var(--blue2)">🅴 E 이름</label><input type="text" id="set-name-e"></div>
+<div class="field"><label style="color:var(--green2)">🅵 F 이름</label><input type="text" id="set-name-f"></div>
 </div>
 <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--border)">
   <div class="sec-title">📢 배달원 공지 메시지</div>
@@ -517,13 +519,14 @@ const TAX=0.033;
 const DAYS=['일','월','화','수','목','금','토'];
 const CACHE_KEY='mgr-offline-cache';
 let currentUser=null,workers=[],dailyRecords=[],tab='',isLoading=false,isOffline=false,confirmAction=null,editWorkerId=null,noticeText='';
-let itemNames=JSON.parse(localStorage.getItem('mgr-item-names'))||{a:'오네',b:'오네 책',c:'딜리',d:'딜리주말',e:'딜리새벽'};
+let itemNames=JSON.parse(localStorage.getItem('mgr-item-names'))||{a:'오네',b:'오네 책',c:'딜리',d:'딜리주말',e:'딜리새벽',f:'딜리낮'};
 if(itemNames.d===undefined)itemNames.d='딜리주말';
 if(itemNames.e===undefined)itemNames.e='딜리새벽';
+if(itemNames.f===undefined)itemNames.f='딜리낮';
 let adminInputDate=today(),adminInputData={},adminInputMode='date';
 let statPeriod='month',statYear=new Date().getFullYear(),statMonth=new Date().getMonth(),detailWorkerId=null;
 let adminSelectedCodeWorkerId='admin';
-let myTab='input',myInputDate=today(),myQtyA='',myQtyB='',myQtyC='',myQtyD='',myQtyE='';
+let myTab='input',myInputDate=today(),myQtyA='',myQtyB='',myQtyC='',myQtyD='',myQtyE='',myQtyF='';
 let myStatPeriod='month',myStatYear=new Date().getFullYear(),myStatMonth=new Date().getMonth();
 let codeSearchQuery='',codeEditMode='',codeEditTargetFolderId=null,codeEditTargetSubId=null,codeEditTargetItemId=null;
 let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
@@ -546,10 +549,10 @@ function wonShort(n){return n>=10000?Math.round(n/1000)/10+'만원':won(n);}
 function fmtDate(s){const[y,m,d]=s.split('-');return `${Number(m)}월 ${Number(d)}일`;}
 function fmtDay(s){const[y,m,d]=s.split('-');return DAYS[new Date(y,m-1,d).getDay()]+'요일';}
 function av(name){return name?name[0]:'?';}
-function calcPay(w,qA,qB,qC,qD,qE){
-  const a=Number(qA)||0,b=Number(qB)||0,c=Number(qC)||0,d=Number(qD)||0,e=Number(qE)||0;
-  const gross=(a*(w.priceA||0))+(b*(w.priceB||0))+(c*(w.priceC||0))+(d*(w.priceD||0))+(e*(w.priceE||0));
-  return{a,b,c,d,e,qty:a+b+c+d+e,gross,net:Math.round(gross*(1-TAX))};
+function calcPay(w,qA,qB,qC,qD,qE,qF){
+  const a=Number(qA)||0,b=Number(qB)||0,c=Number(qC)||0,d=Number(qD)||0,e=Number(qE)||0,f=Number(qF)||0;
+  const gross=(a*(w.priceA||0))+(b*(w.priceB||0))+(c*(w.priceC||0))+(d*(w.priceD||0))+(e*(w.priceE||0))+(f*(w.priceF||0));
+  return{a,b,c,d,e,f,qty:a+b+c+d+e+f,gross,net:Math.round(gross*(1-TAX))};
 }
 
 function cacheData(){try{localStorage.setItem(CACHE_KEY,JSON.stringify({ts:Date.now(),workers,dailyRecords}));}catch(e){}}
@@ -561,7 +564,7 @@ window.addEventListener('online',()=>showToast('📡 온라인 연결됨'));
 window.addEventListener('offline',()=>showToast('⚠️ 오프라인 - 캐시 사용'));
 
 function setAdminDate(val){if(!val)return;adminInputDate=val;adminInputData={};render();}
-function setMyDate(val){if(!val)return;myInputDate=val;myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';render();}
+function setMyDate(val){if(!val)return;myInputDate=val;myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';myQtyF='';render();}
 
 // [수정 1] 로그인 — 비밀번호 trim 추가
 function doLogin(){
@@ -668,7 +671,7 @@ async function loadAll(){
         if(!c.subs)c.subs=[];
         c.subs.forEach(s=>{if(!s.items)s.items=[];});
       });
-      return{id:x.id,name:x.name,priceA:x.price_a||0,priceB:x.price_b||0,priceC:x.price_c||0,priceD:x.price_d||0,priceE:x.price_e||0,loginId:x.login_id||'',region:x.region||'',codes};
+      return{id:x.id,name:x.name,priceA:x.price_a||0,priceB:x.price_b||0,priceC:x.price_c||0,priceD:x.price_d||0,priceE:x.price_e||0,priceF:x.price_f||0,loginId:x.login_id||'',region:x.region||'',codes};
     });
     const{data:r,error:re}=await db.from('daily_records').select('*').order('work_date',{ascending:false});
     if(re)throw re;
@@ -676,7 +679,7 @@ async function loadAll(){
     (r||[]).forEach(row=>{
       const d=row.work_date;
       if(!map[d])map[d]={date:d,data:{}};
-      map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0),qtyD:String(row.qty_d||0),qtyE:String(row.qty_e||0)};
+      map[d].data[row.worker_id]={qtyA:String(row.qty_a||0),qtyB:String(row.qty_b||0),qtyC:String(row.qty_c||0),qtyD:String(row.qty_d||0),qtyE:String(row.qty_e||0),qtyF:String(row.qty_f||0)};
     });
     dailyRecords=Object.values(map).sort((a,b)=>b.date.localeCompare(a.date));
     cacheData();
@@ -697,21 +700,21 @@ function updateSummary(){
     document.getElementById('s1l').textContent='등록 배달원';
     let mTotal=0;
     dailyRecords.filter(r=>r.date.startsWith(m)).forEach(r=>
-      Object.keys(r.data||{}).forEach(wid=>{const w=workers.find(x=>x.id===Number(wid));if(w)mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB,r.data[wid].qtyC,r.data[wid].qtyD,r.data[wid].qtyE).gross;})
+      Object.keys(r.data||{}).forEach(wid=>{const w=workers.find(x=>x.id===Number(wid));if(w)mTotal+=calcPay(w,r.data[wid].qtyA,r.data[wid].qtyB,r.data[wid].qtyC,r.data[wid].qtyD,r.data[wid].qtyE,r.data[wid].qtyF).gross;})
     );
     document.getElementById('s2').textContent=wonShort(mTotal);
     document.getElementById('s2l').textContent='이번 달 총액';
     const tRec=dailyRecords.find(r=>r.date===today());
     let tQty=0;
-    if(tRec)Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0);});
+    if(tRec)Object.values(tRec.data||{}).forEach(d=>{tQty+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0)+(Number(d.qtyF)||0);});
     document.getElementById('s3').textContent=tQty.toLocaleString()+'건';
     document.getElementById('s3l').textContent='오늘 총 배송';
   }else{
     const mRecs=dailyRecords.filter(r=>r.date.startsWith(m)&&r.data?.[currentUser.workerId]);
-    const mQty=mRecs.reduce((s,r)=>s+(Number(r.data[currentUser.workerId]?.qtyA)||0)+(Number(r.data[currentUser.workerId]?.qtyB)||0)+(Number(r.data[currentUser.workerId]?.qtyC)||0)+(Number(r.data[currentUser.workerId]?.qtyD)||0)+(Number(r.data[currentUser.workerId]?.qtyE)||0),0);
+    const mQty=mRecs.reduce((s,r)=>s+(Number(r.data[currentUser.workerId]?.qtyA)||0)+(Number(r.data[currentUser.workerId]?.qtyB)||0)+(Number(r.data[currentUser.workerId]?.qtyC)||0)+(Number(r.data[currentUser.workerId]?.qtyD)||0)+(Number(r.data[currentUser.workerId]?.qtyE)||0)+(Number(r.data[currentUser.workerId]?.qtyF)||0),0);
     const tRec=dailyRecords.find(r=>r.date===today());
     const tD=tRec?.data?.[currentUser.workerId];
-    const tQty=tD?(Number(tD.qtyA)||0)+(Number(tD.qtyB)||0)+(Number(tD.qtyC)||0)+(Number(tD.qtyD)||0)+(Number(tD.qtyE)||0):0;
+    const tQty=tD?(Number(tD.qtyA)||0)+(Number(tD.qtyB)||0)+(Number(tD.qtyC)||0)+(Number(tD.qtyD)||0)+(Number(tD.qtyE)||0)+(Number(tD.qtyF)||0):0;
     document.getElementById('s1').textContent=mRecs.length+'일';
     document.getElementById('s1l').textContent='이번 달 배송일';
     document.getElementById('s2').textContent=mQty.toLocaleString()+'건';
@@ -778,6 +781,7 @@ function openSettings(){
   document.getElementById('set-name-c').value=itemNames.c;
   document.getElementById('set-name-d').value=itemNames.d;
   document.getElementById('set-name-e').value=itemNames.e;
+  document.getElementById('set-name-f').value=itemNames.f;
   document.getElementById('set-notice').value=noticeText||'';
   document.getElementById('settings-sheet').classList.add('show');
 }
@@ -795,7 +799,8 @@ async function saveSettings(){
     b:document.getElementById('set-name-b').value.trim()||'물품 B',
     c:document.getElementById('set-name-c').value.trim()||'물품 C',
     d:document.getElementById('set-name-d').value.trim()||'물품 D',
-    e:document.getElementById('set-name-e').value.trim()||'물품 E'
+    e:document.getElementById('set-name-e').value.trim()||'물품 E',
+    f:document.getElementById('set-name-f').value.trim()||'물품 F'
   };
   localStorage.setItem('mgr-item-names',JSON.stringify(itemNames));
   const nv=document.getElementById('set-notice').value||'';
@@ -808,7 +813,7 @@ async function saveNoticeToDb(text){
   try{
     const{data:ex}=await db.from('workers').select('id').eq('login_id','__system_notice__').limit(1);
     if(ex&&ex.length>0)await db.from('workers').update({region:text}).eq('id',ex[0].id);
-    else await db.from('workers').insert({login_id:'__system_notice__',name:'__SYSTEM__',region:text,price_a:0,price_b:0,price_c:0,price_d:0,price_e:0,access_codes:[]});
+    else await db.from('workers').insert({login_id:'__system_notice__',name:'__SYSTEM__',region:text,price_a:0,price_b:0,price_c:0,price_d:0,price_e:0,price_f:0,access_codes:[]});
     noticeText=text;
   }catch(e){console.error('Notice save error:',e);}
 }
@@ -820,7 +825,7 @@ function renderAdminWorkers(){
     <div class="worker-avatar admin-av">${av(w.name)}</div>
     <div class="worker-info">
       <div class="worker-name">${w.name}${w.region?` <span style="font-size:10px;font-weight:normal;color:var(--sub)">📍${w.region}</span>`:''}</div>
-      <div class="worker-prices">🔑 ${w.loginId||'미설정'}<br>🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()}<br>🅳${(w.priceD||0).toLocaleString()} · 🅴${(w.priceE||0).toLocaleString()}</div>
+      <div class="worker-prices">🔑 ${w.loginId||'미설정'}<br>🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()}<br>🅳${(w.priceD||0).toLocaleString()} · 🅴${(w.priceE||0).toLocaleString()} · 🅵${(w.priceF||0).toLocaleString()}</div>
     </div>
     <div class="worker-btns">
       <button class="wbtn wbtn-edit" onclick="openWorkerSheet(${w.id})">✏️</button>
@@ -836,6 +841,7 @@ function openWorkerSheet(id){
   document.getElementById('lbl-ws-pc').textContent=`🅲 ${itemNames.c} 단가`;
   document.getElementById('lbl-ws-pd').textContent=`🅳 ${itemNames.d} 단가`;
   document.getElementById('lbl-ws-pe').textContent=`🅴 ${itemNames.e} 단가`;
+  document.getElementById('lbl-ws-pf').textContent=`🅵 ${itemNames.f} 단가`;
   const w=id?workers.find(x=>x.id===id):null;
   document.getElementById('ws-name').value=w?.name||'';
   document.getElementById('ws-region').value=w?.region||'';
@@ -849,6 +855,7 @@ function openWorkerSheet(id){
   document.getElementById('ws-pc').value=w?.priceC||'';
   document.getElementById('ws-pd').value=w?.priceD||'';
   document.getElementById('ws-pe').value=w?.priceE||'';
+  document.getElementById('ws-pf').value=w?.priceF||'';
   document.getElementById('worker-sheet').classList.add('show');
   setTimeout(()=>document.getElementById('ws-name').focus(),300);
 }
@@ -865,6 +872,7 @@ async function saveWorker(){
   const pc=Number(document.getElementById('ws-pc').value)||0;
   const pd=Number(document.getElementById('ws-pd').value)||0;
   const pe=Number(document.getElementById('ws-pe').value)||0;
+  const pf=Number(document.getElementById('ws-pf').value)||0;
   if(!name){showToast('⚠️ 이름을 입력해주세요');return;}
   // [수정 2] 신규 등록 시 로그인 아이디가 있으면 비밀번호 필수
   if(!editWorkerId && loginId && !pw){
@@ -873,20 +881,20 @@ async function saveWorker(){
   if(loginId){const ex=workers.find(w=>w.loginId===loginId&&w.id!==editWorkerId);if(ex){showToast('⚠️ 이미 사용 중인 아이디입니다!');return;}}
   try{
     if(editWorkerId){
-      const upd={name,region,price_a:pa,price_b:pb,price_c:pc,price_d:pd,price_e:pe};
+      const upd={name,region,price_a:pa,price_b:pb,price_c:pc,price_d:pd,price_e:pe,price_f:pf};
       if(loginId)upd.login_id=loginId;
       if(pw)upd.login_pw=await hashPw(pw);
       const{error}=await db.from('workers').update(upd).eq('id',editWorkerId);
       if(error)throw error;
-      workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,priceC:pc,priceD:pd,priceE:pe,loginId:loginId||w.loginId}:w);
+      workers=workers.map(w=>w.id===editWorkerId?{...w,name,region,priceA:pa,priceB:pb,priceC:pc,priceD:pd,priceE:pe,priceF:pf,loginId:loginId||w.loginId}:w);
       showToast('✅ 수정 완료');
     }else{
-      const ins={name,region,price_a:pa,price_b:pb,price_c:pc,price_d:pd,price_e:pe};
+      const ins={name,region,price_a:pa,price_b:pb,price_c:pc,price_d:pd,price_e:pe,price_f:pf};
       if(loginId)ins.login_id=loginId;
       if(pw)ins.login_pw=await hashPw(pw);
       const{data,error}=await db.from('workers').insert(ins).select().single();
       if(error)throw error;
-      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,priceD:pd,priceE:pe,loginId:loginId||'',codes:[]});
+      workers.push({id:data.id,name,region,priceA:pa,priceB:pb,priceC:pc,priceD:pd,priceE:pe,priceF:pf,loginId:loginId||'',codes:[]});
       showToast('✅ 배달원 추가 완료');
     }
     closeWorkerSheet();updateSummary();render();
@@ -930,8 +938,9 @@ function renderAdminDaily(){
     const qc=adminInputData[w.id]?.qtyC??prev.qtyC??'';
     const qd=adminInputData[w.id]?.qtyD??prev.qtyD??'';
     const qe=adminInputData[w.id]?.qtyE??prev.qtyE??'';
-    const p=calcPay(w,qa,qb,qc,qd,qe);
-    const hasAny=(Number(prev.qtyA)||0)+(Number(prev.qtyB)||0)+(Number(prev.qtyC)||0)+(Number(prev.qtyD)||0)+(Number(prev.qtyE)||0)>0||p.qty>0;
+    const qf=adminInputData[w.id]?.qtyF??prev.qtyF??'';
+    const p=calcPay(w,qa,qb,qc,qd,qe,qf);
+    const hasAny=(Number(prev.qtyA)||0)+(Number(prev.qtyB)||0)+(Number(prev.qtyC)||0)+(Number(prev.qtyD)||0)+(Number(prev.qtyE)||0)+(Number(prev.qtyF)||0)>0||p.qty>0;
     return `<div class="daily-worker-row ${p.qty>0?'has-data':''} ${!hasAny?'no-data-today':''}" id="dwr-${w.id}">
       <div class="daily-row-top">
         <div class="daily-avatar">${av(w.name)}</div>
@@ -964,6 +973,11 @@ function renderAdminDaily(){
           <input type="number" id="qe-${w.id}" value="${qe}" placeholder="0" inputmode="numeric" min="0">
           <div class="daily-field-sub" id="sub-e-${w.id}">${qe?won(Number(qe)*(w.priceE||0)):''}</div>
         </div>
+        <div class="daily-field">
+          <label style="color:var(--green2)">🅵 ${itemNames.f} (${(w.priceF||0).toLocaleString()}원)</label>
+          <input type="number" id="qf-${w.id}" value="${qf}" placeholder="0" inputmode="numeric" min="0">
+          <div class="daily-field-sub" id="sub-f-${w.id}">${qf?won(Number(qf)*(w.priceF||0)):''}</div>
+        </div>
       </div>
     </div>`;
   }).join('')}
@@ -979,8 +993,8 @@ function renderAdminWorkerMode(){
   ${workers.map(w=>{
     const m=today().slice(0,7);
     const mRec=dailyRecords.filter(r=>r.date.startsWith(m)&&r.data?.[w.id]);
-    const mQty=mRec.reduce((s,r)=>s+(Number(r.data[w.id]?.qtyA)||0)+(Number(r.data[w.id]?.qtyB)||0)+(Number(r.data[w.id]?.qtyC)||0)+(Number(r.data[w.id]?.qtyD)||0)+(Number(r.data[w.id]?.qtyE)||0),0);
-    const mGross=mRec.reduce((s,r)=>s+calcPay(w,r.data[w.id]?.qtyA,r.data[w.id]?.qtyB,r.data[w.id]?.qtyC,r.data[w.id]?.qtyD,r.data[w.id]?.qtyE).gross,0);
+    const mQty=mRec.reduce((s,r)=>s+(Number(r.data[w.id]?.qtyA)||0)+(Number(r.data[w.id]?.qtyB)||0)+(Number(r.data[w.id]?.qtyC)||0)+(Number(r.data[w.id]?.qtyD)||0)+(Number(r.data[w.id]?.qtyE)||0)+(Number(r.data[w.id]?.qtyF)||0),0);
+    const mGross=mRec.reduce((s,r)=>s+calcPay(w,r.data[w.id]?.qtyA,r.data[w.id]?.qtyB,r.data[w.id]?.qtyC,r.data[w.id]?.qtyD,r.data[w.id]?.qtyE,r.data[w.id]?.qtyF).gross,0);
     return `<div class="worker-card" style="cursor:pointer" onclick="adminInputMode='date';adminInputDate='${today()}';adminInputData={};render()">
       <div class="daily-avatar">${av(w.name)}</div>
       <div style="flex:1"><div style="font-size:14px;font-weight:900">${w.name}${w.region?` <span style="font-size:10px;color:var(--sub)">📍${w.region}</span>`:''}</div>
@@ -992,26 +1006,29 @@ function renderAdminWorkerMode(){
 
 function bindAdminDailyEvents(){
   workers.forEach(w=>{
-    ['qa','qb','qc','qd','qe'].forEach(prefix=>{
+    ['qa','qb','qc','qd','qe','qf'].forEach(prefix=>{
       const el=document.getElementById(`${prefix}-${w.id}`);if(!el)return;
       el.addEventListener('input',()=>{
-        if(!adminInputData[w.id])adminInputData[w.id]={qtyA:'',qtyB:'',qtyC:'',qtyD:'',qtyE:''};
+        if(!adminInputData[w.id])adminInputData[w.id]={qtyA:'',qtyB:'',qtyC:'',qtyD:'',qtyE:'',qtyF:''};
         if(prefix==='qa')adminInputData[w.id].qtyA=el.value;
         else if(prefix==='qb')adminInputData[w.id].qtyB=el.value;
         else if(prefix==='qc')adminInputData[w.id].qtyC=el.value;
         else if(prefix==='qd')adminInputData[w.id].qtyD=el.value;
-        else adminInputData[w.id].qtyE=el.value;
+        else if(prefix==='qe')adminInputData[w.id].qtyE=el.value;
+        else adminInputData[w.id].qtyF=el.value;
         const qA=document.getElementById(`qa-${w.id}`)?.value||'';
         const qB=document.getElementById(`qb-${w.id}`)?.value||'';
         const qC=document.getElementById(`qc-${w.id}`)?.value||'';
         const qD=document.getElementById(`qd-${w.id}`)?.value||'';
         const qE=document.getElementById(`qe-${w.id}`)?.value||'';
-        const p=calcPay(w,qA,qB,qC,qD,qE);
+        const qF=document.getElementById(`qf-${w.id}`)?.value||'';
+        const p=calcPay(w,qA,qB,qC,qD,qE,qF);
         const sA=document.getElementById(`sub-a-${w.id}`);if(sA)sA.textContent=qA?won(Number(qA)*(w.priceA||0)):'';
         const sB=document.getElementById(`sub-b-${w.id}`);if(sB)sB.textContent=qB?won(Number(qB)*(w.priceB||0)):'';
         const sC=document.getElementById(`sub-c-${w.id}`);if(sC)sC.textContent=qC?won(Number(qC)*(w.priceC||0)):'';
         const sD=document.getElementById(`sub-d-${w.id}`);if(sD)sD.textContent=qD?won(Number(qD)*(w.priceD||0)):'';
         const sE=document.getElementById(`sub-e-${w.id}`);if(sE)sE.textContent=qE?won(Number(qE)*(w.priceE||0)):'';
+        const sF=document.getElementById(`sub-f-${w.id}`);if(sF)sF.textContent=qF?won(Number(qF)*(w.priceF||0)):'';
         const row=document.getElementById(`dwr-${w.id}`);
         if(row){row.classList.toggle('has-data',p.qty>0);row.classList.toggle('no-data-today',p.qty===0);}
         const badge=document.querySelector(`#dwr-${w.id} .daily-total-badge`);
@@ -1036,7 +1053,8 @@ async function saveAdminDaily(){
     const qc=document.getElementById(`qc-${w.id}`)?.value||'';
     const qd=document.getElementById(`qd-${w.id}`)?.value||'';
     const qe=document.getElementById(`qe-${w.id}`)?.value||'';
-    if(qa||qb||qc||qd||qe)data[w.id]={qtyA:qa,qtyB:qb,qtyC:qc,qtyD:qd,qtyE:qe};
+    const qf=document.getElementById(`qf-${w.id}`)?.value||'';
+    if(qa||qb||qc||qd||qe||qf)data[w.id]={qtyA:qa,qtyB:qb,qtyC:qc,qtyD:qd,qtyE:qe,qtyF:qf};
   });
   if(!Object.keys(data).length){showToast('⚠️ 수량을 입력해주세요');return;}
   showToast('💾 저장 중...');
@@ -1101,16 +1119,16 @@ function renderAdminRecords(){
     const recs=groups[ym];
     const[yr,mo]=ym.split('-');
     let mGross=0;
-    recs.forEach(r=>Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(w)mGross+=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE).gross;}));
+    recs.forEach(r=>Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(w)mGross+=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE,d.qtyF).gross;}));
     const recHtml=recs.map(r=>{
       let tGross=0,rows='';
       Object.entries(r.data||{}).forEach(([wid,d])=>{
         const w=workers.find(x=>x.id===Number(wid));if(!w)return;
-        const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE);tGross+=p.gross;
+        const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE,d.qtyF);tGross+=p.gross;
         if(p.qty>0)rows+=`<div class="rec-worker-row">
           <div class="daily-avatar" style="width:28px;height:28px;border-radius:7px;font-size:12px">${av(w.name)}</div>
           <div class="rec-worker-name">${w.name}</div>
-          <div class="rec-worker-qty">🅰${p.a} 🅱${p.b} 🅲${p.c} 🅳${p.d} 🅴${p.e}</div>
+          <div class="rec-worker-qty">🅰${p.a} 🅱${p.b} 🅲${p.c} 🅳${p.d} 🅴${p.e} 🅵${p.f}</div>
           <div class="rec-worker-pay">${won(p.gross)}</div>
         </div>`;
       });
@@ -1155,10 +1173,10 @@ function renderDowStats(filtered,workerId=null){
     const di=new Date(ry,rm-1,rd).getDay();
     if(workerId){
       const d=r.data?.[workerId];if(!d)return;
-      const q=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0);
+      const q=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0)+(Number(d.qtyF)||0);
       if(q>0){dow[di].qty+=q;dow[di].count++;}
     }else{
-      let q=0;Object.values(r.data||{}).forEach(d=>{q+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0);});
+      let q=0;Object.values(r.data||{}).forEach(d=>{q+=(Number(d.qtyA)||0)+(Number(d.qtyB)||0)+(Number(d.qtyC)||0)+(Number(d.qtyD)||0)+(Number(d.qtyE)||0)+(Number(d.qtyF)||0);});
       if(q>0){dow[di].qty+=q;dow[di].count++;}
     }
   });
@@ -1199,13 +1217,13 @@ function renderAdminStats(){
   }else{filtered=dailyRecords;title='전체 정산';}
   if(!filtered.length)return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
   const totals={};
-  workers.forEach(w=>{totals[w.id]={w,qty:0,qtyA:0,qtyB:0,qtyC:0,qtyD:0,qtyE:0,gross:0,net:0,days:0};});
+  workers.forEach(w=>{totals[w.id]={w,qty:0,qtyA:0,qtyB:0,qtyC:0,qtyD:0,qtyE:0,qtyF:0,gross:0,net:0,days:0};});
   let gGross=0,gNet=0,gQty=0;
   filtered.forEach(r=>{
     Object.entries(r.data||{}).forEach(([wid,d])=>{
       const w=workers.find(x=>x.id===Number(wid));if(!w||!totals[w.id])return;
-      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE);
-      if(p.qty>0){totals[w.id].qty+=p.qty;totals[w.id].qtyA+=p.a;totals[w.id].qtyB+=p.b;totals[w.id].qtyC+=p.c;totals[w.id].qtyD+=p.d;totals[w.id].qtyE+=p.e;totals[w.id].gross+=p.gross;totals[w.id].net+=p.net;totals[w.id].days++;gGross+=p.gross;gNet+=p.net;gQty+=p.qty;}
+      const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE,d.qtyF);
+      if(p.qty>0){totals[w.id].qty+=p.qty;totals[w.id].qtyA+=p.a;totals[w.id].qtyB+=p.b;totals[w.id].qtyC+=p.c;totals[w.id].qtyD+=p.d;totals[w.id].qtyE+=p.e;totals[w.id].qtyF+=p.f;totals[w.id].gross+=p.gross;totals[w.id].net+=p.net;totals[w.id].days++;gGross+=p.gross;gNet+=p.net;gQty+=p.qty;}
     });
   });
   const sorted=Object.values(totals).filter(x=>x.gross>0).sort((a,b)=>b.gross-a.gross);
@@ -1225,7 +1243,7 @@ function renderAdminStats(){
   ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
     <div class="wsc-rank">${i+1}</div>
     <div class="wsc-avatar">${av(t.w.name)}</div>
-    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${t.qtyA} · 🅱${t.qtyB} · 🅲${t.qtyC} · 🅳${t.qtyD} · 🅴${t.qtyE}</div></div>
+    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${t.qtyA} · 🅱${t.qtyB} · 🅲${t.qtyC} · 🅳${t.qtyD} · 🅴${t.qtyE} · 🅵${t.qtyF}</div></div>
     <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
   </div>`).join('')}
   <div style="height:20px"></div>`;
@@ -1236,28 +1254,28 @@ function renderWorkerDetail(){
   const ym=statPeriod==='month'?`${statYear}-${String(statMonth+1).padStart(2,'0')}`:null;
   const filtered=ym?dailyRecords.filter(r=>r.date.startsWith(ym)):dailyRecords;
   const days=filtered.filter(r=>r.data?.[w.id]);
-  let tG=0,tN=0,tA=0,tB=0,tC=0,tD=0,tE=0;
-  days.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE);tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;});
+  let tG=0,tN=0,tA=0,tB=0,tC=0,tD=0,tE=0,tF=0;
+  days.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF);tG+=p.gross;tN+=p.net;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;tF+=p.f;});
   const pl=ym?`${statYear}년 ${statMonth+1}월`:'전체';
   return `<button class="back-btn" onclick="detailWorkerId=null;render()">◀ 목록으로</button>
   <div class="detail-header">
     <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
       <div class="wsc-avatar" style="width:46px;height:46px;font-size:20px">${av(w.name)}</div>
-      <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()} · 🅳${(w.priceD||0).toLocaleString()} · 🅴${(w.priceE||0).toLocaleString()}</div></div>
+      <div><div style="font-size:18px;font-weight:900">${w.name}</div><div style="font-size:11px;color:var(--sub);margin-top:3px">🅰${(w.priceA||0).toLocaleString()} · 🅱${(w.priceB||0).toLocaleString()} · 🅲${(w.priceC||0).toLocaleString()} · 🅳${(w.priceD||0).toLocaleString()} · 🅴${(w.priceE||0).toLocaleString()} · 🅵${(w.priceF||0).toLocaleString()}</div></div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
       <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 지급액</div><div style="font-size:17px;font-weight:900;color:var(--accent3)">${won(tG)}</div></div>
       <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">실수령</div><div style="font-size:17px;font-weight:900;color:var(--green2)">${won(tN)}</div></div>
-      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB+tC+tD+tE).toLocaleString()}건</div></div>
+      <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">총 배송량</div><div style="font-size:16px;font-weight:900">${(tA+tB+tC+tD+tE+tF).toLocaleString()}건</div></div>
       <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:10px 12px"><div style="font-size:9px;color:var(--sub)">세금공제(3.3%)</div><div style="font-size:16px;font-weight:900;color:var(--red)">-${won(tG-tN)}</div></div>
     </div>
   </div>
   <button class="share-btn" onclick="shareWorkerStats(${w.id},${statPeriod==='month'?statYear:0},${statPeriod==='month'?statMonth:-1})">📤 ${pl} 정산서 공유</button>
   ${days.length>=2?renderDowStats(days,w.id):''}
   <div class="sec-title">일별 상세 (${days.length}일)</div>
-  ${days.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE);
+  ${days.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF);
     return `<div class="detail-day-row">
-      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} 🅱${p.b} 🅲${p.c} 🅳${p.d} 🅴${p.e}</div></div>
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} 🅱${p.b} 🅲${p.c} 🅳${p.d} 🅴${p.e} 🅵${p.f}</div></div>
       <div style="text-align:right"><div class="ddr-pay">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
     </div>`;
   }).join('')}
@@ -1273,9 +1291,9 @@ function shareWorkerStats(workerId,year,month){
     filtered=dailyRecords.filter(r=>r.date.startsWith(ym)&&r.data?.[workerId]);
     pl=`${year}년 ${month+1}월`;
   }else{filtered=dailyRecords.filter(r=>r.data?.[workerId]);pl='전체';}
-  let tQ=0,tA=0,tB=0,tC=0,tD=0,tE=0,tG=0,tN=0;
-  filtered.forEach(r=>{const p=calcPay(w,r.data[workerId].qtyA,r.data[workerId].qtyB,r.data[workerId].qtyC,r.data[workerId].qtyD,r.data[workerId].qtyE);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;tG+=p.gross;tN+=p.net;});
-  const text=`📊 ${pl} 배송 정산서\n─────────────\n👤 ${w.name}님\n\n🅰 ${itemNames.a}: ${tA.toLocaleString()}건\n🅱 ${itemNames.b}: ${tB.toLocaleString()}건\n🅲 ${itemNames.c}: ${tC.toLocaleString()}건\n🅳 ${itemNames.d}: ${tD.toLocaleString()}건\n🅴 ${itemNames.e}: ${tE.toLocaleString()}건\n📦 총 배송: ${tQ.toLocaleString()}건\n📅 배송일수: ${filtered.length}일\n─────────────\n💰 총 금액: ${won(tG)}\n📉 세금(3.3%): -${won(tG-tN)}\n✅ 실수령: ${won(tN)}`;
+  let tQ=0,tA=0,tB=0,tC=0,tD=0,tE=0,tF=0,tG=0,tN=0;
+  filtered.forEach(r=>{const p=calcPay(w,r.data[workerId].qtyA,r.data[workerId].qtyB,r.data[workerId].qtyC,r.data[workerId].qtyD,r.data[workerId].qtyE,r.data[workerId].qtyF);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;tF+=p.f;tG+=p.gross;tN+=p.net;});
+  const text=`📊 ${pl} 배송 정산서\n─────────────\n👤 ${w.name}님\n\n🅰 ${itemNames.a}: ${tA.toLocaleString()}건\n🅱 ${itemNames.b}: ${tB.toLocaleString()}건\n🅲 ${itemNames.c}: ${tC.toLocaleString()}건\n🅳 ${itemNames.d}: ${tD.toLocaleString()}건\n🅴 ${itemNames.e}: ${tE.toLocaleString()}건\n🅵 ${itemNames.f}: ${tF.toLocaleString()}건\n📦 총 배송: ${tQ.toLocaleString()}건\n📅 배송일수: ${filtered.length}일\n─────────────\n💰 총 금액: ${won(tG)}\n📉 세금(3.3%): -${won(tG-tN)}\n✅ 실수령: ${won(tN)}`;
   if(navigator.share)navigator.share({text}).catch(()=>{});
   else navigator.clipboard.writeText(text).then(()=>showToast('📋 정산서 복사 완료')).catch(()=>showToast('❌ 복사 실패'));
 }
@@ -1290,19 +1308,20 @@ function renderMyInput(){
   const qc=myQtyC!==''?myQtyC:(prev.qtyC||'');
   const qd=myQtyD!==''?myQtyD:(prev.qtyD||'');
   const qe=myQtyE!==''?myQtyE:(prev.qtyE||'');
-  const p=calcPay(w,qa,qb,qc,qd,qe);
+  const qf=myQtyF!==''?myQtyF:(prev.qtyF||'');
+  const p=calcPay(w,qa,qb,qc,qd,qe,qf);
   return `<div class="my-input-header">
     <div class="my-input-name">안녕하세요, ${w.name}님 👋</div>
     <div class="my-input-sub">오늘의 배송 수량을 입력해주세요</div>
   </div>
   <div class="date-nav" style="margin-bottom:14px">
-    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';changeMyDate(-1)">◀</button>
+    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';myQtyF='';changeMyDate(-1)">◀</button>
     <div style="text-align:center;position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
       <input type="date" id="my-date-picker" value="${myInputDate}" style="position:absolute;width:100%;height:100%;opacity:0;cursor:pointer;" onchange="setMyDate(this.value)">
       <div class="date-nav-label">${fmtDate(myInputDate)} (${fmtDay(myInputDate)}) ▾</div>
       <div class="date-nav-sub">${rec?.data?.[w.id]?'✏️ 기존 기록':'새 기록'}</div>
     </div>
-    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';changeMyDate(1)">▶</button>
+    <button class="date-nav-btn" onclick="myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';myQtyF='';changeMyDate(1)">▶</button>
   </div>
   <div class="my-qty-grid">
     <div class="my-qty-box"><div class="my-qty-label a">🅰 ${itemNames.a}</div><input class="my-qty-input" type="number" id="my-qa" value="${qa}" placeholder="0" inputmode="numeric" min="0"></div>
@@ -1310,6 +1329,7 @@ function renderMyInput(){
     <div class="my-qty-box"><div class="my-qty-label c">🅲 ${itemNames.c}</div><input class="my-qty-input" type="number" id="my-qc" value="${qc}" placeholder="0" inputmode="numeric" min="0"></div>
     <div class="my-qty-box"><div class="my-qty-label d">🅳 ${itemNames.d}</div><input class="my-qty-input" type="number" id="my-qd" value="${qd}" placeholder="0" inputmode="numeric" min="0"></div>
     <div class="my-qty-box"><div class="my-qty-label e">🅴 ${itemNames.e}</div><input class="my-qty-input" type="number" id="my-qe" value="${qe}" placeholder="0" inputmode="numeric" min="0"></div>
+    <div class="my-qty-box"><div class="my-qty-label f">🅵 ${itemNames.f}</div><input class="my-qty-input" type="number" id="my-qf" value="${qf}" placeholder="0" inputmode="numeric" min="0"></div>
   </div>
   ${p.qty>0?`<div class="my-calc-box">
     <div class="my-calc-row"><span class="my-calc-lbl">📦 총 배송</span><span class="my-calc-val">${p.qty.toLocaleString()}건</span></div>
@@ -1329,13 +1349,15 @@ function bindMyInputEvents(){
     myQtyC=document.getElementById('my-qc')?.value||'';
     myQtyD=document.getElementById('my-qd')?.value||'';
     myQtyE=document.getElementById('my-qe')?.value||'';
-    refreshMyCalc(calcPay(w,myQtyA,myQtyB,myQtyC,myQtyD,myQtyE));
+    myQtyF=document.getElementById('my-qf')?.value||'';
+    refreshMyCalc(calcPay(w,myQtyA,myQtyB,myQtyC,myQtyD,myQtyE,myQtyF));
   };
   document.getElementById('my-qa')?.addEventListener('input',upd);
   document.getElementById('my-qb')?.addEventListener('input',upd);
   document.getElementById('my-qc')?.addEventListener('input',upd);
   document.getElementById('my-qd')?.addEventListener('input',upd);
   document.getElementById('my-qe')?.addEventListener('input',upd);
+  document.getElementById('my-qf')?.addEventListener('input',upd);
 }
 function refreshMyCalc(p){
   const box=document.querySelector('.my-calc-box');
@@ -1362,16 +1384,17 @@ async function saveMyRecord(){
   const qc=document.getElementById('my-qc')?.value||myQtyC||'';
   const qd=document.getElementById('my-qd')?.value||myQtyD||'';
   const qe=document.getElementById('my-qe')?.value||myQtyE||'';
-  if(!qa&&!qb&&!qc&&!qd&&!qe){showToast('⚠️ 수량을 입력해주세요');return;}
+  const qf=document.getElementById('my-qf')?.value||myQtyF||'';
+  if(!qa&&!qb&&!qc&&!qd&&!qe&&!qf){showToast('⚠️ 수량을 입력해주세요');return;}
   showToast('💾 저장 중...');
   try{
-    const{error}=await db.from('daily_records').upsert({work_date:myInputDate,worker_id:w.id,qty_a:Number(qa)||0,qty_b:Number(qb)||0,qty_c:Number(qc)||0,qty_d:Number(qd)||0,qty_e:Number(qe)||0},{onConflict:'work_date,worker_id'});
+    const{error}=await db.from('daily_records').upsert({work_date:myInputDate,worker_id:w.id,qty_a:Number(qa)||0,qty_b:Number(qb)||0,qty_c:Number(qc)||0,qty_d:Number(qd)||0,qty_e:Number(qe)||0,qty_f:Number(qf)||0},{onConflict:'work_date,worker_id'});
     if(error)throw error;
     const idx=dailyRecords.findIndex(r=>r.date===myInputDate);
-    const entry={qtyA:qa,qtyB:qb,qtyC:qc,qtyD:qd,qtyE:qe};
+    const entry={qtyA:qa,qtyB:qb,qtyC:qc,qtyD:qd,qtyE:qe,qtyF:qf};
     if(idx>=0)dailyRecords[idx].data[w.id]=entry;else dailyRecords.unshift({date:myInputDate,data:{[w.id]:entry}});
     dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));
-    cacheData();myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';updateSummary();vibrate();showToast('✅ 저장 완료!');switchMyTab('records');
+    cacheData();myQtyA='';myQtyB='';myQtyC='';myQtyD='';myQtyE='';myQtyF='';updateSummary();vibrate();showToast('✅ 저장 완료!');switchMyTab('records');
   }catch(e){showToast('❌ 저장 실패: '+e.message);}
 }
 
@@ -1383,11 +1406,11 @@ function renderMyRecords(){
   const curYM=today().slice(0,7);
   return Object.keys(groups).sort().reverse().map(ym=>{
     const recs=groups[ym];const[yr,mo]=ym.split('-');
-    let mG=0;recs.forEach(r=>{mG+=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE).gross;});
-    const recHtml=recs.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE);
+    let mG=0;recs.forEach(r=>{mG+=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF).gross;});
+    const recHtml=recs.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF);
       return `<div class="my-rec-card">
         <div class="my-rec-head"><div class="my-rec-date">${fmtDate(r.date)} <span style="font-size:11px;color:var(--sub)">${fmtDay(r.date)}</span></div><div class="my-rec-pay">${won(p.gross)}</div></div>
-        <div style="font-size:12px;color:var(--sub)">🅰${p.a} · 🅱${p.b} · 🅲${p.c} · 🅳${p.d} · 🅴${p.e} · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
+        <div style="font-size:12px;color:var(--sub)">🅰${p.a} · 🅱${p.b} · 🅲${p.c} · 🅳${p.d} · 🅴${p.e} · 🅵${p.f} · 합계 ${p.qty}건 · 실수령 ${won(p.net)}</div>
       </div>`;
     }).join('');
     return `<div class="month-group ${ym===curYM?'open':''}">
@@ -1417,8 +1440,8 @@ function renderMyStats(){
     </div>`;
   }else{filtered=dailyRecords.filter(r=>r.data?.[w.id]);title='전체';}
   if(!filtered.length)return pBar+navHtml+`<div class="empty" style="padding:40px 0">해당 기간에 기록이 없어요</div>`;
-  let tQ=0,tA=0,tB=0,tC=0,tD=0,tE=0,tG=0,tN=0;
-  filtered.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;tG+=p.gross;tN+=p.net;});
+  let tQ=0,tA=0,tB=0,tC=0,tD=0,tE=0,tF=0,tG=0,tN=0;
+  filtered.forEach(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF);tQ+=p.qty;tA+=p.a;tB+=p.b;tC+=p.c;tD+=p.d;tE+=p.e;tF+=p.f;tG+=p.gross;tN+=p.net;});
   return pBar+navHtml+`
   <button class="share-btn" onclick="shareWorkerStats(${w.id},${myStatPeriod==='month'?myStatYear:0},${myStatPeriod==='month'?myStatMonth:-1})">📤 ${title} 정산서 공유</button>
   <div class="stat-summary worker-stat">
@@ -1429,6 +1452,7 @@ function renderMyStats(){
     <div class="stat-row"><span class="stat-row-lbl">🅲 ${itemNames.c}</span><span class="stat-row-val">${tC.toLocaleString()}건</span></div>
     <div class="stat-row"><span class="stat-row-lbl">🅳 ${itemNames.d}</span><span class="stat-row-val">${tD.toLocaleString()}건</span></div>
     <div class="stat-row"><span class="stat-row-lbl">🅴 ${itemNames.e}</span><span class="stat-row-val">${tE.toLocaleString()}건</span></div>
+    <div class="stat-row"><span class="stat-row-lbl">🅵 ${itemNames.f}</span><span class="stat-row-val">${tF.toLocaleString()}건</span></div>
     <div class="stat-row"><span class="stat-row-lbl">📦 총 배송</span><span class="stat-row-val">${tQ.toLocaleString()}건</span></div>
     <div class="stat-row"><span class="stat-row-lbl">📈 일평균</span><span class="stat-row-val">${filtered.length?Math.round(tQ/filtered.length).toLocaleString():0}건</span></div>
     <hr class="stat-sep">
@@ -1439,9 +1463,9 @@ function renderMyStats(){
   </div>
   ${filtered.length>=2?renderDowStats(filtered,w.id):''}
   <div class="sec-title">일별 내역 (${filtered.length}일)</div>
-  ${filtered.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE);
+  ${filtered.map(r=>{const p=calcPay(w,r.data[w.id].qtyA,r.data[w.id].qtyB,r.data[w.id].qtyC,r.data[w.id].qtyD,r.data[w.id].qtyE,r.data[w.id].qtyF);
     return `<div class="detail-day-row">
-      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} · 🅱${p.b} · 🅲${p.c} · 🅳${p.d} · 🅴${p.e}</div></div>
+      <div><div class="ddr-date">${fmtDate(r.date)} <span style="font-size:10px;color:var(--sub)">${fmtDay(r.date)}</span></div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${p.a} · 🅱${p.b} · 🅲${p.c} · 🅳${p.d} · 🅴${p.e} · 🅵${p.f}</div></div>
       <div style="text-align:right"><div class="ddr-pay" style="color:var(--teal2)">${won(p.gross)}</div><div class="ddr-net">실수령 ${won(p.net)}</div></div>
     </div>`;
   }).join('')}
@@ -1450,8 +1474,8 @@ function renderMyStats(){
 
 async function saveDailyToDB(date,data){
   const{error:de}=await db.from('daily_records').delete().eq('work_date',date);if(de)throw de;
-  const rows=Object.entries(data).filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0||(Number(d.qtyD)||0)>0||(Number(d.qtyE)||0)>0)
-    .map(([wid,d])=>({work_date:date,worker_id:Number(wid),qty_a:Number(d.qtyA)||0,qty_b:Number(d.qtyB)||0,qty_c:Number(d.qtyC)||0,qty_d:Number(d.qtyD)||0,qty_e:Number(d.qtyE)||0}));
+  const rows=Object.entries(data).filter(([,d])=>(Number(d.qtyA)||0)>0||(Number(d.qtyB)||0)>0||(Number(d.qtyC)||0)>0||(Number(d.qtyD)||0)>0||(Number(d.qtyE)||0)>0||(Number(d.qtyF)||0)>0)
+    .map(([wid,d])=>({work_date:date,worker_id:Number(wid),qty_a:Number(d.qtyA)||0,qty_b:Number(d.qtyB)||0,qty_c:Number(d.qtyC)||0,qty_d:Number(d.qtyD)||0,qty_e:Number(d.qtyE)||0,qty_f:Number(d.qtyF)||0}));
   if(rows.length>0){const{error:ie}=await db.from('daily_records').insert(rows);if(ie)throw ie;}
 }
 
@@ -1719,7 +1743,7 @@ async function importData(e){
     try{
       const data=JSON.parse(ev.target.result);showToast('📥 복원 중...');
       const existIds=new Set(workers.map(x=>x.id));
-      for(const w of(data.workers||[])){if(!existIds.has(w.id)){const{data:d,error}=await db.from('workers').insert({name:w.name,price_a:w.priceA,price_b:w.priceB,price_c:w.priceC||0,price_d:w.priceD||0,price_e:w.priceE||0,region:w.region||'',access_codes:w.codes||[]}).select().single();if(!error)workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,priceD:w.priceD||0,priceE:w.priceE||0,loginId:'',codes:w.codes||[]});}}
+      for(const w of(data.workers||[])){if(!existIds.has(w.id)){const{data:d,error}=await db.from('workers').insert({name:w.name,price_a:w.priceA,price_b:w.priceB,price_c:w.priceC||0,price_d:w.priceD||0,price_e:w.priceE||0,price_f:w.priceF||0,region:w.region||'',access_codes:w.codes||[]}).select().single();if(!error)workers.push({id:d.id,name:w.name,region:w.region,priceA:w.priceA,priceB:w.priceB,priceC:w.priceC||0,priceD:w.priceD||0,priceE:w.priceE||0,priceF:w.priceF||0,loginId:'',codes:w.codes||[]});}}
       const existDates=new Set(dailyRecords.map(x=>x.date));let n=0;
       for(const r of(data.dailyRecords||[])){if(!existDates.has(r.date)){await saveDailyToDB(r.date,r.data);dailyRecords.unshift({date:r.date,data:r.data});n++;}}
       dailyRecords.sort((a,b)=>b.date.localeCompare(a.date));cacheData();
@@ -1731,9 +1755,9 @@ async function importData(e){
 function exportCSV(){
   if(!dailyRecords.length||!workers.length){showToast('⚠️ 내보낼 기록이 없어요');return;}
   const months={};
-  dailyRecords.forEach(r=>{const ym=r.date.slice(0,7);if(!months[ym])months[ym]={};Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(!w)return;const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE);if(!months[ym][w.id])months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,qtyC:0,qtyD:0,qtyE:0,gross:0,net:0,days:0};months[ym][w.id].qtyA+=p.a;months[ym][w.id].qtyB+=p.b;months[ym][w.id].qtyC+=p.c;months[ym][w.id].qtyD+=p.d;months[ym][w.id].qtyE+=p.e;months[ym][w.id].gross+=p.gross;months[ym][w.id].net+=p.net;months[ym][w.id].days++;});});
-  const rows=[`월,이름,${itemNames.a},${itemNames.b},${itemNames.c},${itemNames.d},${itemNames.e},총건수,총금액,실수령,세금공제,배송일수`];
-  Object.keys(months).sort().forEach(ym=>{Object.values(months[ym]).forEach(t=>{rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyC},${t.qtyD},${t.qtyE},${t.qtyA+t.qtyB+t.qtyC+t.qtyD+t.qtyE},${t.gross},${t.net},${t.gross-t.net},${t.days}`);});});
+  dailyRecords.forEach(r=>{const ym=r.date.slice(0,7);if(!months[ym])months[ym]={};Object.entries(r.data||{}).forEach(([wid,d])=>{const w=workers.find(x=>x.id===Number(wid));if(!w)return;const p=calcPay(w,d.qtyA,d.qtyB,d.qtyC,d.qtyD,d.qtyE,d.qtyF);if(!months[ym][w.id])months[ym][w.id]={name:w.name,qtyA:0,qtyB:0,qtyC:0,qtyD:0,qtyE:0,qtyF:0,gross:0,net:0,days:0};months[ym][w.id].qtyA+=p.a;months[ym][w.id].qtyB+=p.b;months[ym][w.id].qtyC+=p.c;months[ym][w.id].qtyD+=p.d;months[ym][w.id].qtyE+=p.e;months[ym][w.id].qtyF+=p.f;months[ym][w.id].gross+=p.gross;months[ym][w.id].net+=p.net;months[ym][w.id].days++;});});
+  const rows=[`월,이름,${itemNames.a},${itemNames.b},${itemNames.c},${itemNames.d},${itemNames.e},${itemNames.f},총건수,총금액,실수령,세금공제,배송일수`];
+  Object.keys(months).sort().forEach(ym=>{Object.values(months[ym]).forEach(t=>{rows.push(`${ym},${t.name},${t.qtyA},${t.qtyB},${t.qtyC},${t.qtyD},${t.qtyE},${t.qtyF},${t.qtyA+t.qtyB+t.qtyC+t.qtyD+t.qtyE+t.qtyF},${t.gross},${t.net},${t.gross-t.net},${t.days}`);});});
   const blob=new Blob(['\uFEFF'+rows.join('\n')],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`배송정산_${today()}.csv`;a.click();URL.revokeObjectURL(url);
   document.getElementById('backup-sheet').classList.remove('show');showToast('📊 CSV 내보내기 완료!');
