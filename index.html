@@ -292,6 +292,16 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:"Noto S
 .input-subtabs{display:flex;gap:6px;margin-bottom:12px}
 .input-subtab{flex:1;padding:9px 0;border:1.5px solid var(--border);border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;background:transparent;color:var(--sub);transition:all 0.2s}
 .input-subtab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.input-status{display:flex;align-items:center;gap:8px;background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;margin-bottom:12px;flex-wrap:wrap}
+.input-status-badge{font-size:12px;font-weight:900;padding:4px 11px;border-radius:20px;white-space:nowrap}
+.input-status-badge.done{background:rgba(0,212,170,0.12);color:var(--green2)}
+.input-status-badge.miss{background:rgba(255,152,0,0.12);color:var(--orange2)}
+.input-status-names{font-size:11px;color:var(--sub);flex:1;min-width:120px;line-height:1.5}
+.pay-btn{margin-top:2px;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:900;border:1.5px solid;cursor:pointer;font-family:inherit;white-space:nowrap;transition:transform 0.1s}
+.pay-btn:active{transform:scale(0.94)}
+.pay-btn.unpaid{background:rgba(255,152,0,0.08);color:var(--orange2);border-color:rgba(255,152,0,0.3)}
+.pay-btn.paid{background:rgba(0,212,170,0.12);color:var(--green2);border-color:rgba(0,212,170,0.35)}
+.pay-summary{font-size:11px;color:var(--sub);margin-top:6px;font-weight:700}
 </style>
 </head>
 <body>
@@ -523,6 +533,17 @@ let itemNames=JSON.parse(localStorage.getItem('mgr-item-names'))||{a:'오네',b:
 if(itemNames.d===undefined)itemNames.d='딜리주말';
 if(itemNames.e===undefined)itemNames.e='딜리새벽';
 if(itemNames.f===undefined)itemNames.f='딜리낮';
+
+// ── 월별 지급 체크 (폰 내부 저장) ──
+// 키 형식: "workerId|YYYY-MM"  → true 면 지급완료
+function loadPaidMap(){try{return JSON.parse(localStorage.getItem('mgr-paid-map'))||{};}catch(e){return {};}}
+function isPaid(workerId,ym){const m=loadPaidMap();return !!m[workerId+'|'+ym];}
+function togglePaid(workerId,ym){
+  const m=loadPaidMap();
+  const k=workerId+'|'+ym;
+  if(m[k])delete m[k];else m[k]=true;
+  localStorage.setItem('mgr-paid-map',JSON.stringify(m));
+}
 let adminInputDate=today(),adminInputData={},adminInputMode='date';
 let statPeriod='month',statYear=new Date().getFullYear(),statMonth=new Date().getMonth(),detailWorkerId=null;
 let adminSelectedCodeWorkerId='admin';
@@ -944,6 +965,19 @@ function renderAdminDaily(){
   <div style="margin-bottom:12px">
     <button class="daily-action-btn purple" style="width:100%" onclick="openCalendarSheet()">📅 달력으로 날짜 선택</button>
   </div>
+  ${(()=>{
+    const missNames=[];let doneCount=0;
+    workers.forEach(w=>{
+      const prev=recData[w.id]||{};
+      const q=(Number(prev.qtyA)||0)+(Number(prev.qtyB)||0)+(Number(prev.qtyC)||0)+(Number(prev.qtyD)||0)+(Number(prev.qtyE)||0)+(Number(prev.qtyF)||0);
+      if(q>0)doneCount++;else missNames.push(w.name);
+    });
+    return `<div class="input-status">
+      <span class="input-status-badge done">✅ 입력 ${doneCount}명</span>
+      <span class="input-status-badge miss">⬜ 미입력 ${missNames.length}명</span>
+      <span class="input-status-names">${missNames.length?'미입력: '+missNames.join(', '):'모두 입력 완료 🎉'}</span>
+    </div>`;
+  })()}
   ${workers.map(w=>{
     const prev=recData[w.id]||{};
     const qa=adminInputData[w.id]?.qtyA??prev.qtyA??'';
@@ -1250,15 +1284,23 @@ function renderAdminStats(){
     <div class="stat-total">${won(gGross)}</div>
     <div style="font-size:13px;font-weight:900;color:var(--green2);margin-top:4px">실수령 합계: ${won(gNet)}</div>
     <div style="font-size:10px;color:var(--red);margin-top:3px">세금(3.3%): -${won(gGross-gNet)}</div>
+    ${statPeriod==='month'?(()=>{const ymK=`${statYear}-${String(statMonth+1).padStart(2,'0')}`;const paidN=sorted.filter(t=>isPaid(t.w.id,ymK)).length;return `<div class="pay-summary">💸 지급 완료 ${paidN} / ${sorted.length}명${paidN<sorted.length?` · 미지급 ${sorted.length-paidN}명`:' · 전원 지급 완료 🎉'}</div>`;})():''}
   </div>
   ${filtered.length>=2?renderDowStats(filtered):''}
   <div class="sec-title">개인별 정산 <span style="font-weight:400;color:var(--sub2)">(탭하면 상세)</span></div>
-  ${sorted.map((t,i)=>`<div class="worker-stat-card" onclick="detailWorkerId=${t.w.id};render()">
-    <div class="wsc-rank">${i+1}</div>
-    <div class="wsc-avatar">${av(t.w.name)}</div>
-    <div class="wsc-info"><div class="wsc-name">${t.w.name}</div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${t.qtyA} · 🅱${t.qtyB} · 🅲${t.qtyC} · 🅳${t.qtyD} · 🅴${t.qtyE} · 🅵${t.qtyF}</div></div>
-    <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
-  </div>`).join('')}
+  ${sorted.map((t,i)=>{
+    const ymKey=statPeriod==='month'?`${statYear}-${String(statMonth+1).padStart(2,'0')}`:'';
+    const paid=ymKey?isPaid(t.w.id,ymKey):false;
+    return `<div class="worker-stat-card" style="align-items:stretch">
+    <div style="display:flex;align-items:center;gap:12px;flex:1;cursor:pointer" onclick="detailWorkerId=${t.w.id};render()">
+      <div class="wsc-rank">${i+1}</div>
+      <div class="wsc-avatar">${av(t.w.name)}</div>
+      <div class="wsc-info"><div class="wsc-name">${t.w.name}${paid?' <span style="font-size:10px;color:var(--green2)">✅ 지급</span>':''}</div><div style="font-size:10px;color:var(--sub);margin-top:2px">🅰${t.qtyA} · 🅱${t.qtyB} · 🅲${t.qtyC} · 🅳${t.qtyD} · 🅴${t.qtyE} · 🅵${t.qtyF}</div></div>
+      <div class="wsc-pay"><div class="wsc-gross">${won(t.gross)}</div><div class="wsc-net">실수령 ${won(t.net)}</div></div>
+    </div>
+    ${ymKey?`<div style="display:flex;align-items:center;padding-left:10px;border-left:1px solid var(--border)"><button class="pay-btn ${paid?'paid':'unpaid'}" onclick="event.stopPropagation();togglePaid(${t.w.id},'${ymKey}');render()">${paid?'✅ 완료':'지급'}</button></div>`:''}
+  </div>`;
+  }).join('')}
   <div style="height:20px"></div>`;
 }
 
